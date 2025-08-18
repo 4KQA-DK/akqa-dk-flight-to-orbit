@@ -55,6 +55,13 @@
           "SortOrder": 3
         },
         {
+          "Key": "bb7429e5-2643-4165-bf95-3f0e95b22efb",
+          "Alias": "ctaList",
+          "DataType": "umb://data-type/8d430979da9846fd8c345b8404164480",
+          "Name": "CTA List",
+          "SortOrder": 4
+        },
+        {
           "Key": "ee5f2d4e-8e78-4699-9608-399583193186",
           "Alias": "description",
           "DataType": "umb://data-type/c6bac0dd4ab945b18e30e4b619ee5da3",
@@ -77,6 +84,10 @@
     },
     {
       "Udi": "umb://data-type/55a42d9c99004056bd01721d1adc8f61",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/8d430979da9846fd8c345b8404164480",
       "Ordering": true
     },
     {
