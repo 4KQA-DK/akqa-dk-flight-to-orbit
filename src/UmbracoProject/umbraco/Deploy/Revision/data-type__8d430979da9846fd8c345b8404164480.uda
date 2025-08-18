@@ -1,0 +1,20 @@
+{
+  "Name": "Base Composition - CTA List - Block List Property Editor UI",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "f9b3a052-b15f-4057-ac6c-f3cf020c43d7"
+      }
+    ]
+  },
+  "Udi": "umb://data-type/8d430979da9846fd8c345b8404164480",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/f9b3a052b15f4057ac6cf3cf020c43d7"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}
