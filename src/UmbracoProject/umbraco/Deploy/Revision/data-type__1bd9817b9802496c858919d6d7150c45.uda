@@ -2,9 +2,16 @@
   "Name": "[Media Picker]-Base Composition(single)",
   "EditorAlias": "Umbraco.MediaPicker3",
   "EditorUiAlias": "Umb.PropertyEditorUi.MediaPicker",
-  "Configuration": {},
+  "Configuration": {
+    "startNodeId": "51045620-3911-4995-8aa7-c168ca6de7a0"
+  },
   "Udi": "umb://data-type/1bd9817b9802496c858919d6d7150c45",
-  "Dependencies": [],
+  "Dependencies": [
+    {
+      "Udi": "umb://media/51045620391149958aa7c168ca6de7a0",
+      "Mode": "Exist"
+    }
+  ],
   "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
   "__version": "16.0.0"
 }
