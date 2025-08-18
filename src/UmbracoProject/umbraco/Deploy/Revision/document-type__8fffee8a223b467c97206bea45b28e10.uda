@@ -39,6 +39,14 @@
           "Name": "Title"
         },
         {
+          "Key": "6d9d4019-d35b-4599-86a6-e3bc63aacfa1",
+          "Alias": "link",
+          "DataType": "umb://data-type/55a42d9c99004056bd01721d1adc8f61",
+          "Description": "URL for content",
+          "Name": "Link",
+          "SortOrder": 2
+        },
+        {
           "Key": "ee5f2d4e-8e78-4699-9608-399583193186",
           "Alias": "description",
           "DataType": "umb://data-type/c6bac0dd4ab945b18e30e4b619ee5da3",
@@ -53,6 +61,10 @@
   "Dependencies": [
     {
       "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/55a42d9c99004056bd01721d1adc8f61",
       "Ordering": true
     },
     {
