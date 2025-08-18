@@ -1,7 +1,17 @@
 {
   "Deploy": {
     "Project": {
-      "Workspaces": []
+      "Name": "akqa dk flight to orbit",
+      "Alias": "akqa-dk-flight-to-orbit",
+      "Id": "ba674ad2-bac9-4086-8503-7f8a4ecfd0fa",
+      "Workspaces": [
+        {
+          "Id": "3e6ae2c0-f0ad-4f38-8345-be60b92b3ca6",
+          "Name": "Live",
+          "Type": "live",
+          "Url": "https://akqa-dk-flight-to-orbit.euwest01.umbraco.io"
+        }
+      ]
     },
     "Settings": {}
   },
