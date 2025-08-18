@@ -1,5 +1,24 @@
 ﻿@using Umbraco.Cms.Web.Common.PublishedModels;
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
 @{
-	Layout = null;
+    Layout = null; // or set your master layout if you have one
+    var metaTitle = Model.Value<string>("metaTitle");
+    var pageTitle = Model.Value<string>("title");
+    var description = Model.Value<string>("description");
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@metaTitle</title>
+</head>
+<body>
+    <header>
+        <h1>@pageTitle</h1>
+        <div>
+            @Html.Raw(description)
+        </div>
+    </header>
+</body>
+</html>
