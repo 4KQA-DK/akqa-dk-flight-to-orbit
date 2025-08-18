@@ -47,6 +47,14 @@
           "SortOrder": 2
         },
         {
+          "Key": "ac9520cd-688f-4cea-baa5-227206aca4a3",
+          "Alias": "imagePicker",
+          "DataType": "umb://data-type/1bd9817b9802496c858919d6d7150c45",
+          "Description": "Image Picker for content page",
+          "Name": "Image Picker",
+          "SortOrder": 3
+        },
+        {
           "Key": "ee5f2d4e-8e78-4699-9608-399583193186",
           "Alias": "description",
           "DataType": "umb://data-type/c6bac0dd4ab945b18e30e4b619ee5da3",
@@ -61,6 +69,10 @@
   "Dependencies": [
     {
       "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/1bd9817b9802496c858919d6d7150c45",
       "Ordering": true
     },
     {
