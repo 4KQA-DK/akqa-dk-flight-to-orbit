@@ -1,0 +1,26 @@
+{
+  "Name": "CTA",
+  "Alias": "cta",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-plugin",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [
+    "umb://document-type/f730239820ec495a93f2fedf6aacec39"
+  ],
+  "PropertyGroups": [],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/f9b3a052b15f4057ac6cf3cf020c43d7",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/f730239820ec495a93f2fedf6aacec39",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}
