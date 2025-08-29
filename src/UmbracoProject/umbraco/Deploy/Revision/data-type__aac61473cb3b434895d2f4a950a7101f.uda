@@ -1,0 +1,20 @@
+{
+  "Name": "CarouselSection - Gallery Items - Block List Property Editor UI",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "1083ec5d-dfa2-4627-95c9-d3f9a22806cf"
+      }
+    ]
+  },
+  "Udi": "umb://data-type/aac61473cb3b434895d2f4a950a7101f",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/1083ec5ddfa2462795c9d3f9a22806cf"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

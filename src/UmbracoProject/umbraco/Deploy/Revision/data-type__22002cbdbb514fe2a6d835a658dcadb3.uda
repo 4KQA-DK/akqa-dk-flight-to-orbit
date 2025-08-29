@@ -1,0 +1,21 @@
+{
+  "Name": "Navigation Bar - navigationItems - Block List Property Editor UI",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "0dca5565-0a4c-4e1b-a5b4-0ff6eb45ac28",
+        "label": "Nav Item"
+      }
+    ]
+  },
+  "Udi": "umb://data-type/22002cbdbb514fe2a6d835a658dcadb3",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/0dca55650a4c4e1ba5b40ff6eb45ac28"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

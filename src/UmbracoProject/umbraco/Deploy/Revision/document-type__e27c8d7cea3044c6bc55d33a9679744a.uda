@@ -1,0 +1,71 @@
+{
+  "Name": "Media",
+  "Alias": "media",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-video color-red",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "ff784b4d-7e01-4c4f-8cec-c3ced9667891",
+      "Name": "Media",
+      "Alias": "media",
+      "PropertyTypes": [
+        {
+          "Key": "1e4f2fe8-9593-489d-8eb4-44dab51dc236",
+          "Alias": "content",
+          "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+          "Name": "Content"
+        },
+        {
+          "Key": "6c66a80f-f67f-4fe2-b4e5-2d005116f686",
+          "Alias": "contentText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Content Text",
+          "SortOrder": 3
+        },
+        {
+          "Key": "6c6b4b72-3f8e-46de-8140-49cda8987708",
+          "Alias": "autoMute",
+          "DataType": "umb://data-type/52a21bde157f46529e3c502235227b76",
+          "Name": "Auto Mute",
+          "SortOrder": 2
+        },
+        {
+          "Key": "9199eafe-179d-4b20-9ce8-a984ce8eb62a",
+          "Alias": "autoPlay",
+          "DataType": "umb://data-type/eac9d5d8715548d4ba63d5ecd2b918ef",
+          "Name": "Auto Play",
+          "SortOrder": 1
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/e27c8d7cea3044c6bc55d33a9679744a",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/52a21bde157f46529e3c502235227b76",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/eac9d5d8715548d4ba63d5ecd2b918ef",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

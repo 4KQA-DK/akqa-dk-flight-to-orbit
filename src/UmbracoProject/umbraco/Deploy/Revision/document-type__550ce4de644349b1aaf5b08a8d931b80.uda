@@ -1,0 +1,111 @@
+{
+  "Name": "FooterSection",
+  "Alias": "footerSection",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-plugin color-green",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "04feab18-9517-4e7c-a271-ca64724b5531",
+      "Name": "Section Media",
+      "SortOrder": 2,
+      "Alias": "sectionMedia",
+      "PropertyTypes": [
+        {
+          "Key": "bb58f536-51ac-46ec-97c2-62f4488f10cd",
+          "Alias": "footerMedia",
+          "DataType": "umb://data-type/4309a3ea0d784329a06cc80b036af19a",
+          "Name": "Footer Media"
+        }
+      ]
+    },
+    {
+      "Key": "3c32f263-383c-480b-86c5-44b26caf85bc",
+      "Name": "Section Title",
+      "Alias": "sectionTitle",
+      "PropertyTypes": [
+        {
+          "Key": "89e257ab-e938-4256-a4b0-5ba60ecfc5fb",
+          "Alias": "footerTitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Footer Title"
+        }
+      ]
+    },
+    {
+      "Key": "551aaabc-943d-4961-a388-20888889a52a",
+      "Name": "PrimaryCTA",
+      "SortOrder": 4,
+      "Alias": "primaryCTA",
+      "PropertyTypes": [
+        {
+          "Key": "a29d6b17-b13a-43a1-bee4-557e79491871",
+          "Alias": "primaryCta",
+          "DataType": "umb://data-type/ccb78e7062af4df882ca21282a7102a2",
+          "Name": "PrimaryCTA"
+        }
+      ]
+    },
+    {
+      "Key": "aae49005-696b-418c-a2c7-eff7f1fdfb1b",
+      "Name": "Section Description",
+      "SortOrder": 1,
+      "Alias": "sectionDescription",
+      "PropertyTypes": [
+        {
+          "Key": "d83ea66f-ddd8-4fea-95ed-730283682f9d",
+          "Alias": "footerDescription",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Footer Description"
+        }
+      ]
+    },
+    {
+      "Key": "d22ee010-0745-4259-821d-ba40f152cf40",
+      "Name": "Section Logo",
+      "SortOrder": 3,
+      "Alias": "sectionLogo",
+      "PropertyTypes": [
+        {
+          "Key": "4599463a-e2a0-4f7a-a5b1-7b51a2822d8f",
+          "Alias": "footerLogo",
+          "DataType": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+          "Name": "Footer Logo"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/550ce4de644349b1aaf5b08a8d931b80",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/4309a3ea0d784329a06cc80b036af19a",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ccb78e7062af4df882ca21282a7102a2",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

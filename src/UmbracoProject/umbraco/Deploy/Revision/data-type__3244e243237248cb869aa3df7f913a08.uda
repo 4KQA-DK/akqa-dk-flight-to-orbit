@@ -1,0 +1,11 @@
+{
+  "Name": "Content - Video Autoplay  - Toggle Property Editor UI",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {},
+  "Udi": "umb://data-type/3244e243237248cb869aa3df7f913a08",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

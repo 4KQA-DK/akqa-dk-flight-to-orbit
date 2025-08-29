@@ -1,0 +1,11 @@
+{
+  "Name": "Navigation Item - isActive - Toggle Property Editor UI",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {},
+  "Udi": "umb://data-type/ee0bfe62cab8457b9a3975a90beb90c1",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

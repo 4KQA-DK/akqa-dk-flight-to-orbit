@@ -1,0 +1,20 @@
+{
+  "Name": "DefaultSection - PrimaryCTA - Block List Property Editor UI",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "4bbfb60e-1ee2-44dd-8314-948f012052dc"
+      }
+    ]
+  },
+  "Udi": "umb://data-type/a678920ae81b42c29a1f76b76c73fb6c",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/4bbfb60e1ee244dd8314948f012052dc"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

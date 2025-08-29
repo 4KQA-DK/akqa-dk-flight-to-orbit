@@ -1,0 +1,47 @@
+{
+  "Name": "Page Sections (Block List)",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "31014644-1a42-4b6c-a82f-157ca7c48aa7"
+      },
+      {
+        "contentElementTypeKey": "1c13ce7e-fe31-406e-9c93-14bf21d56fab"
+      },
+      {
+        "contentElementTypeKey": "4db48496-2bd4-451c-a770-92b2b311292b"
+      },
+      {
+        "contentElementTypeKey": "62672fdd-17c5-4058-b706-185aebe2deec"
+      },
+      {
+        "contentElementTypeKey": "550ce4de-6443-49b1-aaf5-b08a8d931b80"
+      }
+    ],
+    "validationLimit": {
+      "min": 1
+    }
+  },
+  "Udi": "umb://data-type/44239bada6d94f3abee58f7421568474",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/1c13ce7efe31406e9c9314bf21d56fab"
+    },
+    {
+      "Udi": "umb://document-type/310146441a424b6ca82f157ca7c48aa7"
+    },
+    {
+      "Udi": "umb://document-type/4db484962bd4451ca77092b2b311292b"
+    },
+    {
+      "Udi": "umb://document-type/550ce4de644349b1aaf5b08a8d931b80"
+    },
+    {
+      "Udi": "umb://document-type/62672fdd17c54058b706185aebe2deec"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

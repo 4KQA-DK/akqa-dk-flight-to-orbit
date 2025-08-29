@@ -1,0 +1,13 @@
+{
+  "Name": "HeroSection - VideoAutoplay - Toggle Property Editor UI (1)",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {
+    "default": true
+  },
+  "Udi": "umb://data-type/c310a97beb2747f2ad2fc765d36f786e",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

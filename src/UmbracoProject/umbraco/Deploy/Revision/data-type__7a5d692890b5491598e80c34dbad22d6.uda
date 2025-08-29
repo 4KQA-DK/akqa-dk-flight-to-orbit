@@ -1,0 +1,11 @@
+{
+  "Name": "Media - VideoMuted - Toggle Property Editor UI",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {},
+  "Udi": "umb://data-type/7a5d692890b5491598e80c34dbad22d6",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

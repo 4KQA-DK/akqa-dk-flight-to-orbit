@@ -1,0 +1,19 @@
+{
+  "Name": "Search Bar - Destination Search - Content Picker Property Editor UI",
+  "EditorAlias": "Umbraco.MultiNodeTreePicker",
+  "EditorUiAlias": "Umb.PropertyEditorUi.ContentPicker",
+  "Configuration": {
+    "minNumber": 0,
+    "maxNumber": 30,
+    "filter": "8a653904-974d-447d-a028-6e26e0d7f3ea"
+  },
+  "Udi": "umb://data-type/5fc1e3eac4224d89b493265714e9fb91",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/8a653904974d447da0286e26e0d7f3ea",
+      "Mode": "Exist"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

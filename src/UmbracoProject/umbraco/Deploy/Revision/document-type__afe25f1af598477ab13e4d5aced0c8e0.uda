@@ -1,0 +1,43 @@
+{
+  "Name": "AboutPage",
+  "Alias": "aboutPage",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-document",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedAtRoot": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "b2ae9982-ff09-4dc0-a5ba-aa45288a51f5",
+      "Name": "Sections",
+      "Alias": "sections",
+      "PropertyTypes": [
+        {
+          "Key": "70b63e6c-a638-4d4e-adc5-de02013c33ad",
+          "Alias": "sections",
+          "DataType": "umb://data-type/44239bada6d94f3abee58f7421568474",
+          "Name": "Sections"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/afe25f1af598477ab13e4d5aced0c8e0",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/44239bada6d94f3abee58f7421568474",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

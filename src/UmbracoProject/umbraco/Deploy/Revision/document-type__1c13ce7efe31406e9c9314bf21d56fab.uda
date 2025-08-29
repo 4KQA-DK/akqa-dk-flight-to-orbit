@@ -1,0 +1,75 @@
+{
+  "Name": "CarouselSection",
+  "Alias": "carouselSection",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-plugin color-green",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "5056e166-6198-4877-9769-cf9500383a6a",
+      "Name": "Section Title",
+      "Alias": "sectionTitle",
+      "PropertyTypes": [
+        {
+          "Key": "5f03d38e-e6af-4e2a-99f0-e7ede82c96f4",
+          "Alias": "carouselTitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Carousel Title"
+        }
+      ]
+    },
+    {
+      "Key": "b6ce2799-d437-4ba4-af8f-e83d00bd1b96",
+      "Name": "Section Subtitle",
+      "SortOrder": 1,
+      "Alias": "sectionSubtitle",
+      "PropertyTypes": [
+        {
+          "Key": "fa41fdfb-7e3e-4e7a-95f0-2cc1eb8b96f7",
+          "Alias": "carouselSubtitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Carousel Subtitle"
+        }
+      ]
+    },
+    {
+      "Key": "fd61fd7e-d297-4e5e-af07-929d59460709",
+      "Name": "Gallery Items",
+      "SortOrder": 2,
+      "Alias": "galleryItems",
+      "PropertyTypes": [
+        {
+          "Key": "b5a12d3e-c58f-499b-920a-47826b21adc3",
+          "Alias": "carouselGalleryItems",
+          "DataType": "umb://data-type/aac61473cb3b434895d2f4a950a7101f",
+          "Name": "Carousel Gallery Items"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/1c13ce7efe31406e9c9314bf21d56fab",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/aac61473cb3b434895d2f4a950a7101f",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

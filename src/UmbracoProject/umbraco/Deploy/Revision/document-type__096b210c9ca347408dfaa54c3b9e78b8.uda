@@ -1,0 +1,74 @@
+{
+  "Name": "Search Bar",
+  "Alias": "searchBar",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-search color-red",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "abce1a2a-17c4-438d-8657-c9b9069d9d33",
+      "Name": "Date",
+      "SortOrder": 1,
+      "Alias": "date",
+      "PropertyTypes": [
+        {
+          "Key": "6ddb0204-b6cc-433d-8861-beb88dde4207",
+          "Alias": "date",
+          "DataType": "umb://data-type/5046194e4237453ca54715db3a07c4e1",
+          "Name": "Date"
+        }
+      ]
+    },
+    {
+      "Key": "b924a6d9-3741-4818-9e2e-5d27dac8d98b",
+      "Name": "Destination ",
+      "Alias": "destination",
+      "PropertyTypes": [
+        {
+          "Key": "5b205128-ccf4-41c5-8c82-809ff738710b",
+          "Alias": "destination",
+          "DataType": "umb://data-type/5fc1e3eac4224d89b493265714e9fb91",
+          "Name": "Destination"
+        }
+      ]
+    },
+    {
+      "Key": "cc7ce7aa-8292-469b-a40a-a85bc0bd9df7",
+      "Name": "Passenger Count",
+      "SortOrder": 2,
+      "Alias": "passengerCount",
+      "PropertyTypes": [
+        {
+          "Key": "473acb83-3e97-4c44-8481-03312a5e8616",
+          "Alias": "passengerCount",
+          "DataType": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+          "Name": "Passenger Count"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/096b210c9ca347408dfaa54c3b9e78b8",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/5046194e4237453ca54715db3a07c4e1",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/5fc1e3eac4224d89b493265714e9fb91",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

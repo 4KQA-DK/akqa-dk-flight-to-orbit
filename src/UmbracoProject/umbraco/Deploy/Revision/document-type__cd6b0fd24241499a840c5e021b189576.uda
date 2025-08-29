@@ -1,0 +1,48 @@
+{
+  "Name": "RocketModelsPage",
+  "Alias": "modelsPage",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-folders color-light-blue",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedChildContentTypes": [
+      "umb://document-type/a48d0cb205e24cbd9399b12f9123fc87"
+    ]
+  },
+  "Parent": "umb://document-type-container/da16fd43141d445e95a897647292fe61",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "24de6fd8-a1eb-46b3-9fdd-f2fc96bd2e53",
+      "Name": "Title",
+      "Alias": "title",
+      "PropertyTypes": [
+        {
+          "Key": "93163ee5-bc0e-47b0-aa38-6c9062d0fc48",
+          "Alias": "title",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Title"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/cd6b0fd24241499a840c5e021b189576",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/da16fd43141d445e95a897647292fe61",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type/a48d0cb205e24cbd9399b12f9123fc87",
+      "Mode": "Exist"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

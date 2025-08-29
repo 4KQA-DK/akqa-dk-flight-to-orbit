@@ -1,0 +1,119 @@
+{
+  "Name": "TwoColumnSection",
+  "Alias": "twoColumnSection",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-plugin color-green",
+  "Thumbnail": "folder.png",
+  "Description": "The section with two columns ",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "049a66b4-dcf7-457d-8aaa-ed55860c1b89",
+      "Name": "Right Column",
+      "SortOrder": 1,
+      "Alias": "rightColumn",
+      "PropertyTypes": [
+        {
+          "Key": "4548c4af-1705-469b-8eab-7749f9b62d3c",
+          "Alias": "rightMedia",
+          "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+          "Name": "Right Media",
+          "SortOrder": 3
+        },
+        {
+          "Key": "4b76468d-6f31-4511-a2b7-218c9ffa6920",
+          "Alias": "rightBodyText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Right Body Text",
+          "SortOrder": 2
+        },
+        {
+          "Key": "6b3cd4c1-b193-4059-ab6b-34648da6cb6a",
+          "Alias": "rightMediaText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Right Media Text",
+          "SortOrder": 4
+        },
+        {
+          "Key": "7363a193-43cb-4348-a498-790002afc9a0",
+          "Alias": "rightTitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Right Title"
+        },
+        {
+          "Key": "7c56ea95-df1d-4515-ab54-0dbd7651178f",
+          "Alias": "rightSubtitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Right Subtitle",
+          "SortOrder": 1
+        }
+      ]
+    },
+    {
+      "Key": "1f3eea6f-a3a0-42aa-8cd2-854a308a8623",
+      "Name": "Left Column",
+      "Alias": "leftColumn",
+      "PropertyTypes": [
+        {
+          "Key": "0ea440d2-0ea6-4e85-a76d-1fbe0ea7b129",
+          "Alias": "leftMediaText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Left Media Text",
+          "SortOrder": 5
+        },
+        {
+          "Key": "1a678ab2-ad6f-461d-9b30-bf43b8fdd4cf",
+          "Alias": "leftMedia",
+          "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+          "Name": "Left Media",
+          "SortOrder": 3
+        },
+        {
+          "Key": "4f7ed297-785a-451b-a0b8-3103ed3de7ee",
+          "Alias": "leftBodyText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Left Body Text",
+          "SortOrder": 2
+        },
+        {
+          "Key": "70165511-c96a-4a1f-8816-de3724afaf2c",
+          "Alias": "leftSubtitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Left Subtitle",
+          "SortOrder": 1
+        },
+        {
+          "Key": "d46c2945-6d35-411a-ab68-12a10bad1d12",
+          "Alias": "leftTitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Description": "Title for the left column",
+          "Name": "Left Title"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/310146441a424b6ca82f157ca7c48aa7",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

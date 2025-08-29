@@ -1,0 +1,43 @@
+{
+  "Name": "BookingDestinationsPage",
+  "Alias": "bookingDestinationsPage",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-document",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedAtRoot": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "2fd17005-3e51-41db-b5c3-45f72fbb7f02",
+      "Name": "Sections",
+      "Alias": "sections",
+      "PropertyTypes": [
+        {
+          "Key": "cf0c39b9-be2a-49e0-9a97-14c480890022",
+          "Alias": "sections",
+          "DataType": "umb://data-type/44239bada6d94f3abee58f7421568474",
+          "Name": "Sections"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/3eb028ab83a848c6968809fa5e99e5bd",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/44239bada6d94f3abee58f7421568474",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

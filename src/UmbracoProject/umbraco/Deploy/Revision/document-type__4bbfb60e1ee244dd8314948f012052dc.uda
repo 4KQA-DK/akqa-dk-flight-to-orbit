@@ -1,0 +1,70 @@
+{
+  "Name": "Button",
+  "Alias": "button",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-circle-dotted-active color-red",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "4a607241-54af-4152-9767-875f10ba7de6",
+      "Name": "Button Internal Link",
+      "SortOrder": 1,
+      "Alias": "buttonInternalLink",
+      "PropertyTypes": [
+        {
+          "Key": "122e5a6f-fe54-4698-8471-dbb36ef48200",
+          "Alias": "internalLink",
+          "DataType": "umb://data-type/fd1e0da556064862b6795d0cf3a52a59",
+          "Name": "InternalLink"
+        }
+      ]
+    },
+    {
+      "Key": "8617969a-f638-4a90-86af-28b499896428",
+      "Name": "Button External Link",
+      "SortOrder": 2,
+      "Alias": "buttonExternalLink",
+      "PropertyTypes": [
+        {
+          "Key": "97f26439-9427-4715-9646-3ac7c487fe82",
+          "Alias": "externalLink",
+          "DataType": "umb://data-type/fd1e0da556064862b6795d0cf3a52a59",
+          "Name": "External Link"
+        }
+      ]
+    },
+    {
+      "Key": "890fb363-f729-4ebd-b36e-2fca750a43fc",
+      "Name": "Button Text",
+      "Alias": "buttonText",
+      "PropertyTypes": [
+        {
+          "Key": "19f85cdf-edb3-494b-b36b-8ab01ebc3a9b",
+          "Alias": "buttonText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "ButtonText"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/4bbfb60e1ee244dd8314948f012052dc",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/fd1e0da556064862b6795d0cf3a52a59",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

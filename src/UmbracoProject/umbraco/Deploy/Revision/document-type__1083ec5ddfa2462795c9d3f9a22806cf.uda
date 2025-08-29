@@ -1,0 +1,102 @@
+{
+  "Name": "Gallery Item",
+  "Alias": "galleryItem",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-photo-album",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "01245d08-b67d-4860-978b-8afab139f891",
+      "Name": "Image",
+      "SortOrder": 3,
+      "Alias": "image",
+      "PropertyTypes": [
+        {
+          "Key": "c65eba67-1d30-4755-8a3d-e02cdbaf6f34",
+          "Alias": "image",
+          "DataType": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+          "Name": "Image"
+        }
+      ]
+    },
+    {
+      "Key": "18d77109-5deb-4b93-94a0-78d4099d78fc",
+      "Name": "Subtitle",
+      "SortOrder": 1,
+      "Alias": "subtitle",
+      "PropertyTypes": [
+        {
+          "Key": "d446e965-7637-4810-8ac1-48eb1b104f35",
+          "Alias": "subtitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Subtitle"
+        }
+      ]
+    },
+    {
+      "Key": "c4c27a7f-34b2-4a20-8512-1374371584ab",
+      "Name": "PrimaryCTA",
+      "SortOrder": 4,
+      "Alias": "primaryCTA",
+      "PropertyTypes": [
+        {
+          "Key": "77c48c21-d743-4f91-ae58-78b81675de4a",
+          "Alias": "primaryCta",
+          "DataType": "umb://data-type/21307fa4b0b54d05a8366ceb0417a09a",
+          "Name": "PrimaryCTA"
+        }
+      ]
+    },
+    {
+      "Key": "dc1ae82e-4d48-4c8c-a917-edad887d0035",
+      "Name": "Title",
+      "Alias": "title",
+      "PropertyTypes": [
+        {
+          "Key": "c70501cf-78f3-44f0-8fe5-f51013ff3278",
+          "Alias": "title",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Title"
+        }
+      ]
+    },
+    {
+      "Key": "ed74a1d6-fcb4-4a0d-95f1-2ed4e2c30311",
+      "Name": "Description",
+      "SortOrder": 2,
+      "Alias": "description",
+      "PropertyTypes": [
+        {
+          "Key": "27944a1d-bea7-4619-b79e-3b6e33528add",
+          "Alias": "description",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Description"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/1083ec5ddfa2462795c9d3f9a22806cf",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/21307fa4b0b54d05a8366ceb0417a09a",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

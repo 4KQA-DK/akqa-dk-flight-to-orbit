@@ -1,0 +1,13 @@
+{
+  "Name": "HeroSection - VideoLoop - Toggle Property Editor UI",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {
+    "default": true
+  },
+  "Udi": "umb://data-type/ec5f7ea117e24417a9b16d21702d2f15",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

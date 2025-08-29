@@ -1,0 +1,115 @@
+{
+  "Name": "Destination",
+  "Alias": "destination",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-document",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "032c1686-10d4-4f24-9686-bae85fb8de46",
+      "Name": "Destination Description",
+      "SortOrder": 1,
+      "Alias": "destinationDescription",
+      "PropertyTypes": [
+        {
+          "Key": "69887de6-98fb-4f40-a5e0-45bda4f902c0",
+          "Alias": "destinationDescription",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "DestinationDescription"
+        }
+      ]
+    },
+    {
+      "Key": "7c8e2392-31ce-4f32-9eb3-810586d3b4e3",
+      "Name": "Destination Name",
+      "Alias": "destinationName",
+      "PropertyTypes": [
+        {
+          "Key": "e6fd23e8-5158-4487-9a06-411d571d7dc4",
+          "Alias": "destionationName",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "DestinationName"
+        }
+      ]
+    },
+    {
+      "Key": "a11ab8c1-985c-4e00-8e4d-488d40e7c2aa",
+      "Name": "Destination Image",
+      "SortOrder": 2,
+      "Alias": "destinationImage",
+      "PropertyTypes": [
+        {
+          "Key": "733aa761-18b3-42ff-a2f7-b86d6ae9b43a",
+          "Alias": "destinationImage",
+          "DataType": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+          "Name": "DestinationImage"
+        }
+      ]
+    },
+    {
+      "Key": "a681d818-88c2-4a02-beb2-080d6b61e803",
+      "Name": "Destination Galaxy",
+      "SortOrder": 3,
+      "Alias": "destinationGalaxy",
+      "PropertyTypes": [
+        {
+          "Key": "175c5f57-b6c1-4745-b85b-f9c2e472ffcf",
+          "Alias": "destinationGalaxy",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "DestinationGalaxy"
+        }
+      ]
+    },
+    {
+      "Key": "e63bb60f-f5fd-480c-a921-69575b3920d3",
+      "Name": "Destination Distance",
+      "SortOrder": 5,
+      "Alias": "destinationDistance",
+      "PropertyTypes": [
+        {
+          "Key": "28125c90-7b6c-40ed-8762-f5e73b012293",
+          "Alias": "destinationDistance",
+          "DataType": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+          "Name": "DestinationDistance"
+        }
+      ]
+    },
+    {
+      "Key": "f7f84482-ec6f-489e-bb61-b98400536af1",
+      "Name": "Destination AverageTemp",
+      "SortOrder": 4,
+      "Alias": "destinationAverageTemp",
+      "PropertyTypes": [
+        {
+          "Key": "51697fef-6ad8-4dd4-b04a-efcc8fa6d778",
+          "Alias": "destinationAverageTemp",
+          "DataType": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+          "Name": "DestinationAverageTemp"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/8a653904974d447da0286e26e0d7f3ea",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

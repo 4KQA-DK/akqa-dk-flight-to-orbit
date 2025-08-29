@@ -1,0 +1,20 @@
+{
+  "Name": "HomePage - Sections - Block List Property Editor UI",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "62672fdd-17c5-4058-b706-185aebe2deec"
+      }
+    ]
+  },
+  "Udi": "umb://data-type/0bc3840e40e64265bb4d7ea3f3781576",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/62672fdd17c54058b706185aebe2deec"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

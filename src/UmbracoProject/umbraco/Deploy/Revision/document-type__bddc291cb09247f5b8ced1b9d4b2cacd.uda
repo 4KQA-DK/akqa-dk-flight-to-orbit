@@ -1,0 +1,69 @@
+{
+  "Name": "Rocket",
+  "Alias": "rocket",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-document",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "313ccaf5-76a6-437c-ae40-1b51f0d9ad88",
+      "Name": "Rocket Name",
+      "SortOrder": 1,
+      "Alias": "rocketName",
+      "PropertyTypes": [
+        {
+          "Key": "1c2a3560-6a9c-4902-bda3-8ce6e1839a8a",
+          "Alias": "rocketName",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Rocket Name"
+        }
+      ]
+    },
+    {
+      "Key": "4817b70c-f953-48d2-b82c-12803d28a24b",
+      "Name": "Model",
+      "Alias": "model",
+      "PropertyTypes": [
+        {
+          "Key": "3f0752d6-76a6-4cf8-a2f8-a245227d3d5b",
+          "Alias": "model",
+          "DataType": "umb://data-type/fd1e0da556064862b6795d0cf3a52a59",
+          "Name": "Model"
+        }
+      ]
+    },
+    {
+      "Key": "6eea1675-cfc0-495c-a59b-eed08bdf8917",
+      "Name": "Status",
+      "SortOrder": 2,
+      "Alias": "status",
+      "PropertyTypes": [
+        {
+          "Key": "05075ee2-3ddf-42af-bf3f-32e56835d7b3",
+          "Alias": "status",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Status"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/bddc291cb09247f5b8ced1b9d4b2cacd",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/fd1e0da556064862b6795d0cf3a52a59",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

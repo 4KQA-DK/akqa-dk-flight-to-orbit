@@ -1,0 +1,107 @@
+{
+  "Name": "DefaultSection",
+  "Alias": "defaultSection",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-plugin color-green",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "51370015-c461-40a7-a654-a512d27cb198",
+      "Name": "Section Title",
+      "Alias": "sectionTitle",
+      "PropertyTypes": [
+        {
+          "Key": "21545129-75e1-49f7-b499-c8f97ecec330",
+          "Alias": "title",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Title"
+        }
+      ]
+    },
+    {
+      "Key": "6eb4d58b-133b-4513-958e-0b6f2e3b03be",
+      "Name": "Section Bodytext",
+      "SortOrder": 2,
+      "Alias": "sectionBodytext",
+      "PropertyTypes": [
+        {
+          "Key": "5bd6dd88-f16f-4433-9d05-b4af7195776f",
+          "Alias": "bodytext",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Bodytext"
+        }
+      ]
+    },
+    {
+      "Key": "a4b317cb-db92-40e0-81b4-1e538bbf6740",
+      "Name": "Section Subtitle",
+      "SortOrder": 1,
+      "Alias": "sectionSubtitle",
+      "PropertyTypes": [
+        {
+          "Key": "1963d280-27d3-4d9c-bdc5-3874aacf8e55",
+          "Alias": "subtitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Subtitle"
+        }
+      ]
+    },
+    {
+      "Key": "b51ece82-5690-4068-b75f-03fb9c9800d2",
+      "Name": "Section Image",
+      "SortOrder": 3,
+      "Alias": "sectionImage",
+      "PropertyTypes": [
+        {
+          "Key": "300a4edb-f325-4d4c-880e-75cace0bb2fb",
+          "Alias": "image",
+          "DataType": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+          "Name": "Image"
+        }
+      ]
+    },
+    {
+      "Key": "e52d30de-531c-4183-9c62-1d25696c2c63",
+      "Name": "PrimaryCTA",
+      "SortOrder": 4,
+      "Alias": "primaryCTA",
+      "PropertyTypes": [
+        {
+          "Key": "b5ec8728-341d-4308-970d-33353be386d6",
+          "Alias": "primaryCta",
+          "DataType": "umb://data-type/a678920ae81b42c29a1f76b76c73fb6c",
+          "Name": "PrimaryCTA"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/4db484962bd4451ca77092b2b311292b",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/a678920ae81b42c29a1f76b76c73fb6c",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

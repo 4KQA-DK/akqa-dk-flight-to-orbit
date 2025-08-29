@@ -1,0 +1,43 @@
+{
+  "Name": "BookingTripPage",
+  "Alias": "bookingTripPage",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-document",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedAtRoot": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "d30c831c-4d78-4000-93cf-7ee1fcbc9c5c",
+      "Name": "Sections",
+      "Alias": "sections",
+      "PropertyTypes": [
+        {
+          "Key": "30ea617f-f3f8-4759-b1d8-4c5d764e6cb4",
+          "Alias": "sections",
+          "DataType": "umb://data-type/44239bada6d94f3abee58f7421568474",
+          "Name": "Sections"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/1355251d5efa45639294d6a4ba5774b7",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/44239bada6d94f3abee58f7421568474",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

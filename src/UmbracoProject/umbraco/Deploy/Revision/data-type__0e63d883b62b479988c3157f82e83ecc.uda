@@ -1,0 +1,18 @@
+{
+  "Name": "Multiple Image Media Picker",
+  "EditorAlias": "Umbraco.MediaPicker3",
+  "EditorUiAlias": "Umb.PropertyEditorUi.MediaPicker",
+  "Configuration": {
+    "filter": "f6c515bb-653c-4bdc-821c-987729ebe327",
+    "multiple": true
+  },
+  "Udi": "umb://data-type/0e63d883b62b479988c3157f82e83ecc",
+  "Dependencies": [
+    {
+      "Udi": "umb://media-type/f6c515bb653c4bdc821c987729ebe327",
+      "Mode": "Exist"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

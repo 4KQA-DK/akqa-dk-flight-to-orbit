@@ -1,0 +1,96 @@
+{
+  "Name": "NavigationBar",
+  "Alias": "navigationBar",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-navigational-arrow",
+  "Thumbnail": "folder.png",
+  "Description": "The whole navigation bar containing navigation items",
+  "Permissions": {
+    "AllowedAtRoot": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "392fcc33-eee2-40b6-bffa-06638368ea13",
+      "Name": "CTA Button URL",
+      "SortOrder": 3,
+      "Alias": "cTAButtonURL",
+      "PropertyTypes": [
+        {
+          "Key": "79bbecdd-72bc-4132-952d-8271633b3dfd",
+          "Alias": "ctaButtonUrl",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Description": "The url that navigates to booking",
+          "Name": "ctaButtonURL"
+        }
+      ]
+    },
+    {
+      "Key": "3934dbfc-7693-4a7f-b7e6-3e99e45dafcc",
+      "Name": "CTA Button Text",
+      "SortOrder": 2,
+      "Alias": "cTAButtonText",
+      "PropertyTypes": [
+        {
+          "Key": "ff99fa56-e4a2-4b2b-92d0-182e037add27",
+          "Alias": "ctaButtonText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Description": "The button text for call to action to book",
+          "Name": "ctaButtonText"
+        }
+      ]
+    },
+    {
+      "Key": "af140532-e6a4-4090-b034-5b7f14e61e04",
+      "Name": "Logo",
+      "Alias": "logo",
+      "PropertyTypes": [
+        {
+          "Key": "d1d99218-412c-497c-87f5-c903ef651c8c",
+          "Alias": "logo",
+          "DataType": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+          "Name": "logo"
+        }
+      ]
+    },
+    {
+      "Key": "c06c1672-8bad-4ad8-a011-4ebec5775e3c",
+      "Name": "Navigation Items",
+      "SortOrder": 1,
+      "Alias": "navigationItems",
+      "PropertyTypes": [
+        {
+          "Key": "2284876a-56eb-4744-8a72-9d37a61d9137",
+          "Alias": "navigationItems",
+          "DataType": "umb://data-type/22002cbdbb514fe2a6d835a658dcadb3",
+          "Name": "navigationItems"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/523e783e251a4e3bbd9fe5a0a54351cc",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/22002cbdbb514fe2a6d835a658dcadb3",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

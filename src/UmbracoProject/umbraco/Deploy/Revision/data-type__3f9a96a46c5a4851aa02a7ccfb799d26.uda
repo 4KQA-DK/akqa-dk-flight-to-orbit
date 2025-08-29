@@ -1,0 +1,20 @@
+{
+  "Name": "TwoColumnSection - Left Media - Block List Property Editor UI",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "e27c8d7c-ea30-44c6-bc55-d33a9679744a"
+      }
+    ]
+  },
+  "Udi": "umb://data-type/3f9a96a46c5a4851aa02a7ccfb799d26",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/e27c8d7cea3044c6bc55d33a9679744a"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

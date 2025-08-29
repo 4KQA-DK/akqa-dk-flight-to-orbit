@@ -1,0 +1,101 @@
+{
+  "Name": "RocketModels",
+  "Alias": "rocketModels",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-rocket",
+  "Thumbnail": "folder.png",
+  "Permissions": {
+    "AllowedChildContentTypes": []
+  },
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "4e6f2caf-a574-47b4-9681-c22fc52885a9",
+      "Name": "Capacity",
+      "SortOrder": 3,
+      "Alias": "capacity",
+      "PropertyTypes": [
+        {
+          "Key": "7175bc8a-e7e5-4c65-bf33-0a1fdc9ffc20",
+          "Alias": "capacity",
+          "DataType": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+          "Name": "Capacity"
+        }
+      ]
+    },
+    {
+      "Key": "58cf4d2f-30bb-435d-9b53-9e8c05aff30b",
+      "Name": "Description",
+      "SortOrder": 4,
+      "Alias": "description",
+      "PropertyTypes": [
+        {
+          "Key": "f26f0f0c-fee6-4f85-89d6-e2aef9fe3a69",
+          "Alias": "description",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Description"
+        }
+      ]
+    },
+    {
+      "Key": "76773842-ff77-4209-ada5-9730de466cad",
+      "Name": "Image",
+      "SortOrder": 5,
+      "Alias": "image",
+      "PropertyTypes": [
+        {
+          "Key": "3e169e38-ace6-4c57-a687-1d4ec05c4bb1",
+          "Alias": "image",
+          "DataType": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+          "Name": "Image"
+        }
+      ]
+    },
+    {
+      "Key": "bac846a8-61af-4c0d-bee2-f4d08445e8e3",
+      "Name": "Speed",
+      "SortOrder": 2,
+      "Alias": "speed",
+      "PropertyTypes": [
+        {
+          "Key": "cc5ee087-8815-4afa-b2c7-19dfefa2f0c3",
+          "Alias": "speed",
+          "DataType": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+          "Name": "Speed"
+        }
+      ]
+    },
+    {
+      "Key": "cf818ce7-7e5b-4532-b1e4-225299ec47db",
+      "Name": "Model Name",
+      "Alias": "modelName",
+      "PropertyTypes": [
+        {
+          "Key": "da227025-701e-43a4-958b-be41d7b89350",
+          "Alias": "modelName",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Model Name"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/a48d0cb205e24cbd9399b12f9123fc87",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/2e6d3631066e44b8aec496f09099b2b5",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ad9f0cf2bda245d59ea1a63cfc873fd3",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

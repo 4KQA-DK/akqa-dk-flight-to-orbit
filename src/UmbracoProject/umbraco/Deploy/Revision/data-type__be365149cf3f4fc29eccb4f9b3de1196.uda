@@ -1,0 +1,10 @@
+{
+  "Name": "HomePage - sections - Block List Property Editor UI (1)",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {},
+  "Udi": "umb://data-type/be365149cf3f4fc29eccb4f9b3de1196",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

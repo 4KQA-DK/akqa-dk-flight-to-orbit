@@ -1,0 +1,13 @@
+{
+  "Name": "TwoColumnSection - Media Muted - Toggle Property Editor UI",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {
+    "default": true
+  },
+  "Udi": "umb://data-type/9880ba9a42c84cd9a74e288e71e32ecd",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

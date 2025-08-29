@@ -1,0 +1,26 @@
+{
+  "Name": "Page Sections",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {
+    "blocks": [
+      {
+        "contentElementTypeKey": "62672fdd-17c5-4058-b706-185aebe2deec",
+        "label": "{{title}}"
+      }
+    ],
+    "validationLimit": {
+      "min": 1
+    },
+    "useSingleBlockMode": false,
+    "useLiveEditing": false
+  },
+  "Udi": "umb://data-type/d2017a3c3dfb4050a44e482d70cb43db",
+  "Dependencies": [
+    {
+      "Udi": "umb://document-type/62672fdd17c54058b706185aebe2deec"
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

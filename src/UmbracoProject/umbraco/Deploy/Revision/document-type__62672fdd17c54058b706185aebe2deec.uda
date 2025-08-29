@@ -1,0 +1,139 @@
+{
+  "Name": "HeroSection",
+  "Alias": "heroSection",
+  "AllowedTemplates": [],
+  "HistoryCleanup": {},
+  "Icon": "icon-plugin color-green",
+  "Thumbnail": "folder.png",
+  "Description": "The section used for hero",
+  "Permissions": {
+    "IsElementType": true,
+    "AllowedChildContentTypes": []
+  },
+  "Parent": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+  "CompositionContentTypes": [],
+  "PropertyGroups": [
+    {
+      "Key": "4ed68f35-853d-437d-a419-d0eb65126214",
+      "Name": "Title",
+      "Alias": "title",
+      "PropertyTypes": [
+        {
+          "Key": "131b9e50-270b-4fa8-834d-b458d2b2aa7f",
+          "Alias": "heroTitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Description": "Title for hero",
+          "Name": "Hero Title"
+        }
+      ]
+    },
+    {
+      "Key": "8332fa24-ef30-477d-85d2-ae3611f25c6c",
+      "Name": "Hero PrimaryCTA",
+      "SortOrder": 3,
+      "Alias": "heroPrimaryCTA",
+      "PropertyTypes": [
+        {
+          "Key": "01685b5a-838a-4a50-8d02-4c9154a7b72b",
+          "Alias": "primaryCta",
+          "DataType": "umb://data-type/4da35b4ab8284063a22829e713670ba4",
+          "Name": "PrimaryCTA"
+        },
+        {
+          "Key": "628fb715-ce8f-4bad-a569-e14dc3d0dba3",
+          "Alias": "secondaryCta",
+          "DataType": "umb://data-type/ca644a44982a4d1e978551a7c72ce785",
+          "Name": "SecondaryCTA",
+          "SortOrder": 1
+        }
+      ]
+    },
+    {
+      "Key": "8a54f965-c5da-40c9-b09b-af824ba614e6",
+      "Name": "Background",
+      "SortOrder": 2,
+      "Alias": "background",
+      "PropertyTypes": [
+        {
+          "Key": "91deb32b-4332-4f87-9d94-afda56a59c71",
+          "Alias": "heroBackgroundMedia",
+          "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+          "Name": "Hero Background Media"
+        },
+        {
+          "Key": "94460e11-2824-4e19-85da-8149f0c406d2",
+          "Alias": "videoMuted",
+          "DataType": "umb://data-type/9582c6cd75644b6fa0ab0c964612b018",
+          "Name": "Video Muted",
+          "SortOrder": 3
+        },
+        {
+          "Key": "cb108d19-47b9-4605-ad02-3cd3b3c39269",
+          "Alias": "videoAutoplay",
+          "DataType": "umb://data-type/c310a97beb2747f2ad2fc765d36f786e",
+          "Name": "Video Autoplay",
+          "SortOrder": 1
+        },
+        {
+          "Key": "f1941725-847d-4d86-a9b1-0d7abd3e4724",
+          "Alias": "videoLoop",
+          "DataType": "umb://data-type/ff560b2e3f0943439c741d02f0307be1",
+          "Name": "Video Loop",
+          "SortOrder": 2
+        }
+      ]
+    },
+    {
+      "Key": "e94b113a-a776-4966-ba5e-1d8d4df0b9fb",
+      "Name": "Subtitle",
+      "SortOrder": 1,
+      "Alias": "subtitle",
+      "PropertyTypes": [
+        {
+          "Key": "73137bf6-1d00-4bbe-9a07-8bdef96201f8",
+          "Alias": "heroSubtitle",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Hero Subtitle"
+        }
+      ]
+    }
+  ],
+  "PropertyTypes": [],
+  "Udi": "umb://document-type/62672fdd17c54058b706185aebe2deec",
+  "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/4da35b4ab8284063a22829e713670ba4",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/9582c6cd75644b6fa0ab0c964612b018",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/c310a97beb2747f2ad2fc765d36f786e",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ca644a44982a4d1e978551a7c72ce785",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/ff560b2e3f0943439c741d02f0307be1",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type-container/e5e157b0c45f49f995a5bd01cbefb175",
+      "Ordering": true
+    }
+  ],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
+  "__version": "16.0.0"
+}

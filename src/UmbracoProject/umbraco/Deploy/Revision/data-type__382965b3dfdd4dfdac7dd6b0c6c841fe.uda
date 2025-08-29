@@ -1,0 +1,10 @@
+{
+  "Name": "TwoColumnInfoSection",
+  "EditorAlias": "Umbraco.BlockList",
+  "EditorUiAlias": "Umb.PropertyEditorUi.BlockList",
+  "Configuration": {},
+  "Udi": "umb://data-type/382965b3dfdd4dfdac7dd6b0c6c841fe",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}

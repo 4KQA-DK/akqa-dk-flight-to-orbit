@@ -1,0 +1,13 @@
+{
+  "Name": "HeroSection - VideoMuted - Toggle Property Editor UI",
+  "EditorAlias": "Umbraco.TrueFalse",
+  "EditorUiAlias": "Umb.PropertyEditorUi.Toggle",
+  "DatabaseType": "Integer",
+  "Configuration": {
+    "default": true
+  },
+  "Udi": "umb://data-type/4f37725b0daf4c07bb9d9ecbe4daa7b5",
+  "Dependencies": [],
+  "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.DataTypeArtifact",
+  "__version": "16.0.0"
+}
