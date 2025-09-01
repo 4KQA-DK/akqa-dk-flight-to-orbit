@@ -1,0 +1,24 @@
+﻿using NPoco;
+using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
+namespace UmbracoProject.CustomDatabase.Models
+{
+    [TableName("Booking")]
+    [PrimaryKey("bookingId", AutoIncrement = false)]
+    public class Booking
+    {
+        [PrimaryKeyColumn(AutoIncrement = false)]
+        [Column("bookingId")]
+        public Guid bookingId { get; set; }
+
+        public Guid tripId { get; set; }
+
+        public double price { get; set; }
+
+        public DateTime date { get; set; }
+
+
+
+        //public Guid userId { get; set; }
+
+    }
+}
