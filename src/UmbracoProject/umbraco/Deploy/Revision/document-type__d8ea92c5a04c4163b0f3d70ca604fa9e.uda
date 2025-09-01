@@ -1,5 +1,5 @@
 {
-  "Name": "Content",
+  "Name": "VideoContent",
   "Alias": "content",
   "AllowedTemplates": [],
   "HistoryCleanup": {},
@@ -12,43 +12,36 @@
   "CompositionContentTypes": [],
   "PropertyGroups": [
     {
-      "Key": "942e120a-169d-48e1-9d9e-c9721a303e22",
-      "Name": "Content Settings",
-      "SortOrder": 1,
-      "Alias": "contentSettings",
-      "PropertyTypes": [
-        {
-          "Key": "087df6a5-200e-4ab6-825a-ab0939b3463e",
-          "Alias": "videoMuted",
-          "DataType": "umb://data-type/d81fc6a8c6e8417e9f6da54c321f29c2",
-          "Name": "Video Muted",
-          "SortOrder": 1
-        },
-        {
-          "Key": "7945dcf0-a633-4cfc-b507-8cd5cada624d",
-          "Alias": "videoAutoplay",
-          "DataType": "umb://data-type/3244e243237248cb869aa3df7f913a08",
-          "Name": "Video Autoplay "
-        },
-        {
-          "Key": "e58f569f-3fbe-44e8-b2f0-000e66400658",
-          "Alias": "videoLoop",
-          "DataType": "umb://data-type/2b669e77a84d4f0c92c6388aec074c36",
-          "Name": "Video Loop",
-          "SortOrder": 2
-        }
-      ]
-    },
-    {
       "Key": "b7234788-fe4c-449b-83b0-8179bd35215b",
       "Name": "Content Media",
       "Alias": "contentMedia",
       "PropertyTypes": [
         {
+          "Key": "3c77c3fd-f9b7-4237-a9e3-4bffcceb81d3",
+          "Alias": "videoLoop",
+          "DataType": "umb://data-type/8f52aaa85a3d419fad164655a15747b7",
+          "Name": "Video Loop",
+          "SortOrder": 3
+        },
+        {
           "Key": "6802ae75-f6ee-4761-a97a-8948518ff05d",
           "Alias": "contentMedia",
           "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
           "Name": "Content Media"
+        },
+        {
+          "Key": "7fd13ff3-0351-4d9c-859d-a04ddcd2fad1",
+          "Alias": "videoAutoplay",
+          "DataType": "umb://data-type/0e0fe66c3d0e4c849d125f62bca60670",
+          "Name": "Video Autoplay",
+          "SortOrder": 1
+        },
+        {
+          "Key": "eae84284-aefc-45a4-815d-2bee6c99c92e",
+          "Alias": "videoMuted",
+          "DataType": "umb://data-type/a45e9b14620f4ccdaa02811730c90df9",
+          "Name": "Video Muted",
+          "SortOrder": 2
         }
       ]
     },
@@ -75,19 +68,19 @@
       "Ordering": true
     },
     {
+      "Udi": "umb://data-type/0e0fe66c3d0e4c849d125f62bca60670",
+      "Ordering": true
+    },
+    {
       "Udi": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
       "Ordering": true
     },
     {
-      "Udi": "umb://data-type/2b669e77a84d4f0c92c6388aec074c36",
+      "Udi": "umb://data-type/8f52aaa85a3d419fad164655a15747b7",
       "Ordering": true
     },
     {
-      "Udi": "umb://data-type/3244e243237248cb869aa3df7f913a08",
-      "Ordering": true
-    },
-    {
-      "Udi": "umb://data-type/d81fc6a8c6e8417e9f6da54c321f29c2",
+      "Udi": "umb://data-type/a45e9b14620f4ccdaa02811730c90df9",
       "Ordering": true
     }
   ],
