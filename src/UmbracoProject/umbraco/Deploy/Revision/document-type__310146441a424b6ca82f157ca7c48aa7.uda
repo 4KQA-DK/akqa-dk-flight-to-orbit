@@ -29,7 +29,7 @@
         {
           "Key": "4548c4af-1705-469b-8eab-7749f9b62d3c",
           "Alias": "rightMedia",
-          "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
+          "DataType": "umb://data-type/1a8b3e2b328d46ee9cc57395c53d119f",
           "Name": "Right Media",
           "SortOrder": 3
         },
@@ -103,6 +103,10 @@
   "Dependencies": [
     {
       "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
+    {
+      "Udi": "umb://data-type/1a8b3e2b328d46ee9cc57395c53d119f",
       "Ordering": true
     },
     {
