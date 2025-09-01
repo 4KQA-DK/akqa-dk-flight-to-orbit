@@ -1,3 +1,5 @@
+using Umbraco.Cms.Core.DependencyInjection;
+
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.CreateUmbracoBuilder()
@@ -26,3 +28,5 @@ app.UseUmbraco()
     });
 
 await app.RunAsync();
+
+
