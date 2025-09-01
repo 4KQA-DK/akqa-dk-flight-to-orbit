@@ -9,10 +9,11 @@ using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace UmbracoProject.CustomDatabase.InitialMigration
+namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 {
     public class TransactionalTablesComposer : ComponentComposer<TransactionalTablesComponent>
     {
+
     }
 
     public class TransactionalTablesComponent : IAsyncComponent
@@ -36,6 +37,9 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
 
         public async Task InitializeAsync(bool isRestarting, CancellationToken cancellationToken)
         {
+            Console.WriteLine("TransactionalTablesComponent initializing..."); // Add this
+            
+
             if (_runtimeState.Level < RuntimeLevel.Run)
             {
                 return;
@@ -112,7 +116,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             public double price { get; set; }
 
             [Column("date")]
-            public DateTime date { get; set; }
+            public DateTime? date { get; set; }
         }
 
         [TableName("Passenger")]
@@ -134,7 +138,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             public string lastName { get; set; }
 
             [Column("birthDate")]
-            public DateOnly? birthDate { get; set; }
+            public DateTime? birthDate { get; set; }
 
             [Column("gender")]
             public int gender { get; set; }
@@ -156,10 +160,10 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             public Guid rocketKey { get; set; }
 
             [Column("departureUtc")]
-            public DateTime departureUtc { get; set; }
+            public DateTime? departureUtc { get; set; }
 
             [Column("arrivalUtc")]
-            public DateTime arrivalUtc { get; set; }
+            public DateTime? arrivalUtc { get; set; }
 
             [Column("passengerCount")]
             public int passengerCount { get; set; }
