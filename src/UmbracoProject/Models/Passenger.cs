@@ -1,7 +1,7 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace UmbracoProject.CustomDatabase.Models
+namespace UmbracoProject.Models
 {
     [TableName("Passenger")]
     [PrimaryKey("passengerId", AutoIncrement = false)]

@@ -1,32 +1,66 @@
+using Microsoft.OpenApi.Models;
 using Umbraco.Cms.Core.DependencyInjection;
+using UmbracoProject.Repository;
+using UmbracoProject.Service;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-
-builder.CreateUmbracoBuilder()
-    .AddBackOffice()
-    .AddWebsite()
-    .AddComposers()
-    .AddDeliveryApi()
-    .Build();
-
-WebApplication app = builder.Build();
-
-await app.BootUmbracoAsync();
-
-app.UseHttpsRedirection();
-
-app.UseUmbraco()
-    .WithMiddleware(u =>
+public class Program
+{
+    public static async Task Main(string[] args)
     {
-        u.UseBackOffice();
-        u.UseWebsite();
-    })
-    .WithEndpoints(u =>
-    {
-        u.UseBackOfficeEndpoints();
-        u.UseWebsiteEndpoints();
-    });
+        var builder = WebApplication.CreateBuilder(args);
 
-await app.RunAsync();
+        // Swagger
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo
+            {
+                Title = "Umbraco Headless API",
+                Version = "v1",
+                Description = "Trip endpoints for the headless Umbraco project"
+            });
+        });
 
+        // API + DI
+        builder.Services.AddControllers();
+        builder.Services.AddScoped<ITripService, TripService>();
+        builder.Services.AddScoped<ITripRepository, TripRepository>();
 
+        builder.CreateUmbracoBuilder()
+            .AddBackOffice()
+            .AddWebsite()
+            .AddComposers()
+            .AddDeliveryApi()
+            .Build();
+
+        var app = builder.Build();
+
+        // Swagger UI at /swagger
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Umbraco Headless API v1");
+            c.RoutePrefix = "swagger";
+        });
+
+        await app.BootUmbracoAsync();
+
+        app.UseHttpsRedirection();
+
+        app.UseUmbraco()
+            .WithMiddleware(u =>
+            {
+                u.UseBackOffice();
+                u.UseWebsite();
+            })
+            .WithEndpoints(u =>
+            {
+                u.UseBackOfficeEndpoints();
+                u.UseWebsiteEndpoints();
+            });
+
+        app.MapControllers();
+
+        await app.RunAsync();
+    }
+}
