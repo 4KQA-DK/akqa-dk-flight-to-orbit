@@ -44,29 +44,11 @@
           "SortOrder": 2
         }
       ]
-    },
-    {
-      "Key": "ce5066d8-816b-4f0f-8234-c24bb172563d",
-      "Name": "Content Text",
-      "SortOrder": 2,
-      "Alias": "contentText",
-      "PropertyTypes": [
-        {
-          "Key": "3631e2d9-c99b-4cde-b11a-edf7d5543703",
-          "Alias": "contentText",
-          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
-          "Name": "Content Text"
-        }
-      ]
     }
   ],
   "PropertyTypes": [],
   "Udi": "umb://document-type/d8ea92c5a04c4163b0f3d70ca604fa9e",
   "Dependencies": [
-    {
-      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
-      "Ordering": true
-    },
     {
       "Udi": "umb://data-type/0e0fe66c3d0e4c849d125f62bca60670",
       "Ordering": true
