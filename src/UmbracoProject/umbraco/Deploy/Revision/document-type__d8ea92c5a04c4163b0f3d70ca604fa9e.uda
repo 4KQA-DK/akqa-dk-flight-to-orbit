@@ -12,6 +12,20 @@
   "CompositionContentTypes": [],
   "PropertyGroups": [
     {
+      "Key": "163143f2-edd4-44c7-93e1-921894562603",
+      "Name": "Content Text",
+      "SortOrder": 1,
+      "Alias": "contentText",
+      "PropertyTypes": [
+        {
+          "Key": "2b537827-1993-4473-8583-cedb11e31f78",
+          "Alias": "contentText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Content Text"
+        }
+      ]
+    },
+    {
       "Key": "b7234788-fe4c-449b-83b0-8179bd35215b",
       "Name": "Content Media",
       "Alias": "contentMedia",
@@ -49,6 +63,10 @@
   "PropertyTypes": [],
   "Udi": "umb://document-type/d8ea92c5a04c4163b0f3d70ca604fa9e",
   "Dependencies": [
+    {
+      "Udi": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+      "Ordering": true
+    },
     {
       "Udi": "umb://data-type/0e0fe66c3d0e4c849d125f62bca60670",
       "Ordering": true
