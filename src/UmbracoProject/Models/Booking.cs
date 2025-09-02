@@ -16,9 +16,5 @@ namespace UmbracoProject.Models
 
         public DateTime date { get; set; }
 
-
-
-        //public Guid userId { get; set; }
-
     }
 }

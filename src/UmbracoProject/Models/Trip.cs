@@ -11,7 +11,6 @@ namespace UmbracoProject.Models
         [Column("tripId")]
         public Guid tripId { get; set; }
 
-        // Store Umbraco content keys (GUIDs)
         [Column("destinationKey")]
         public Guid destinationKey { get; set; }
 
@@ -41,7 +40,6 @@ namespace UmbracoProject.Models
         Completed = 2,
         Cancelled = 3
     }
-
 
 }
 
