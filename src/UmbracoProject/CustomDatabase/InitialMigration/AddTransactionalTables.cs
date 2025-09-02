@@ -99,7 +99,6 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             await Task.CompletedTask;
         }
 
-        // Immutable schema snapshot classes for migration only
         [TableName("Booking")]
         [PrimaryKey("bookingId", AutoIncrement = false)]
         [ExplicitColumns]
@@ -132,10 +131,10 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             public Guid bookingId { get; set; }
 
             [Column("firstName")]
-            public string firstName { get; set; }
+            public string firstName { get; set; } = null!;
 
             [Column("lastName")]
-            public string lastName { get; set; }
+            public string lastName { get; set; } = null!;
 
             [Column("birthDate")]
             public DateTime? birthDate { get; set; }

@@ -1,0 +1,116 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using UmbracoProject.DTO;
+using UmbracoProject.Models;
+using UmbracoProject.Service;
+
+namespace UmbracoProject.Controller
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TripController : ControllerBase
+    {
+        private readonly ITripService _tripService;
+
+        public TripController(ITripService tripService)
+        {
+            _tripService = tripService;
+        }
+
+        [HttpPost]
+        [Route("create")]
+        public async Task<IActionResult> Create([FromBody] CreateTripRequest request)
+        {
+            try
+            {
+                var id = await _tripService.CreateTripAsync(request);
+                return Ok(new { tripId = id });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { error = "Failed to create trip." });
+            }
+        }
+
+        [HttpGet]
+        [Route("get/{id}")]
+        public async Task<IActionResult> GetTrip(Guid id)
+        {
+            try
+            {
+                var trip = await _tripService.GetTripAsync(id);
+                return Ok(trip);
+            }
+            catch (ArgumentException ex)
+            {
+
+                return BadRequest(new { error = ex.Message });
+
+            }
+        }
+
+        [HttpGet]
+        [Route("getall")]
+        public async Task<IActionResult> GetAllTrips()
+        {
+            try
+            {
+                var trip = await _tripService.GetAllTripsAsync();
+                return Ok(trip);
+            }
+            catch (ArgumentException ex)
+            {
+
+                return BadRequest(new { error = ex.Message });
+
+            }
+        }
+
+        [HttpGet]
+        [Route("getallbypriceasc")]
+        public async Task<IActionResult> GetAllTripsPriceAsc()
+        {
+            try
+            {
+                var trip = await _tripService.GetAllTripsPriceAscAsync();
+                return Ok(trip);
+            }
+            catch (ArgumentException ex)
+            {
+
+                return BadRequest(new { error = ex.Message });
+
+            }
+        }
+
+        [HttpGet]
+        [Route("getallbytimetravelasc")]
+        public async Task<IActionResult> GetAllTripsTravelTimeAsc()
+        {
+            try
+            {
+                var trip = await _tripService.GetAllTripsTravelTimeAscAsync();
+                return Ok(trip);
+            }
+            catch (ArgumentException ex)
+            {
+
+                return BadRequest(new { error = ex.Message });
+
+            }
+        }
+
+        [HttpPatch]
+        [Route("update/{id}/{status}")]
+        public async Task<IActionResult> UpdateStatus(Guid id, TripStatus status)
+        {
+            var result = await _tripService.UpdateTripStatusAsync(id, status);
+
+            return Ok(result);
+        }
+    }
+}

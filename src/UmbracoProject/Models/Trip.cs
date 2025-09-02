@@ -1,7 +1,7 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace UmbracoProject.CustomDatabase.Models
+namespace UmbracoProject.Models
 {
     [TableName("Trip")]
     [PrimaryKey("tripId", AutoIncrement = false)]
@@ -11,7 +11,6 @@ namespace UmbracoProject.CustomDatabase.Models
         [Column("tripId")]
         public Guid tripId { get; set; }
 
-        // Store Umbraco content keys (GUIDs)
         [Column("destinationKey")]
         public Guid destinationKey { get; set; }
 
@@ -41,7 +40,6 @@ namespace UmbracoProject.CustomDatabase.Models
         Completed = 2,
         Cancelled = 3
     }
-
 
 }
 
