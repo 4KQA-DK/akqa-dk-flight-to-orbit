@@ -76,5 +76,58 @@ namespace UmbracoProject.Repository
             return trips;
         }
 
+        public async Task<List<Trip>> GetAllTripsByDestination(Guid destinationId)
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+
+            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [destinationKey] = @0", destinationId);
+            var trips = await db.FetchAsync<Trip>(sql);
+            scope.Complete();
+            return trips;
+        }
+
+        public async Task<List<Trip>> GetScheduledTripsWithMinCapacityAsync(int groupSize)
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+
+            var sql = new NPoco.Sql(
+                @"SELECT * FROM [Trip]
+          WHERE [tripStatus] = @1
+            AND [passengerCount] >= @0
+          ORDER BY [departureUtc] ASC",
+                groupSize, (int)TripStatus.Schedueled);
+
+            var trips = await db.FetchAsync<Trip>(sql);
+            scope.Complete();
+            return trips;
+        }
+
+        
+        public async Task<List<Trip>> FilterTripsAsync(TripFilterRequest filter)
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+
+            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [tripStatus] = @0", (int)TripStatus.Schedueled);
+
+            if (filter.DestinationKey.HasValue)
+                sql.Append("AND [destinationKey] = @0", filter.DestinationKey.Value);
+
+            if (filter.DepartureDate.HasValue)
+                sql.Append("AND [departureUtc] >= @0", filter.DepartureDate.Value);
+
+            if (filter.ArrivalDate.HasValue)
+                sql.Append("AND [arrivalUtc] <= @0", filter.ArrivalDate.Value);
+
+            if (filter.PassengerCount.HasValue)
+                sql.Append("AND [passengerCount] >= @0", filter.PassengerCount.Value);
+
+            var trips = await db.FetchAsync<Trip>(sql);
+            scope.Complete();
+            return trips;
+        }
+
     }
 }
