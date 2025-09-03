@@ -291,6 +291,129 @@ namespace UmbracoProject.Service
 
             return result;
         }
+
+        public async Task<List<GetTripResponse>> GetAllTripsByDestinationAsync(Guid destinationId)
+        {
+            if (destinationId == Guid.Empty)
+            {
+                throw new ArgumentException("Destination id is required.", nameof(destinationId));
+            }
+            var destination = _contentService.GetById(destinationId);
+            if (destination == null)
+            {
+                throw new ArgumentException("Destination not found.");
+            }
+            if (destination.Trashed)
+            {
+                throw new ArgumentException("Destination is in recycle bin.");
+            }
+            List<Trip> trips = new List<Trip>();
+            try
+            {
+                trips = (await _tripRepository.GetAllTripsByDestination(destinationId)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Failed to load trips from database.", ex);
+            }
+            var result = new List<GetTripResponse>(trips.Count);
+            foreach (var trip in trips)
+            {
+                string rocketName = "(rocket not found)";
+                string destinationName = "(destination not found)";
+                try
+                {
+                    var rocket = _contentService.GetById(trip.rocketKey);
+                    if (rocket is not null && !rocket.Trashed)
+                        rocketName = rocket.Name;
+                    var dest = _contentService.GetById(trip.destinationKey);
+                    if (dest is not null && !dest.Trashed)
+                        destinationName = dest.Name;
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException("Failed to resolve rocket/destination names.", ex);
+                }
+                result.Add(new GetTripResponse
+                {
+                    TripId = trip.tripId,
+                    RocketName = rocketName,
+                    DestinationName = destinationName,
+                    DepartureUtc = trip.departureUtc,
+                    ArrivalUtc = trip.arrivalUtc,
+                    PassengerCount = trip.passengerCount,
+                    Price = trip.price,
+                    TripStatus = trip.tripStatus
+                });
+            }
+            return result;
+        }
+
+        public async Task<List<GetTripResponse>> GetAvailableTripsAsync(int groupSize)
+        {
+            if (groupSize <= 0) throw new ArgumentException("Group size must be > 0.", nameof(groupSize));
+
+            var trips = await _tripRepository.GetScheduledTripsWithMinCapacityAsync(groupSize);
+
+            var result = new List<GetTripResponse>(trips.Count);
+            foreach (var t in trips)
+            {
+                var rocket = _contentService.GetById(t.rocketKey);
+                var dest = _contentService.GetById(t.destinationKey);
+
+                result.Add(new GetTripResponse
+                {
+                    TripId = t.tripId,
+                    RocketName = rocket?.Name ?? "(rocket not found)",
+                    DestinationName = dest?.Name ?? "(destination not found)",
+                    DepartureUtc = t.departureUtc,
+                    ArrivalUtc = t.arrivalUtc,
+                    PassengerCount = t.passengerCount,
+                    Price = t.price,
+                    TripStatus = t.tripStatus
+                });
+            }
+            return result;
+        }
+
+       
+        public async Task<List<GetTripResponse>> FilterTripsAsync(TripFilterRequest filter)
+        {
+            try
+            {
+                var trips = await _tripRepository.FilterTripsAsync(filter);
+
+                if (trips == null || trips.Count == 0)
+                    throw new ArgumentException("No scheduled trips matches your filter.");
+
+                var result = new List<GetTripResponse>(trips.Count);
+                foreach (var trip in trips)
+                {
+                    var rocket = _contentService.GetById(trip.rocketKey);
+                    var destination = _contentService.GetById(trip.destinationKey);
+                    result.Add(new GetTripResponse
+                    {
+                        TripId = trip.tripId,
+                        RocketName = rocket?.Name ?? "(rocket not found)",
+                        DestinationName = destination?.Name ?? "(destination not found)",
+                        DepartureUtc = trip.departureUtc,
+                        ArrivalUtc = trip.arrivalUtc,
+                        PassengerCount = trip.passengerCount,
+                        Price = trip.price,
+                        TripStatus = trip.tripStatus
+                    });
+                }
+                return result;
+            }
+            catch (ArgumentException ex)
+            {
+                throw new ArgumentException(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("Fejl under filtrering af planlagte ture.", ex);
+            }
+        }
     }
 
 }

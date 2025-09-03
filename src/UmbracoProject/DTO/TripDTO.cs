@@ -38,4 +38,14 @@ namespace UmbracoProject.DTO
 
         public TripStatus TripStatus { get; set; }
     }
+
+    public class TripFilterRequest
+    {
+        public DateOnly? DepartureDate { get; set; }
+        public DateOnly? ArrivalDate { get; set; }
+        public Guid? DestinationKey { get; set; }
+
+        public int? PassengerCount { get; set; }
+
+    }
 }

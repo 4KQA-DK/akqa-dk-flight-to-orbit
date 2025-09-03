@@ -104,6 +104,48 @@ namespace UmbracoProject.Controller
             }
         }
 
+        [HttpGet]
+        [Route("getallbydestination/{destination}")]
+        public async Task<IActionResult> GetAllTripsByDestination(Guid destination)
+        {
+            try
+            {
+                var trip = await _tripService.GetAllTripsByDestinationAsync(destination);
+                return Ok(trip);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Filters space trips based on specified criteria and returns matching scheduled trips.
+        /// </summary>
+        /// <param name="filter">Filter criteria including departure/arrival dates, destination, and passenger count</param>
+        /// <returns>HTTP response containing filtered trip data or error message</returns>
+        /// <response code="200">Returns list of filtered trips with rocket and destination details</response>
+        /// <response code="500">Internal server error occurred during filtering</response>
+
+        [HttpGet]
+        [Route("gettripsfiltered")]
+        public async Task<IActionResult> FilterTrips([FromQuery] TripFilterRequest filter)
+        {
+            try
+            {
+                var trips = await _tripService.FilterTripsAsync(filter);
+                return Ok(trips);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
         [HttpPatch]
         [Route("update/{id}/{status}")]
         public async Task<IActionResult> UpdateStatus(Guid id, TripStatus status)
@@ -112,5 +154,14 @@ namespace UmbracoProject.Controller
 
             return Ok(result);
         }
+
+        [HttpGet("available/{groupSize}")]
+        public async Task<IActionResult> GetAvailableTickets(int groupSize)
+        {
+            try { return Ok(await _tripService.GetAvailableTripsAsync(groupSize)); }
+            catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
+            catch { return StatusCode(500, new { error = "Failed to load available trips." }); }
+        }
+
     }
 }
