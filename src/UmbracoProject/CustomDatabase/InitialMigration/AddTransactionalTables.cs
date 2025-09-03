@@ -47,7 +47,9 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
             migrationPlan.From(string.Empty)
-                .To<AddTransactionalTables>("transactional-tables-db");
+                .To<AddTransactionalTables>("transactional-tables-db")
+                .To<AddTransactionalTables>("rocket-status-v1");
+
 
             var upgrader = new Upgrader(migrationPlan);
             await upgrader.ExecuteAsync(_migrationPlanExecutor, _coreScopeProvider, _keyValueService);
@@ -96,7 +98,16 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
                 Logger.LogDebug("The database table {DbTable} already exists, skipping", "Trip");
             }
 
-            await Task.CompletedTask;
+            if (!TableExists("RocketStatus"))
+            {
+                Create.Table<RocketStatusSchema>().Do();
+            }
+            else
+            {
+                Logger.LogDebug("The database table {DbTable} already exists, skipping", "RocketStatus");
+            }
+
+                await Task.CompletedTask;
         }
 
         [TableName("Booking")]
@@ -172,6 +183,27 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 
             [Column("tripStatus")]
             public int tripStatus { get; set; }
+        }
+
+        [TableName("RocketStatus")]
+        [PrimaryKey("rocketKey", AutoIncrement = false)]
+        [ExplicitColumns]
+        public class RocketStatusSchema
+        {
+            [PrimaryKeyColumn(AutoIncrement = false)]
+            [Column("rocketKey")]
+            public Guid rocketKey { get; set; }          
+
+            [Column("currentStatus")]
+            public int currentStatus { get; set; }       
+
+            [Column("lastUpdatedUtc")]
+            public DateTime lastUpdatedUtc { get; set; }
+
+            [Column("note")]
+            [Length(256)]
+            [NullSetting(NullSetting = NullSettings.Null)]
+            public string? note { get; set; }
         }
     }
 }

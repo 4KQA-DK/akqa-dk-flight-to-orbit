@@ -47,5 +47,15 @@ namespace UmbracoProject.DTO
 
         public int? PassengerCount { get; set; }
 
+        public int NearbyDaysRange { get; set; } = 10;
+
+        public int NearbyCount { get; set; } = 5;
+
+        public int NearbyCount { get; set; } = 5;
+
+        public int NearbyCount { get; set; } = 5;
+
+        public int NearbyCount { get; set; } = 5;
+
     }
 }
