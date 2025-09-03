@@ -36,20 +36,6 @@
           "Name": "Model"
         }
       ]
-    },
-    {
-      "Key": "6eea1675-cfc0-495c-a59b-eed08bdf8917",
-      "Name": "Status",
-      "SortOrder": 2,
-      "Alias": "status",
-      "PropertyTypes": [
-        {
-          "Key": "05075ee2-3ddf-42af-bf3f-32e56835d7b3",
-          "Alias": "status",
-          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
-          "Name": "Status"
-        }
-      ]
     }
   ],
   "PropertyTypes": [],
