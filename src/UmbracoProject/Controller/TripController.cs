@@ -150,17 +150,36 @@ namespace UmbracoProject.Controller
         [Route("update/{id}/{status}")]
         public async Task<IActionResult> UpdateStatus(Guid id, TripStatus status)
         {
-            var result = await _tripService.UpdateTripStatusAsync(id, status);
 
-            return Ok(result);
+            try
+            {
+                return Ok(await _tripService.UpdateTripStatusAsync(id, status));
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch
+            {
+                return StatusCode(500, new { error = "Failed to load available trips." });
+            }
         }
 
         [HttpGet("available/{groupSize}")]
         public async Task<IActionResult> GetAvailableTickets(int groupSize)
         {
-            try { return Ok(await _tripService.GetAvailableTripsAsync(groupSize)); }
-            catch (ArgumentException ex) { return BadRequest(new { error = ex.Message }); }
-            catch { return StatusCode(500, new { error = "Failed to load available trips." }); }
+            try 
+            { 
+                return Ok(await _tripService.GetAvailableTripsAsync(groupSize)); 
+            }
+            catch (ArgumentException ex) 
+            { 
+                return BadRequest(new { error = ex.Message }); 
+            }
+            catch 
+            { 
+                return StatusCode(500, new { error = "Failed to load available trips." }); 
+            }
         }
 
     }
