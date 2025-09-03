@@ -9,11 +9,13 @@ namespace UmbracoProject.Service
     {
         private readonly ITripRepository _tripRepository;
         private readonly IContentService _contentService;
+        private readonly IRocketStatusService _rocketStatusService;
 
-        public TripService(ITripRepository tripRepository, IContentService contentService)
+        public TripService(ITripRepository tripRepository, IContentService contentService, IRocketStatusService rocketStatusService)
         {
             _tripRepository = tripRepository;
             _contentService = contentService;
+            _rocketStatusService = rocketStatusService;
         }
 
         public async Task<Guid> CreateTripAsync(CreateTripRequest request)
@@ -59,7 +61,18 @@ namespace UmbracoProject.Service
             {
                 throw new ArgumentException("Destination is in recycle bin.");
             }
-                
+
+            var currentStatus = await _rocketStatusService.GetAsync(request.RocketKey);
+            if (currentStatus is RocketStatus.InFlight
+                or RocketStatus.Maintenance
+                or RocketStatus.Decommissioned
+                or RocketStatus.Offline)
+            {
+                throw new ArgumentException("Rocket is not available for scheduling.");
+
+            }
+
+
             var trip = new Trip
             {
                 tripId = Guid.NewGuid(),
