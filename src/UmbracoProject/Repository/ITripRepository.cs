@@ -30,10 +30,11 @@ namespace UmbracoProject.Repository
         /// - Trip status (always scheduled)
         /// - Destination key (exact match)
         /// - Departure date (on or after specified date)
-        /// - Arrival date (on or before specified date)
         /// - Passenger count (minimum capacity)
         /// </remarks>
-        Task<List<Trip>> FilterTripsAsync(TripFilterRequest filter);
+        Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter);
+
+        Task<List<Trip>> FindNearbyTripsAsync(TripFilterRequest filter, bool excludeExact = false);
 
     }
 }

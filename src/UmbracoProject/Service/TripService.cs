@@ -376,44 +376,82 @@ namespace UmbracoProject.Service
             return result;
         }
 
-       
-        public async Task<List<GetTripResponse>> FilterTripsAsync(TripFilterRequest filter)
+        
+        public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter)
         {
             try
             {
-                var trips = await _tripRepository.FilterTripsAsync(filter);
+                // Get exact matches
+                var exactTrips = await _tripRepository.GetFilteredTripsAsync(filter);
 
-                if (trips == null || trips.Count == 0)
-                    throw new ArgumentException("No scheduled trips matches your filter.");
-
-                var result = new List<GetTripResponse>(trips.Count);
-                foreach (var trip in trips)
+                // Get nearby trips (excluding exact matches)
+                var nearbyTrips = new List<Trip>();
+                if (filter.DepartureDate.HasValue)
                 {
-                    var rocket = _contentService.GetById(trip.rocketKey);
-                    var destination = _contentService.GetById(trip.destinationKey);
-                    result.Add(new GetTripResponse
-                    {
-                        TripId = trip.tripId,
-                        RocketName = rocket?.Name ?? "(rocket not found)",
-                        DestinationName = destination?.Name ?? "(destination not found)",
-                        DepartureUtc = trip.departureUtc,
-                        ArrivalUtc = trip.arrivalUtc,
-                        PassengerCount = trip.passengerCount,
-                        Price = trip.price,
-                        TripStatus = trip.tripStatus
-                    });
+                    nearbyTrips = await _tripRepository.FindNearbyTripsAsync(filter, excludeExact: true);
                 }
-                return result;
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException(ex.Message);
+
+                // Enrich exact matches
+                var enrichedExactMatches = await EnrichTripsAsync(exactTrips);
+
+                // Enrich nearby trips
+                var enrichedNearbyTrips = await EnrichTripsAsync(nearbyTrips);
+
+                // Build response
+                var response = new TripFilterResponse
+                {
+                    ExactMatches = enrichedExactMatches,
+                    NearbyTrips = enrichedNearbyTrips,
+                    SearchedDate = filter.DepartureDate,
+                    HasExactMatches = exactTrips.Count > 0
+                };
+
+                // Set message if no exact matches but nearby trips exist
+                if (!response.HasExactMatches && response.NearbyTrips.Count > 0)
+                {
+                    response.Message = "No exact matches found. Showing nearest alternatives.";
+                }
+
+                return response;
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Fejl under filtrering af planlagte ture.", ex);
+                throw new InvalidOperationException("Error occurred while filtering trips.", ex);
             }
         }
-    }
 
+        /// <summary>
+        /// Enriches trip data with rocket and destination information.
+        /// </summary>
+        /// <param name="trips">Raw trip entities to enrich</param>
+        /// <returns>List of enriched trip responses</returns>
+        private async Task<List<GetTripResponse>> EnrichTripsAsync(List<Trip> trips)
+        {
+            var result = new List<GetTripResponse>(trips.Count);
+
+            foreach (var trip in trips)
+            {
+                // Get rocket and destination details
+                var rocket = _contentService.GetById(trip.rocketKey);
+                var destination = _contentService.GetById(trip.destinationKey);
+
+                result.Add(new GetTripResponse
+                {
+                    TripId = trip.tripId,
+                    RocketName = rocket?.Name ?? "(rocket not found)",
+                    DestinationName = destination?.Name ?? "(destination not found)",
+                    DepartureUtc = trip.departureUtc,
+                    ArrivalUtc = trip.arrivalUtc,
+                    PassengerCount = trip.passengerCount,
+                    Price = trip.price,
+                    TripStatus = trip.tripStatus
+                });
+            }
+
+            return result;
+        }
+    }
 }
+
+
+

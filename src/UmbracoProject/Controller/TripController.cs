@@ -124,21 +124,18 @@ namespace UmbracoProject.Controller
         }
 
         /// <summary>
-        /// Filters space trips based on specified criteria and returns matching scheduled trips.
+        /// Filters space trips based on specified criteria and returns exact matches plus nearby alternatives.
         /// </summary>
         /// <param name="filter">Filter criteria including departure/arrival dates, destination, and passenger count</param>
-        /// <returns>HTTP response containing filtered trip data or error message</returns>
-        /// <response code="200">Returns list of filtered trips with rocket and destination details</response>
-        /// <response code="500">Internal server error occurred during filtering</response>
-
+        /// <returns>HTTP response containing exact matches and nearby trip alternatives</returns>
         [HttpGet]
         [Route("gettripsfiltered")]
-        public async Task<IActionResult> FilterTrips([FromQuery] TripFilterRequest filter)
+        public async Task<IActionResult> GetFilteredTrips([FromQuery] TripFilterRequest filter)
         {
             try
             {
-                var trips = await _tripService.FilterTripsAsync(filter);
-                return Ok(trips);
+                var result = await _tripService.GetFilteredTripsAsync(filter);
+                return Ok(result);
             }
             catch (Exception ex)
             {

@@ -104,30 +104,73 @@ namespace UmbracoProject.Repository
             return trips;
         }
 
-        
-        public async Task<List<Trip>> FilterTripsAsync(TripFilterRequest filter)
+
+        public async Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter)
         {
             using var scope = _scopeProvider.CreateScope();
             var db = scope.Database;
 
-            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [tripStatus] = @0", (int)TripStatus.Schedueled);
+            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [tripStatus] = @0 ", (int)TripStatus.Schedueled);
 
             if (filter.DestinationKey.HasValue)
-                sql.Append("AND [destinationKey] = @0", filter.DestinationKey.Value);
+                sql.Append(" AND [destinationKey] = @0 ", filter.DestinationKey.Value);
 
             if (filter.DepartureDate.HasValue)
-                sql.Append("AND [departureUtc] >= @0", filter.DepartureDate.Value);
-
-            if (filter.ArrivalDate.HasValue)
-                sql.Append("AND [arrivalUtc] <= @0", filter.ArrivalDate.Value);
+            {
+                // Compare DATE to DATE (time ignored)
+                var d = filter.DepartureDate.Value.ToDateTime(TimeOnly.MinValue);
+                sql.Append(" AND CAST([departureUtc] AS DATE) = @0 ", d);
+            }
 
             if (filter.PassengerCount.HasValue)
-                sql.Append("AND [passengerCount] >= @0", filter.PassengerCount.Value);
+                sql.Append(" AND [passengerCount] >= @0 ", filter.PassengerCount.Value);
+
+            sql.Append(" ORDER BY [departureUtc] ASC ");
 
             var trips = await db.FetchAsync<Trip>(sql);
             scope.Complete();
             return trips;
         }
+
+
+        public async Task<List<Trip>> FindNearbyTripsAsync(TripFilterRequest filter, bool excludeExact = false)
+        {
+            if (!filter.DepartureDate.HasValue) return new List<Trip>();
+
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+
+            var search = filter.DepartureDate.Value;
+            var start = search.AddDays(-filter.NearbyDaysRange).ToDateTime(TimeOnly.MinValue);
+            var end = search.AddDays(filter.NearbyDaysRange).ToDateTime(TimeOnly.MinValue);
+
+            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [tripStatus] = @0 ", (int)TripStatus.Schedueled);
+
+            // Date-only window (inclusive): CAST(... AS DATE) BETWEEN start AND end
+            sql.Append(" AND CAST([departureUtc] AS DATE) BETWEEN @0 AND @1 ", start, end);
+
+            if (excludeExact)
+            {
+                var exact = search.ToDateTime(TimeOnly.MinValue);
+                sql.Append(" AND CAST([departureUtc] AS DATE) <> @0 ", exact);
+            }
+
+            if (filter.DestinationKey.HasValue)
+                sql.Append(" AND [destinationKey] = @0 ", filter.DestinationKey.Value);
+
+            if (filter.PassengerCount.HasValue)
+                sql.Append(" AND [passengerCount] >= @0 ", filter.PassengerCount.Value);
+
+            // Sort by closeness to the searched DATE
+            sql.Append(" ORDER BY ABS(DATEDIFF(day, CAST([departureUtc] AS DATE), @0)), [departureUtc] ",
+                       search.ToDateTime(TimeOnly.MinValue));
+
+            var trips = await db.FetchAsync<Trip>(sql);
+            scope.Complete();
+            return trips;
+        }
+
+
 
     }
 }
