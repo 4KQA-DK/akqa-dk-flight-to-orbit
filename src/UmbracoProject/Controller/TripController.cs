@@ -133,12 +133,12 @@ namespace UmbracoProject.Controller
 
         [HttpGet]
         [Route("gettripsfiltered")]
-        public async Task<IActionResult> FilterTrips([FromQuery] TripFilterRequest filter)
+        public async Task<IActionResult> GetFilteredTrips([FromQuery] TripFilterRequest filter)
         {
             try
             {
-                var trips = await _tripService.FilterTripsAsync(filter);
-                return Ok(trips);
+                var result = await _tripService.GetFilteredTripsAsync(filter);
+                return Ok(result);
             }
             catch (Exception ex)
             {
