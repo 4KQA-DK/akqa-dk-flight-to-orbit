@@ -170,7 +170,5 @@ namespace UmbracoProject.Repository
             return trips;
         }
 
-
-
     }
 }
