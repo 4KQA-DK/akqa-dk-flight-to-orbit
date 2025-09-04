@@ -376,43 +376,84 @@ namespace UmbracoProject.Service
             return result;
         }
 
-       
-        public async Task<List<GetTripResponse>> FilterTripsAsync(TripFilterRequest filter)
+        public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter)
         {
             try
             {
-                var trips = await _tripRepository.FilterTripsAsync(filter);
+                // 1) Hent præcise ture (respekterer destination + passagerCount hvis sat)
+                var exactTrips = await _tripRepository.GetFilteredTripsAsync(filter);
 
-                if (trips == null || trips.Count == 0)
-                    throw new ArgumentException("No scheduled trips matches your filter.");
-
-                var result = new List<GetTripResponse>(trips.Count);
-                foreach (var trip in trips)
+                if (filter.DepartureDate.HasValue)
                 {
-                    var rocket = _contentService.GetById(trip.rocketKey);
-                    var destination = _contentService.GetById(trip.destinationKey);
-                    result.Add(new GetTripResponse
+                    if (exactTrips.Count > 0)
                     {
-                        TripId = trip.tripId,
-                        RocketName = rocket?.Name ?? "(rocket not found)",
-                        DestinationName = destination?.Name ?? "(destination not found)",
-                        DepartureUtc = trip.departureUtc,
-                        ArrivalUtc = trip.arrivalUtc,
-                        PassengerCount = trip.passengerCount,
-                        Price = trip.price,
-                        TripStatus = trip.tripStatus
-                    });
+                        // → Der findes ture på datoen: vis KUN dem
+                        return new TripFilterResponse
+                        {
+                            ExactMatches = EnrichTripsAsync(exactTrips),
+                            NearbyTrips = new(),
+                            SearchedDate = filter.DepartureDate,
+                            HasExactMatches = true
+                        };
+                    }
+
+                    // → Ingen ture på datoen: vis de 5 NÆSTE efter datoen (stadig filtreret)
+                    var nextTrips = await _tripRepository.FindNearbyTripsAsync(filter);
+                    return new TripFilterResponse
+                    {
+                        ExactMatches = new(),
+                        NearbyTrips = EnrichTripsAsync(nextTrips),
+                        SearchedDate = filter.DepartureDate,
+                        HasExactMatches = false,
+                        Message = $"$\"\"No trips are available on the selected date. Showing the nearest available departures that match your current filters.\"\"\r\n"
+                    };
                 }
-                return result;
-            }
-            catch (ArgumentException ex)
-            {
-                throw new ArgumentException(ex.Message);
+
+                // 2) Ingen dato valgt → vis alle der matcher destination + passagerer
+                return new TripFilterResponse
+                {
+                    ExactMatches = EnrichTripsAsync(exactTrips),
+                    NearbyTrips = new(),
+                    SearchedDate = null,
+                    HasExactMatches = exactTrips.Count > 0
+                };
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("Fejl under filtrering af planlagte ture.", ex);
+                throw new InvalidOperationException("Error occurred while filtering trips.", ex);
             }
+        }
+
+
+        /// <summary>
+        /// Enriches trip data with rocket and destination information.
+        /// </summary>
+        /// <param name="trips">Raw trip entities to enrich</param>
+        /// <returns>List of enriched trip responses</returns>
+        private List<GetTripResponse> EnrichTripsAsync(List<Trip> trips)
+        {
+            var result = new List<GetTripResponse>(trips.Count);
+
+            foreach (var trip in trips)
+            {
+                // Get rocket and destination details
+                var rocket = _contentService.GetById(trip.rocketKey);
+                var destination = _contentService.GetById(trip.destinationKey);
+
+                result.Add(new GetTripResponse
+                {
+                    TripId = trip.tripId,
+                    RocketName = rocket?.Name ?? "(rocket not found)",
+                    DestinationName = destination?.Name ?? "(destination not found)",
+                    DepartureUtc = trip.departureUtc,
+                    ArrivalUtc = trip.arrivalUtc,
+                    PassengerCount = trip.passengerCount,
+                    Price = trip.price,
+                    TripStatus = trip.tripStatus
+                });
+            }
+
+            return result;
         }
     }
 
