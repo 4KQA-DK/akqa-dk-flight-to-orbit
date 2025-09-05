@@ -9,11 +9,13 @@ namespace UmbracoProject.Service
     {
         private readonly ITripRepository _tripRepository;
         private readonly IContentService _contentService;
+        private readonly IRocketStatusService _rocketStatusService;
 
-        public TripService(ITripRepository tripRepository, IContentService contentService)
+        public TripService(ITripRepository tripRepository, IContentService contentService, IRocketStatusService rocketStatusService)
         {
             _tripRepository = tripRepository;
             _contentService = contentService;
+            _rocketStatusService = rocketStatusService;
         }
 
         public async Task<Guid> CreateTripAsync(CreateTripRequest request)
@@ -59,7 +61,28 @@ namespace UmbracoProject.Service
             {
                 throw new ArgumentException("Destination is in recycle bin.");
             }
-                
+
+            var currentRocketStatus = await _rocketStatusService.GetRocketStatusAsync(request.RocketKey);
+
+            if (currentRocketStatus == null)
+            {
+                await _rocketStatusService.SetAsync(request.RocketKey, RocketStatusCode.Idle);
+                currentRocketStatus = new RocketStatus
+                {
+                    rocketKey = request.RocketKey,
+                    rocketStatus = RocketStatusCode.Idle,
+                    lastUpdatedUtc = DateTime.UtcNow
+                };
+            }
+
+            // Block if rocket isn’t available
+            if (currentRocketStatus.rocketStatus is RocketStatusCode.Reserved
+                or RocketStatusCode.InFlight
+                or RocketStatusCode.Maintenance)
+            {
+                throw new InvalidOperationException("Rocket is not available for scheduling.");
+            }
+
             var trip = new Trip
             {
                 tripId = Guid.NewGuid(),
@@ -73,6 +96,7 @@ namespace UmbracoProject.Service
             };
 
             await _tripRepository.CreateTripAsync(trip);
+            await _rocketStatusService.SetAsync(request.RocketKey, RocketStatusCode.Reserved);
             return trip.tripId;
         }
 
@@ -124,9 +148,9 @@ namespace UmbracoProject.Service
 
             }
 
-            if ((trip.tripStatus == TripStatus.Ongoing || trip.tripStatus == TripStatus.Completed) && newTripStatus == TripStatus.Cancelled || newTripStatus == TripStatus.Schedueled)
+            if ((trip.tripStatus == TripStatus.Ongoing || trip.tripStatus == TripStatus.Completed) && (newTripStatus == TripStatus.Cancelled || newTripStatus == TripStatus.Schedueled))
             {
-                throw new InvalidOperationException("Cannot change status from Ongoing or Completed to Cancel or Scheduled.");
+                throw new InvalidOperationException("Cannot change status from Ongoing or Completed to Cancelled or Scheduled.");
             }
 
             if (trip.tripStatus == newTripStatus)
@@ -142,6 +166,7 @@ namespace UmbracoProject.Service
             }
             else
             {
+                await UpdateRocketStatusForTrip(trip.rocketKey, newTripStatus);
                 return true;
             }
         }
@@ -410,7 +435,7 @@ namespace UmbracoProject.Service
                         NearbyTrips = EnrichTripsAsync(nextTrips),
                         SearchedDate = filter.DepartureDate,
                         HasExactMatches = false,
-                        Message = $"$\"\"No trips are available on the selected date. Showing the nearest available departures that match your current filters.\"\"\r\n"
+                        Message = "No trips are available on the selected date. Showing the nearest available departures that match your current filters."
                     };
                 }
 
@@ -441,7 +466,6 @@ namespace UmbracoProject.Service
 
             foreach (var trip in trips)
             {
-                // Get rocket and destination details
                 var rocket = _contentService.GetById(trip.rocketKey);
                 var destination = _contentService.GetById(trip.destinationKey);
 
@@ -460,6 +484,30 @@ namespace UmbracoProject.Service
 
             return result;
         }
+
+        private async Task UpdateRocketStatusForTrip(Guid rocketKey, TripStatus newStatus)
+        {
+            switch (newStatus)
+            {
+                case TripStatus.Ongoing:
+                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.InFlight);
+                    break;
+
+                case TripStatus.Schedueled:
+                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.Reserved);
+                    break;
+
+                case TripStatus.Completed:
+                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.Idle);
+                    break;
+
+                case TripStatus.Cancelled:
+                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.Idle);
+                    break;  
+
+            }
+        }
+
     }
 
 }

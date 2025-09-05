@@ -47,7 +47,8 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
             migrationPlan.From(string.Empty)
-                .To<AddTransactionalTables>("transactional-tables-db");
+                .To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db");
+
 
             var upgrader = new Upgrader(migrationPlan);
             await upgrader.ExecuteAsync(_migrationPlanExecutor, _coreScopeProvider, _keyValueService);
