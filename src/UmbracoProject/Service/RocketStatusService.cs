@@ -11,41 +11,81 @@ namespace UmbracoProject.Service
 
         public RocketStatusService(IContentService contentService, IRocketStatusRepository repository)
         {
-            _contentService = contentService ?? throw new ArgumentNullException(nameof(contentService));
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _contentService = contentService;
+            _repository = repository;
         }
 
+        public async Task<RocketStatus> TryGetAsync(Guid rocketKey)
+        {
+            ValidateRocketExists(rocketKey);
+            return await _repository.GetAsync(rocketKey); 
+        }
 
-        public async Task<RocketStatus> GetRocketStatusAsync(Guid rocketKey)
+        public async Task<RocketStatus> CreateStatusOnPublishAsync(Guid rocketKey)
         {
             ValidateRocketExists(rocketKey);
 
-            var row = await _repository.GetAsync(rocketKey);
-            if (row != null)
+            var current = await _repository.GetAsync(rocketKey);
+            if (current != null) return current;
+
+            var now = DateTime.UtcNow;
+            var created = new RocketStatus
             {
-                return row;
-            }
-            else
-            {
-                return await _repository.UpsertAsync(rocketKey, RocketStatusCode.Idle);
-            }
+                rocketKey = rocketKey,
+                rocketStatus = RocketStatusCode.Idle,
+                lastUpdatedUtc = now
+            };
+            return await _repository.CreateAsync(created);
         }
 
-        public async Task SetAsync(Guid rocketKey, RocketStatusCode status)
+        public async Task UpdateAsync(Guid rocketKey, RocketStatusCode newStatus)
         {
             ValidateRocketExists(rocketKey);
 
+            var row = await _repository.GetAsync(rocketKey)
+                      ?? throw new InvalidOperationException("RocketStatus row does not exist.");
 
+            if (row.rocketStatus == newStatus) return;
 
-            await _repository.UpsertAsync(rocketKey, status);
+            var from = row.rocketStatus;
+            var allowed = false;
+
+            if (from == RocketStatusCode.Idle)
+            {
+                allowed = newStatus == RocketStatusCode.Reserved
+                       || newStatus == RocketStatusCode.Maintenance;
+            }
+            else if (from == RocketStatusCode.Reserved)
+            {
+                allowed = newStatus == RocketStatusCode.InFlight
+                       || newStatus == RocketStatusCode.Idle;
+            }
+            else if (from == RocketStatusCode.InFlight)
+            {
+                allowed = newStatus == RocketStatusCode.Idle
+                       || newStatus == RocketStatusCode.Maintenance;
+            }
+            else if (from == RocketStatusCode.Maintenance)
+            {
+                allowed = newStatus == RocketStatusCode.Idle;
+            }
+
+            if (!allowed)
+                throw new InvalidOperationException($"Invalid rocket status change: {from} → {newStatus}.");
+
+            row.rocketStatus = newStatus;
+            row.lastUpdatedUtc = DateTime.UtcNow;
+            await _repository.UpdateAsync(row);
         }
+
+
+        public Task DeleteAsync(Guid rocketKey) => _repository.DeleteAsync(rocketKey);
+
 
         private void ValidateRocketExists(Guid rocketKey)
         {
             if (rocketKey == Guid.Empty) throw new ArgumentException("Rocket key is required.", nameof(rocketKey));
-
-            var content = _contentService.GetById(rocketKey);
-            if (content is null) throw new ArgumentException("Rocket not found.");
+            var content = _contentService.GetById(rocketKey) ?? throw new ArgumentException("Rocket not found.");
             if (content.Trashed) throw new ArgumentException("Rocket is in recycle bin.");
         }
     }

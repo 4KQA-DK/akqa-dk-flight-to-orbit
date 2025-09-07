@@ -11,111 +11,41 @@ namespace UmbracoProject.Controller
     public class TripController : ControllerBase
     {
         private readonly ITripService _tripService;
+        private readonly IAdminTripService _adminTripService;
 
-        public TripController(ITripService tripService)
+        public TripController(ITripService tripService, IAdminTripService adminTripService)
         {
             _tripService = tripService;
+            _adminTripService = adminTripService;
         }
 
         [HttpPost]
-        [Route("create")]
+        [Route("create/trip")]
         public async Task<IActionResult> Create([FromBody] CreateTripRequest request)
         {
+
+            if (request == null)
+            {
+                return BadRequest("Request is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+
+            }
             try
             {
-                var id = await _tripService.CreateTripAsync(request);
+                var id = await _adminTripService.CreateTripAsync(request);
                 return Ok(new { tripId = id });
             }
             catch (ArgumentException ex)
             {
                 return BadRequest(new { error = ex.Message });
             }
-            catch (Exception)
+            catch (InvalidOperationException ex)
             {
-                return StatusCode(500, new { error = "Failed to create trip." });
-            }
-        }
-
-        [HttpGet]
-        [Route("get/{id}")]
-        public async Task<IActionResult> GetTrip(Guid id)
-        {
-            try
-            {
-                var trip = await _tripService.GetTripAsync(id);
-                return Ok(trip);
-            }
-            catch (ArgumentException ex)
-            {
-
-                return BadRequest(new { error = ex.Message });
-
-            }
-        }
-
-        [HttpGet]
-        [Route("getall")]
-        public async Task<IActionResult> GetAllTrips()
-        {
-            try
-            {
-                var trip = await _tripService.GetAllTripsAsync();
-                return Ok(trip);
-            }
-            catch (ArgumentException ex)
-            {
-
-                return BadRequest(new { error = ex.Message });
-
-            }
-        }
-
-        [HttpGet]
-        [Route("getallbypriceasc")]
-        public async Task<IActionResult> GetAllTripsPriceAsc()
-        {
-            try
-            {
-                var trip = await _tripService.GetAllTripsPriceAscAsync();
-                return Ok(trip);
-            }
-            catch (ArgumentException ex)
-            {
-
-                return BadRequest(new { error = ex.Message });
-
-            }
-        }
-
-        [HttpGet]
-        [Route("getallbytimetravelasc")]
-        public async Task<IActionResult> GetAllTripsTravelTimeAsc()
-        {
-            try
-            {
-                var trip = await _tripService.GetAllTripsTravelTimeAscAsync();
-                return Ok(trip);
-            }
-            catch (ArgumentException ex)
-            {
-
-                return BadRequest(new { error = ex.Message });
-
-            }
-        }
-
-        [HttpGet]
-        [Route("getallbydestination/{destination}")]
-        public async Task<IActionResult> GetAllTripsByDestination(Guid destination)
-        {
-            try
-            {
-                var trip = await _tripService.GetAllTripsByDestinationAsync(destination);
-                return Ok(trip);
-            }
-            catch (ArgumentException ex)
-            {
-                return BadRequest(new { error = ex.Message });
+                return Conflict(new { Error = ex.Message });
             }
             catch (Exception ex)
             {
@@ -123,16 +53,83 @@ namespace UmbracoProject.Controller
             }
         }
 
-        /// <summary>
-        /// Filters space trips based on specified criteria and returns matching scheduled trips.
-        /// </summary>
-        /// <param name="filter">Filter criteria including departure/arrival dates, destination, and passenger count</param>
-        /// <returns>HTTP response containing filtered trip data or error message</returns>
-        /// <response code="200">Returns list of filtered trips with rocket and destination details</response>
-        /// <response code="500">Internal server error occurred during filtering</response>
+        [HttpGet]
+        [Route("get/trip/{id}")]
+        public async Task<IActionResult> GetTrip(Guid id)
+        {
+            try
+            {
+                var trip = await _adminTripService.GetTripAsync(id);
+                return Ok(trip);
+            }
+            catch (KeyNotFoundException ex) 
+            {
+                return NotFound(new { error = ex.Message }); 
+            }
+        }
 
         [HttpGet]
-        [Route("gettripsfiltered")]
+        [Route("get/all/trips")]
+        public async Task<IActionResult> GetAllTrips()
+        {
+            var trips = await _adminTripService.GetAllTripsAsync();
+            return Ok(trips);
+        }
+
+        [HttpPatch]
+        [Route("update/tripstatus/{id}/{status}")]
+        public async Task<IActionResult> UpdateStatus(Guid id, TripStatus status)
+        {
+            if (id == Guid.Empty)
+            {
+                return BadRequest(new { error = "Valid trip ID is required." });
+            }
+
+            if (!Enum.IsDefined(typeof(TripStatus), status))
+            {
+                return BadRequest(new { error = "Invalid trip status." });
+            }
+
+            try
+            {
+                var result = await _adminTripService.UpdateTripStatusAsync(id, status);
+                return Ok(new { success = result });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return Conflict(new { error = ex.Message });
+            }
+        }
+
+
+        [HttpPost("cancel/trip/{tripid}")]
+        public async Task<IActionResult> CancelTrip(Guid tripid)
+        {
+            try
+            {
+                await _adminTripService.CancelTripAsync(tripid);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+
+                return BadRequest(new { error = ex.Message });
+            }
+
+        }
+
+
+        [HttpGet]
+        [Route("get/trips/filtered")]
         public async Task<IActionResult> GetFilteredTrips([FromQuery] TripFilterRequest filter)
         {
             try
@@ -146,41 +143,7 @@ namespace UmbracoProject.Controller
             }
         }
 
-        [HttpPatch]
-        [Route("update/{id}/{status}")]
-        public async Task<IActionResult> UpdateStatus(Guid id, TripStatus status)
-        {
-
-            try
-            {
-                return Ok(await _tripService.UpdateTripStatusAsync(id, status));
-            }
-            catch (InvalidOperationException ex)
-            {
-                return BadRequest(new { error = ex.Message });
-            }
-            catch
-            {
-                return StatusCode(500, new { error = "Failed to load available trips." });
-            }
-        }
-
-        [HttpGet("available/{groupSize}")]
-        public async Task<IActionResult> GetAvailableTickets(int groupSize)
-        {
-            try 
-            { 
-                return Ok(await _tripService.GetAvailableTripsAsync(groupSize)); 
-            }
-            catch (ArgumentException ex) 
-            { 
-                return BadRequest(new { error = ex.Message }); 
-            }
-            catch 
-            { 
-                return StatusCode(500, new { error = "Failed to load available trips." }); 
-            }
-        }
+        
 
     }
 }

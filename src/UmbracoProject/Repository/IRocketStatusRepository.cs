@@ -4,7 +4,9 @@ namespace UmbracoProject.Repository
 {
     public interface IRocketStatusRepository
     {
-        Task<RocketStatus?> GetAsync(Guid rocketKey);
-        Task <RocketStatus> UpsertAsync(Guid rocketKey, RocketStatusCode status);
+        Task<RocketStatus> GetAsync(Guid rocketKey);
+        Task<RocketStatus> CreateAsync(RocketStatus row);
+        Task UpdateAsync(RocketStatus row);
+        Task DeleteAsync(Guid rocketKey);
     }
 }

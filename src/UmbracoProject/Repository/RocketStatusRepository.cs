@@ -13,52 +13,36 @@ namespace UmbracoProject.Repository
             _scopeProvider = scopeProvider;
         }
 
-        public async Task<RocketStatus?> GetAsync(Guid rocketKey)
+        public async Task<RocketStatus> GetAsync(Guid rocketKey)
         {
-            if (rocketKey == Guid.Empty) throw new ArgumentException("rocketKey is required.", nameof(rocketKey));
-
             using var scope = _scopeProvider.CreateScope();
             var db = scope.Database;
-
             var sql = new NPoco.Sql("SELECT * FROM [RocketStatus] WHERE [rocketKey] = @0", rocketKey);
-            var rocketstatus = await db.SingleOrDefaultAsync<RocketStatus>(sql);
-
+            var row = await db.SingleOrDefaultAsync<RocketStatus>(sql);
             scope.Complete();
-            return rocketstatus;
+            return row;
         }
 
-        public async Task<RocketStatus> UpsertAsync(Guid rocketKey, RocketStatusCode status)
+        public async Task<RocketStatus> CreateAsync(RocketStatus row)
         {
-            if (rocketKey == Guid.Empty) throw new ArgumentException("rocketKey is required.", nameof(rocketKey));
-
             using var scope = _scopeProvider.CreateScope(autoComplete: true);
-            var db = scope.Database;
-
-            var existing = await db.SingleOrDefaultAsync<RocketStatus>(
-                new NPoco.Sql("SELECT * FROM [RocketStatus] WHERE [rocketKey] = @0", rocketKey));
-
-            var now = DateTime.UtcNow;
-
-            if (existing is null)
-            {
-                await db.InsertAsync(new RocketStatus
-                {
-                    rocketKey = rocketKey,
-                    rocketStatus = status,
-                    lastUpdatedUtc = now
-                });
-            }
-            else
-            {
-                if (existing.rocketStatus != status)
-                {
-                    existing.rocketStatus = status;
-                    existing.lastUpdatedUtc = now;
-                    await db.UpdateAsync(existing);
-                }
-            }
-
-            return existing;
+            await scope.Database.InsertAsync(row);
+            return row;
         }
+
+        public async Task UpdateAsync(RocketStatus row)
+        {
+            using var scope = _scopeProvider.CreateScope();
+            await scope.Database.UpdateAsync(row);
+            scope.Complete();
+        }
+
+        public async Task DeleteAsync(Guid rocketKey)
+        {
+            using var scope = _scopeProvider.CreateScope(autoComplete: true);
+            await scope.Database.ExecuteAsync(
+                new NPoco.Sql("DELETE FROM [RocketStatus] WHERE [rocketKey] = @0", rocketKey));
+        }
+
     }
 }

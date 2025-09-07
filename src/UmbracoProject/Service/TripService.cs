@@ -18,406 +18,16 @@ namespace UmbracoProject.Service
             _rocketStatusService = rocketStatusService;
         }
 
-        public async Task<Guid> CreateTripAsync(CreateTripRequest request)
-        {
-            if (request is null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            if (request.RocketKey == Guid.Empty)
-            {
-                throw new ArgumentException("RocketKey is required.");
-            }
-
-            if (request.DestinationKey == Guid.Empty) 
-            { 
-                throw new ArgumentException("DestinationKey is required."); 
-            }
-
-            if (request.ArrivalUtc <= request.DepartureUtc)
-            {
-                throw new ArgumentException("ArrivalUtc must be after DepartureUtc.");
-            }
-
-
-            var rocket = _contentService.GetById(request.RocketKey);
-            if (rocket == null)
-            {
-                throw new ArgumentException("Rocket not found.");
-            }
-            else if (rocket.Trashed) 
-            {
-                throw new ArgumentException("Rocket is in recycle bin."); 
-            }
-
-            var destination = _contentService.GetById(request.DestinationKey);
-            if (destination == null)
-            {
-                throw new ArgumentException("Destination not found.");
-
-            }
-            if (destination.Trashed)
-            {
-                throw new ArgumentException("Destination is in recycle bin.");
-            }
-
-            var currentRocketStatus = await _rocketStatusService.GetRocketStatusAsync(request.RocketKey);
-
-            if (currentRocketStatus == null)
-            {
-                await _rocketStatusService.SetAsync(request.RocketKey, RocketStatusCode.Idle);
-                currentRocketStatus = new RocketStatus
-                {
-                    rocketKey = request.RocketKey,
-                    rocketStatus = RocketStatusCode.Idle,
-                    lastUpdatedUtc = DateTime.UtcNow
-                };
-            }
-
-            // Block if rocket isn’t available
-            if (currentRocketStatus.rocketStatus is RocketStatusCode.Reserved
-                or RocketStatusCode.InFlight
-                or RocketStatusCode.Maintenance)
-            {
-                throw new InvalidOperationException("Rocket is not available for scheduling.");
-            }
-
-            var trip = new Trip
-            {
-                tripId = Guid.NewGuid(),
-                rocketKey = request.RocketKey,
-                destinationKey = request.DestinationKey,
-                departureUtc = request.DepartureUtc,
-                arrivalUtc = request.ArrivalUtc,
-                passengerCount = request.PassengerCount,
-                price = request.Price,
-                tripStatus = TripStatus.Schedueled
-            };
-
-            await _tripRepository.CreateTripAsync(trip);
-            await _rocketStatusService.SetAsync(request.RocketKey, RocketStatusCode.Reserved);
-            return trip.tripId;
-        }
-
-        public async Task<GetTripResponse> GetTripAsync(Guid tripId)
-        {
-            var trip = await _tripRepository.GetTripByIdAsync(tripId);
-            if (trip is null)
-            {
-                throw new ArgumentException("Trip not found");
-            }
-                
-
-            var rocket = _contentService.GetById(trip.rocketKey);
-            var destination = _contentService.GetById(trip.destinationKey);
-
-            var dto = new GetTripResponse
-            {
-                TripId = trip.tripId,
-                RocketName = rocket?.Name ?? "(rocket not found)",
-                DestinationName = destination?.Name ?? "(destination not found)",
-                DepartureUtc = trip.departureUtc,
-                ArrivalUtc = trip.arrivalUtc,
-                PassengerCount = trip.passengerCount,
-                Price = trip.price,
-                TripStatus = trip.tripStatus
-            };
-
-            return dto;
-        }
-
-       
-        public async Task<bool> UpdateTripStatusAsync(Guid id, TripStatus newTripStatus)
-        {
-            if (id == Guid.Empty)
-            {
-                throw new ArgumentException("Trip id is required.", nameof(id));
-            }
-
-            var trip = await _tripRepository.GetTripByIdAsync(id);
-
-            if (trip is null)
-            {
-                throw new KeyNotFoundException("Trip not found.");
-            }
-                
-            if (trip.tripStatus == TripStatus.Schedueled && newTripStatus == TripStatus.Completed)
-            {
-                throw new InvalidOperationException("Cannot change status from Schedueled directly to Completed. Move to Ongoing first.");
-
-            }
-
-            if ((trip.tripStatus == TripStatus.Ongoing || trip.tripStatus == TripStatus.Completed) && (newTripStatus == TripStatus.Cancelled || newTripStatus == TripStatus.Schedueled))
-            {
-                throw new InvalidOperationException("Cannot change status from Ongoing or Completed to Cancelled or Scheduled.");
-            }
-
-            if (trip.tripStatus == newTripStatus)
-            {
-                return true;
-            }
-
-            var updatedTrip = await _tripRepository.UpdateStatusAsync(id, newTripStatus);
-            if (updatedTrip == false)
-            {
-                throw new InvalidOperationException("Failed to update trip status.");
-
-            }
-            else
-            {
-                await UpdateRocketStatusForTrip(trip.rocketKey, newTripStatus);
-                return true;
-            }
-        }
-
-        public async Task<List<GetTripResponse>> GetAllTripsAsync()
-        {
-            List<Trip> trips = new List<Trip>();
-            try
-            {
-                trips = (await _tripRepository.GetAllTripsAsync()).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Failed to load trips from database.", ex);
-            }
-
-            var result = new List<GetTripResponse>(trips.Count);
-
-            foreach (var trip in trips)
-            {
-                string rocketName = "(rocket not found)";
-                string destinationName = "(destination not found)";
-
-                try
-                {
-                    var rocket = _contentService.GetById(trip.rocketKey);
-                    if (rocket is not null && !rocket.Trashed)
-                        rocketName = rocket.Name;
-
-                    var destination = _contentService.GetById(trip.destinationKey);
-                    if (destination is not null && !destination.Trashed)
-                        destinationName = destination.Name;
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("Failed to resolve rocket/destination names.", ex);
-                }
-
-                result.Add(new GetTripResponse
-                {
-                    TripId = trip.tripId,
-                    RocketName = rocketName,
-                    DestinationName = destinationName,
-                    DepartureUtc = trip.departureUtc,
-                    ArrivalUtc = trip.arrivalUtc,
-                    PassengerCount = trip.passengerCount,
-                    Price = trip.price,
-                    TripStatus = trip.tripStatus
-                });
-            }
-
-            return result;
-        }
-
-        public async Task<List<GetTripResponse>> GetAllTripsPriceAscAsync()
-        {
-            List<Trip> trips = new List<Trip>();
-            try
-            {
-                trips = (await _tripRepository.GetAllTripsPriceAscAsync()).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Failed to load trips from database.", ex);
-            }
-
-            var result = new List<GetTripResponse>(trips.Count);
-
-            foreach (var trip in trips)
-            {
-                string rocketName = "(rocket not found)";
-                string destinationName = "(destination not found)";
-
-                try
-                {
-                    var rocket = _contentService.GetById(trip.rocketKey);
-                    if (rocket is not null && !rocket.Trashed)
-                        rocketName = rocket.Name;
-
-                    var destination = _contentService.GetById(trip.destinationKey);
-                    if (destination is not null && !destination.Trashed)
-                        destinationName = destination.Name;
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("Failed to resolve rocket/destination names.", ex);
-                }
-
-                result.Add(new GetTripResponse
-                {
-                    TripId = trip.tripId,
-                    RocketName = rocketName,
-                    DestinationName = destinationName,
-                    DepartureUtc = trip.departureUtc,
-                    ArrivalUtc = trip.arrivalUtc,
-                    PassengerCount = trip.passengerCount,
-                    Price = trip.price,
-                    TripStatus = trip.tripStatus
-                });
-            }
-
-            return result;
-
-        }
-
-        public async Task<List<GetTripResponse>> GetAllTripsTravelTimeAscAsync()
-        {
-            List<Trip> trips = new List<Trip>();
-            try
-            {
-                trips = (await _tripRepository.GetAllTripsTravelTimeAscAsync()).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Failed to load trips from database.", ex);
-            }
-
-            var result = new List<GetTripResponse>(trips.Count);
-
-            foreach (var trip in trips)
-            {
-                string rocketName = "(rocket not found)";
-                string destinationName = "(destination not found)";
-
-                try
-                {
-                    var rocket = _contentService.GetById(trip.rocketKey);
-                    if (rocket is not null && !rocket.Trashed)
-                        rocketName = rocket.Name;
-
-                    var destination = _contentService.GetById(trip.destinationKey);
-                    if (destination is not null && !destination.Trashed)
-                        destinationName = destination.Name;
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("Failed to resolve rocket/destination names.", ex);
-                }
-
-                result.Add(new GetTripResponse
-                {
-                    TripId = trip.tripId,
-                    RocketName = rocketName,
-                    DestinationName = destinationName,
-                    DepartureUtc = trip.departureUtc,
-                    ArrivalUtc = trip.arrivalUtc,
-                    PassengerCount = trip.passengerCount,
-                    Price = trip.price,
-                    TripStatus = trip.tripStatus
-                });
-            }
-
-            return result;
-        }
-
-        public async Task<List<GetTripResponse>> GetAllTripsByDestinationAsync(Guid destinationId)
-        {
-            if (destinationId == Guid.Empty)
-            {
-                throw new ArgumentException("Destination id is required.", nameof(destinationId));
-            }
-            var destination = _contentService.GetById(destinationId);
-            if (destination == null)
-            {
-                throw new ArgumentException("Destination not found.");
-            }
-            if (destination.Trashed)
-            {
-                throw new ArgumentException("Destination is in recycle bin.");
-            }
-            List<Trip> trips = new List<Trip>();
-            try
-            {
-                trips = (await _tripRepository.GetAllTripsByDestination(destinationId)).ToList();
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Failed to load trips from database.", ex);
-            }
-            var result = new List<GetTripResponse>(trips.Count);
-            foreach (var trip in trips)
-            {
-                string rocketName = "(rocket not found)";
-                string destinationName = "(destination not found)";
-                try
-                {
-                    var rocket = _contentService.GetById(trip.rocketKey);
-                    if (rocket is not null && !rocket.Trashed)
-                        rocketName = rocket.Name;
-                    var dest = _contentService.GetById(trip.destinationKey);
-                    if (dest is not null && !dest.Trashed)
-                        destinationName = dest.Name;
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("Failed to resolve rocket/destination names.", ex);
-                }
-                result.Add(new GetTripResponse
-                {
-                    TripId = trip.tripId,
-                    RocketName = rocketName,
-                    DestinationName = destinationName,
-                    DepartureUtc = trip.departureUtc,
-                    ArrivalUtc = trip.arrivalUtc,
-                    PassengerCount = trip.passengerCount,
-                    Price = trip.price,
-                    TripStatus = trip.tripStatus
-                });
-            }
-            return result;
-        }
-
-        public async Task<List<GetTripResponse>> GetAvailableTripsAsync(int groupSize)
-        {
-            if (groupSize <= 0) throw new ArgumentException("Group size must be > 0.", nameof(groupSize));
-
-            var trips = await _tripRepository.GetScheduledTripsWithMinCapacityAsync(groupSize);
-
-            var result = new List<GetTripResponse>(trips.Count);
-            foreach (var t in trips)
-            {
-                var rocket = _contentService.GetById(t.rocketKey);
-                var dest = _contentService.GetById(t.destinationKey);
-
-                result.Add(new GetTripResponse
-                {
-                    TripId = t.tripId,
-                    RocketName = rocket?.Name ?? "(rocket not found)",
-                    DestinationName = dest?.Name ?? "(destination not found)",
-                    DepartureUtc = t.departureUtc,
-                    ArrivalUtc = t.arrivalUtc,
-                    PassengerCount = t.passengerCount,
-                    Price = t.price,
-                    TripStatus = t.tripStatus
-                });
-            }
-            return result;
-        }
-
         public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter)
         {
             try
             {
-                // 1) Hent præcise ture (respekterer destination + passagerCount hvis sat)
                 var exactTrips = await _tripRepository.GetFilteredTripsAsync(filter);
 
                 if (filter.DepartureDate.HasValue)
                 {
                     if (exactTrips.Count > 0)
                     {
-                        // → Der findes ture på datoen: vis KUN dem
                         return new TripFilterResponse
                         {
                             ExactMatches = EnrichTripsAsync(exactTrips),
@@ -427,25 +37,37 @@ namespace UmbracoProject.Service
                         };
                     }
 
-                    // → Ingen ture på datoen: vis de 5 NÆSTE efter datoen (stadig filtreret)
                     var nextTrips = await _tripRepository.FindNearbyTripsAsync(filter);
+
+                    if (nextTrips.Count > 0)
+                    {
+                        return new TripFilterResponse
+                        {
+                            ExactMatches = new(),
+                            NearbyTrips = EnrichTripsAsync(nextTrips),
+                            SearchedDate = filter.DepartureDate,
+                            HasExactMatches = false,
+                            Message = "No trips are available on the selected date. Showing the nearest available departures that match your current filters."
+                        };
+                    }
+
                     return new TripFilterResponse
                     {
                         ExactMatches = new(),
-                        NearbyTrips = EnrichTripsAsync(nextTrips),
+                        NearbyTrips = new(),
                         SearchedDate = filter.DepartureDate,
                         HasExactMatches = false,
-                        Message = "No trips are available on the selected date. Showing the nearest available departures that match your current filters."
+                        Message = "No trips match your current filters. Try another date or destination."
                     };
                 }
 
-                // 2) Ingen dato valgt → vis alle der matcher destination + passagerer
                 return new TripFilterResponse
                 {
                     ExactMatches = EnrichTripsAsync(exactTrips),
                     NearbyTrips = new(),
                     SearchedDate = null,
-                    HasExactMatches = exactTrips.Count > 0
+                    HasExactMatches = exactTrips.Count > 0,
+                    Message = exactTrips.Count == 0 ? ("No trips match your current filters.") : null
                 };
             }
             catch (Exception ex)
@@ -455,11 +77,6 @@ namespace UmbracoProject.Service
         }
 
 
-        /// <summary>
-        /// Enriches trip data with rocket and destination information.
-        /// </summary>
-        /// <param name="trips">Raw trip entities to enrich</param>
-        /// <returns>List of enriched trip responses</returns>
         private List<GetTripResponse> EnrichTripsAsync(List<Trip> trips)
         {
             var result = new List<GetTripResponse>(trips.Count);
@@ -483,29 +100,6 @@ namespace UmbracoProject.Service
             }
 
             return result;
-        }
-
-        private async Task UpdateRocketStatusForTrip(Guid rocketKey, TripStatus newStatus)
-        {
-            switch (newStatus)
-            {
-                case TripStatus.Ongoing:
-                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.InFlight);
-                    break;
-
-                case TripStatus.Schedueled:
-                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.Reserved);
-                    break;
-
-                case TripStatus.Completed:
-                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.Idle);
-                    break;
-
-                case TripStatus.Cancelled:
-                    await _rocketStatusService.SetAsync(rocketKey, RocketStatusCode.Idle);
-                    break;  
-
-            }
         }
 
     }
