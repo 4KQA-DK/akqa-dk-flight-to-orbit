@@ -47,7 +47,9 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
             migrationPlan.From(string.Empty)
-                .To<AddTransactionalTables>("transactional-tables-db");
+                .To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2");        // RocketStatus (new step)
+
+
 
             var upgrader = new Upgrader(migrationPlan);
             await upgrader.ExecuteAsync(_migrationPlanExecutor, _coreScopeProvider, _keyValueService);
@@ -93,7 +95,8 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             }
             else
             {
-                Logger.LogDebug("The database table {DbTable} already exists, skipping", "Trip");
+                Logger.LogDebug("The database table {DbTable} already exists, skipping", "Passenger");
+
             }
 
             await Task.CompletedTask;
@@ -173,5 +176,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             [Column("tripStatus")]
             public int tripStatus { get; set; }
         }
+
+        
     }
 }

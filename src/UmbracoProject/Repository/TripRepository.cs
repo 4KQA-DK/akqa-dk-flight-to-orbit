@@ -54,56 +54,7 @@ namespace UmbracoProject.Repository
             return tripsAffected > 0;
         }
 
-        public async Task<List<Trip>> GetAllTripsPriceAscAsync()
-        {
-            using var scope = _scopeProvider.CreateScope();
-            var db = scope.Database;
-
-            var sql = new NPoco.Sql("SELECT * FROM [Trip] ORDER BY price ASC");
-            var trips = await db.FetchAsync<Trip>(sql);
-            scope.Complete();
-            return trips;
-        }
-
-        public async Task<List<Trip>> GetAllTripsTravelTimeAscAsync()
-        {
-            using var scope = _scopeProvider.CreateScope();
-            var db = scope.Database;
-
-            var sql = new NPoco.Sql("SELECT  t.*\r\nFROM    dbo.[Trip] AS t WHERE   t.departureUtc IS NOT NULL AND t.arrivalUtc IS NOT NULL AND t.arrivalUtc > t.departureUtc ORDER BY DATEDIFF(SECOND, t.departureUtc, t.arrivalUtc) ASC;");
-            var trips = await db.FetchAsync<Trip>(sql);
-            scope.Complete();
-            return trips;
-        }
-
-        public async Task<List<Trip>> GetAllTripsByDestination(Guid destinationId)
-        {
-            using var scope = _scopeProvider.CreateScope();
-            var db = scope.Database;
-
-            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [destinationKey] = @0", destinationId);
-            var trips = await db.FetchAsync<Trip>(sql);
-            scope.Complete();
-            return trips;
-        }
-
-        public async Task<List<Trip>> GetScheduledTripsWithMinCapacityAsync(int groupSize)
-        {
-            using var scope = _scopeProvider.CreateScope();
-            var db = scope.Database;
-
-            var sql = new NPoco.Sql(
-                @"SELECT * FROM [Trip]
-          WHERE [tripStatus] = @1
-            AND [passengerCount] >= @0
-          ORDER BY [departureUtc] ASC",
-                groupSize, (int)TripStatus.Schedueled);
-
-            var trips = await db.FetchAsync<Trip>(sql);
-            scope.Complete();
-            return trips;
-        }
-
+    
 
         public async Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter)
         {
@@ -117,7 +68,6 @@ namespace UmbracoProject.Repository
 
             if (filter.DepartureDate.HasValue)
             {
-                // Compare DATE to DATE (time ignored)
                 var d = filter.DepartureDate.Value.ToDateTime(TimeOnly.MinValue);
                 sql.Append(" AND CAST([departureUtc] AS DATE) = @0 ", d);
             }
@@ -125,11 +75,26 @@ namespace UmbracoProject.Repository
             if (filter.PassengerCount.HasValue)
                 sql.Append(" AND [passengerCount] >= @0 ", filter.PassengerCount.Value);
 
-            sql.Append(" ORDER BY [departureUtc] ASC ");
+            sql.Append(BuildOrderBy(filter.SortBy));
 
             var trips = await db.FetchAsync<Trip>(sql);
             scope.Complete();
             return trips;
+        }
+
+        private static string BuildOrderBy(TripSortBy by)
+        {
+            if (by == TripSortBy.Price)
+            {
+                return " ORDER BY [price] ASC, [departureUtc] ASC, [tripId] ASC";
+            }
+
+            if (by == TripSortBy.Duration)
+            {
+                return " ORDER BY DATEDIFF(SECOND, [departureUtc], [arrivalUtc]) ASC, [departureUtc] ASC, [tripId] ASC";
+            }
+                
+            return " ORDER BY [departureUtc] ASC, [tripId] ASC";
         }
 
 
@@ -145,12 +110,12 @@ namespace UmbracoProject.Repository
             // 5 FØR
             var prevSql = new NPoco.Sql(
                 @"SELECT TOP (5) * FROM [Trip]
-          WHERE [tripStatus] = @0
-            AND CAST([departureUtc] AS DATE) < @1",
-                (int)TripStatus.Schedueled, day);
+                WHERE [tripStatus] = @0
+                AND CAST([departureUtc] AS DATE) < @1", (int)TripStatus.Schedueled, day);
 
             if (filter.DestinationKey.HasValue)
                 prevSql.Append(" AND [destinationKey] = @0", filter.DestinationKey.Value);
+
             if (filter.PassengerCount.HasValue)
                 prevSql.Append(" AND [passengerCount] >= @0", filter.PassengerCount.Value);
 
@@ -159,12 +124,12 @@ namespace UmbracoProject.Repository
             // 5 EFTER
             var nextSql = new NPoco.Sql(
                 @"SELECT TOP (5) * FROM [Trip]
-          WHERE [tripStatus] = @0
-            AND CAST([departureUtc] AS DATE) > @1",
-                (int)TripStatus.Schedueled, day);
+                WHERE [tripStatus] = @0
+                AND CAST([departureUtc] AS DATE) > @1", (int)TripStatus.Schedueled, day);
 
             if (filter.DestinationKey.HasValue)
                 nextSql.Append(" AND [destinationKey] = @0", filter.DestinationKey.Value);
+            
             if (filter.PassengerCount.HasValue)
                 nextSql.Append(" AND [passengerCount] >= @0", filter.PassengerCount.Value);
 
@@ -182,7 +147,26 @@ namespace UmbracoProject.Repository
             return result;
         }
 
+        public async Task<bool> HasOverlappingTripByDateAsync(Guid rocketKey, DateOnly startDate, DateOnly endDate,int turnaroundDays)
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
 
+            var fromDate = startDate.AddDays(-turnaroundDays).ToDateTime(TimeOnly.MinValue);
+            var toDate = endDate.AddDays(turnaroundDays).ToDateTime(TimeOnly.MaxValue);
 
+            var sql = new NPoco.Sql(@"
+            SELECT TOP (1) 1
+            FROM [Trip]
+            WHERE [rocketKey] = @0
+            AND [tripStatus] IN (@1, @2)
+            AND [departureUtc] <= @3
+            AND [arrivalUtc]   >= @4", rocketKey, (int)TripStatus.Schedueled, (int)TripStatus.Ongoing, toDate, fromDate);
+
+            var row = await db.SingleOrDefaultAsync<int?>(sql);
+            scope.Complete();
+            return row.HasValue;
+        }
     }
+
 }

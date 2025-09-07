@@ -1,5 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Cms.Core.Notifications;
+using UmbracoProject.NotificationHandler;
 using UmbracoProject.Repository;
 using UmbracoProject.Service;
 
@@ -24,19 +26,24 @@ public class Program
         // API + DI
         builder.Services.AddControllers().AddJsonOptions(o =>
             o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
+
+        builder.Services.AddScoped<IAdminTripService, AdminTripService>();
         builder.Services.AddScoped<ITripService, TripService>();
         builder.Services.AddScoped<ITripRepository, TripRepository>();
+        builder.Services.AddScoped<IRocketStatusService, RocketStatusService>();
+        builder.Services.AddScoped<IRocketStatusRepository, RocketStatusRepository>();
+
 
         builder.CreateUmbracoBuilder()
             .AddBackOffice()
             .AddWebsite()
             .AddComposers()
             .AddDeliveryApi()
+            .AddNotificationAsyncHandler<ContentPublishedNotification, RocketPublishedHandler>()
             .Build();
 
         var app = builder.Build();
 
-        // Swagger UI at /swagger
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
