@@ -1,0 +1,151 @@
+﻿// /Service/BookingService.cs
+using UmbracoProject.DTO;
+using UmbracoProject.Models;
+using UmbracoProject.Repository;
+
+namespace UmbracoProject.Service
+{
+    public class BookingService : IBookingService
+    {
+        private readonly IBookingRepository _bookingRepo;
+        private readonly ITripRepository _tripRepo;
+        private IAdminTripService _adminTripService;
+
+        public BookingService(IBookingRepository bookingRepo, ITripRepository tripRepo, IAdminTripService adminTripService)
+        {
+            _bookingRepo = bookingRepo;
+            _tripRepo = tripRepo;
+            _adminTripService = adminTripService;
+        }
+
+        public async Task<CreateBookingResponse> CreateAsync(CreateBookingRequest request)
+        {
+            if (request is null) 
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+            if (request.Passengers.Count == 0) 
+            {
+                throw new ArgumentException("At least one passenger is required.");
+            }
+
+            var trip = await _adminTripService.GetTripAsync(request.TripId)
+                       ?? throw new ArgumentException("Trip not found.", nameof(request.TripId));
+
+            if (trip.TripStatus != TripStatus.Schedueled)
+            {
+                throw new InvalidOperationException("Cannot book on a trip that is not scheduled.");
+            }
+                
+
+            // 2) Seats check (capacity - already booked >= passengers to add)
+            var bookedSeats = await _bookingRepo.GetBookedSeatsAsync(trip.TripId);
+            var seatsLeft = trip.PassengerCount - bookedSeats;
+            if (seatsLeft < request.Passengers.Count)
+            {
+                throw new InvalidOperationException($"Not enough seats. Left: {seatsLeft}, Requested: {request.Passengers.Count}.");
+            }
+
+            var subtotal = trip.Price * request.Passengers.Count;
+
+            var bookingId = Guid.NewGuid();
+            var booking = new Booking
+            {
+                bookingId = bookingId,
+                tripId = trip.TripId,
+                price = subtotal,
+                date = DateTime.UtcNow
+            };
+
+            var passengerRows = request.Passengers.Select(p => new Passenger
+            {
+                passengerId = Guid.NewGuid(),
+                bookingId = bookingId,
+                firstName = p.FirstName,
+                lastName = p.LastName,
+                birthDate = p.BirthDate,
+                gender = (Gender)(p.Gender ?? 0) 
+            });
+
+            await _bookingRepo.CreateBookingAsync(booking, passengerRows);
+            await TryReserveSeatsAsync(request.TripId, request.Passengers.Count());
+
+            return new CreateBookingResponse
+            {
+                BookingId = bookingId,
+                TripId = trip.TripId,
+                PassengerCount = request.Passengers.Count,
+                TotalPrice = subtotal,
+                BookedAtUtc = booking.date
+            };
+        }
+
+        public async Task<GetBookingResponse> GetAsync(Guid bookingId)
+        {
+            var booking = await _bookingRepo.GetBookingAsync(bookingId)
+                          ?? throw new KeyNotFoundException("Booking not found.");
+
+            var passengers = await _bookingRepo.GetPassengersForBookingAsync(bookingId);
+
+            return new GetBookingResponse
+            {
+                BookingId = booking.bookingId,
+                TripId = booking.tripId,
+                Price = booking.price,
+                Date = booking.date,
+                Passengers = passengers.Select(p => new GetBookingResponse.PassengerItem
+                {
+                    PassengerId = p.passengerId,
+                    FirstName = p.firstName,
+                    LastName = p.lastName,
+                    BirthDate = p.birthDate,
+                    Gender = (int)p.gender
+                }).ToList()
+            };
+        }
+
+        public async Task<List<GetBookingResponse>> GetByTripAsync(Guid tripId)
+        {
+            var bookings = await _bookingRepo.GetBookingsForTripAsync(tripId);
+
+            var results = new List<GetBookingResponse>(bookings.Count);
+            foreach (var b in bookings)
+            {
+                var pax = await _bookingRepo.GetPassengersForBookingAsync(b.bookingId);
+                results.Add(new GetBookingResponse
+                {
+                    BookingId = b.bookingId,
+                    TripId = b.tripId,
+                    Price = b.price,
+                    Date = b.date,
+                    Passengers = pax.Select(p => new GetBookingResponse.PassengerItem
+                    {
+                        PassengerId = p.passengerId,
+                        FirstName = p.firstName,
+                        LastName = p.lastName,
+                        BirthDate = p.birthDate,
+                        Gender = (int)p.gender
+                    }).ToList()
+                });
+            }
+
+            return results;
+        }
+
+        public async Task<bool> TryReserveSeatsAsync(Guid id, int seats)
+        {
+            
+
+            var success = await _bookingRepo.TryReserveSeatsAsync(id, seats);
+            if (!success)
+            {
+                throw new InvalidOperationException("Failed to reserve seats.");
+
+            }
+            else
+            {
+                return success;
+            }
+        }
+    }
+}

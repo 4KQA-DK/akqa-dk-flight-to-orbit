@@ -12,6 +12,8 @@ namespace UmbracoProject.Repository
 
         Task<bool> UpdateStatusAsync(Guid id, TripStatus status);
 
+        Task UpdateAvaliableSeatsCountAsync(Guid id, int avalialbeseats);
+
         Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter);
 
         Task<List<Trip>> FindNearbyTripsAsync(TripFilterRequest filter);

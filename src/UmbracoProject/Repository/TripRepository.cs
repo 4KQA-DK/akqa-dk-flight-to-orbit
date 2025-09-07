@@ -54,7 +54,20 @@ namespace UmbracoProject.Repository
             return tripsAffected > 0;
         }
 
-    
+        public async Task UpdateAvaliableSeatsCountAsync(Guid id, int avaliableSeats)
+        {
+            using var scope = _scopeProvider.CreateScope(autoComplete: true);
+            var db = scope.Database;
+
+            var rows = await db.ExecuteAsync(new NPoco.Sql(@"
+                UPDATE [Trip]
+                SET [passengerCount] = @0
+                WHERE [tripId] = @0;",
+                avaliableSeats, id));
+
+            scope.Complete();
+        }
+
 
         public async Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter)
         {

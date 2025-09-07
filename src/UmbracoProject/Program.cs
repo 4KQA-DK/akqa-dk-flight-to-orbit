@@ -32,6 +32,8 @@ public class Program
         builder.Services.AddScoped<ITripRepository, TripRepository>();
         builder.Services.AddScoped<IRocketStatusService, RocketStatusService>();
         builder.Services.AddScoped<IRocketStatusRepository, RocketStatusRepository>();
+        builder.Services.AddScoped<IBookingService, BookingService>();
+        builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 
         builder.CreateUmbracoBuilder()

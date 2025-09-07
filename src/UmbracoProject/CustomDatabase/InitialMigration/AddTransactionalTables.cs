@@ -47,7 +47,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
             migrationPlan.From(string.Empty)
-                .To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2");        // RocketStatus (new step)
+                .To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2").To<AddTransactionalTables>("updated-schema");
 
 
 
@@ -140,7 +140,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             public string lastName { get; set; } = null!;
 
             [Column("birthDate")]
-            public DateTime? birthDate { get; set; }
+            public DateOnly birthDate { get; set; }
 
             [Column("gender")]
             public int gender { get; set; }
