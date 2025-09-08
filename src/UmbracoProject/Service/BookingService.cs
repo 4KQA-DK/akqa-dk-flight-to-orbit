@@ -8,13 +8,11 @@ namespace UmbracoProject.Service
     public class BookingService : IBookingService
     {
         private readonly IBookingRepository _bookingRepo;
-        private readonly ITripRepository _tripRepo;
-        private IAdminTripService _adminTripService;
+        private readonly IAdminTripService _adminTripService;
 
-        public BookingService(IBookingRepository bookingRepo, ITripRepository tripRepo, IAdminTripService adminTripService)
+        public BookingService(IBookingRepository bookingRepo, IAdminTripService adminTripService)
         {
             _bookingRepo = bookingRepo;
-            _tripRepo = tripRepo;
             _adminTripService = adminTripService;
         }
 
@@ -23,10 +21,6 @@ namespace UmbracoProject.Service
             if (request is null) 
             {
                 throw new ArgumentNullException(nameof(request));
-            }
-            if (request.Passengers.Count == 0) 
-            {
-                throw new ArgumentException("At least one passenger is required.");
             }
 
             var trip = await _adminTripService.GetTripAsync(request.TripId)
@@ -107,6 +101,13 @@ namespace UmbracoProject.Service
 
         public async Task<List<GetBookingResponse>> GetByTripAsync(Guid tripId)
         {
+
+            var trip = await _adminTripService.GetTripAsync(tripId);
+            if (trip is null)
+            {
+                throw new KeyNotFoundException("Trip not found."); 
+            }
+
             var bookings = await _bookingRepo.GetBookingsForTripAsync(tripId);
 
             var results = new List<GetBookingResponse>(bookings.Count);

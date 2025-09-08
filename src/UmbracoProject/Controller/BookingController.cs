@@ -81,8 +81,17 @@ namespace UmbracoProject.Controller
         [Route("get/bookings/bytrip/{tripId}")]
         public async Task<IActionResult> GetByTrip(Guid tripId)
         {
-            var bookings = await _bookingService.GetByTripAsync(tripId);
-            return Ok(bookings);
+            try
+            {
+                var bookings = await _bookingService.GetByTripAsync(tripId);
+                return Ok(bookings);
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                return NotFound(new { error = ex.Message });
+            }
+            
         }
     }
 }

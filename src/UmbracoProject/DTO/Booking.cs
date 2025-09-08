@@ -10,7 +10,8 @@ namespace UmbracoProject.DTO
         [Required] public string LastName { get; set; } = null!;
 
         [Required] public string Email { get; set; } = null!;
-        public DateOnly BirthDate { get; set; }
+        
+        [Required] public DateOnly BirthDate { get; set; }
         public Gender Gender { get; set; } 
     }
 
