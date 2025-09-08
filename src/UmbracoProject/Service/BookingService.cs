@@ -62,8 +62,9 @@ namespace UmbracoProject.Service
                 bookingId = bookingId,
                 firstName = p.FirstName,
                 lastName = p.LastName,
+                Email = p.Email,
                 birthDate = p.BirthDate.ToDateTime(TimeOnly.MinValue), 
-                gender = (Gender)(p.Gender ?? 0) 
+                gender = p.Gender
             });
 
             await _bookingRepo.CreateBookingAsync(booking, passengerRows);
@@ -97,8 +98,9 @@ namespace UmbracoProject.Service
                     PassengerId = p.passengerId,
                     FirstName = p.firstName,
                     LastName = p.lastName,
+                    Email = p.Email,
                     BirthDate = DateOnly.FromDateTime(p.birthDate),
-                    Gender = (int)p.gender
+                    Gender = p.gender
                 }).ToList()
             };
         }
@@ -122,8 +124,9 @@ namespace UmbracoProject.Service
                         PassengerId = p.passengerId,
                         FirstName = p.firstName,
                         LastName = p.lastName,
+                        Email = p.Email,
                         BirthDate = DateOnly.FromDateTime(p.birthDate),
-                        Gender = (int)p.gender
+                        Gender = p.gender
                     }).ToList()
                 });
             }

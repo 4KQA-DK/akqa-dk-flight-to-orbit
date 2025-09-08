@@ -1,5 +1,6 @@
 ﻿// /DTO/BookingDtos.cs
 using System.ComponentModel.DataAnnotations;
+using UmbracoProject.Models;
 
 namespace UmbracoProject.DTO
 {
@@ -7,8 +8,10 @@ namespace UmbracoProject.DTO
     {
         [Required] public string FirstName { get; set; } = null!;
         [Required] public string LastName { get; set; } = null!;
+
+        [Required] public string Email { get; set; } = null!;
         public DateOnly BirthDate { get; set; }
-        public int? Gender { get; set; } 
+        public Gender Gender { get; set; } 
     }
 
     public class CreateBookingRequest
@@ -43,8 +46,9 @@ namespace UmbracoProject.DTO
             public Guid PassengerId { get; set; }
             public string FirstName { get; set; } = string.Empty;
             public string LastName { get; set; } = string.Empty;
+            public string Email { get; set; }
             public DateOnly BirthDate { get; set; }
-            public int Gender { get; set; }
+            public Gender Gender { get; set; }
         }
     }
 }
