@@ -15,7 +15,7 @@ namespace UmbracoProject.DTO
 
         public int PassengerCount { get; set; }
 
-        public double Price { get; set; }
+        public decimal Price { get; set; }
 
         public TripStatus TripStatus { get; set; }
     }
