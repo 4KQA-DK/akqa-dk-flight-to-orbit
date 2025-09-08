@@ -46,8 +46,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             }
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
-            migrationPlan.From(string.Empty)
-                .To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2").To<AddTransactionalTables>("updated-schema");
+            migrationPlan.From(string.Empty).To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2").To<AddNewSchema>("updated-schema").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatype").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatypeV2");
 
 
 
@@ -140,7 +139,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             public string lastName { get; set; } = null!;
 
             [Column("birthDate")]
-            public DateOnly birthDate { get; set; }
+            public DateTime birthDate { get; set; }
 
             [Column("gender")]
             public int gender { get; set; }
@@ -176,7 +175,5 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             [Column("tripStatus")]
             public int tripStatus { get; set; }
         }
-
-        
     }
 }

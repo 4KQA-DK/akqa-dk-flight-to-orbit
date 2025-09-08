@@ -7,8 +7,8 @@ namespace UmbracoProject.DTO
     {
         [Required] public string FirstName { get; set; } = null!;
         [Required] public string LastName { get; set; } = null!;
-        public DateOnly? BirthDate { get; set; }
-        public int? Gender { get; set; } // optional; map to your Gender enum if you want
+        public DateOnly BirthDate { get; set; }
+        public int? Gender { get; set; } 
     }
 
     public class CreateBookingRequest
@@ -43,7 +43,7 @@ namespace UmbracoProject.DTO
             public Guid PassengerId { get; set; }
             public string FirstName { get; set; } = string.Empty;
             public string LastName { get; set; } = string.Empty;
-            public DateOnly? BirthDate { get; set; }
+            public DateOnly BirthDate { get; set; }
             public int Gender { get; set; }
         }
     }

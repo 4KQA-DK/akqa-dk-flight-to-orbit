@@ -23,7 +23,6 @@ public class Program
             });
         });
 
-        // API + DI
         builder.Services.AddControllers().AddJsonOptions(o =>
             o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 

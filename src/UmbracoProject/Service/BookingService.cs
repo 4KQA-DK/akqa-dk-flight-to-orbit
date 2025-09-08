@@ -38,7 +38,6 @@ namespace UmbracoProject.Service
             }
                 
 
-            // 2) Seats check (capacity - already booked >= passengers to add)
             var bookedSeats = await _bookingRepo.GetBookedSeatsAsync(trip.TripId);
             var seatsLeft = trip.PassengerCount - bookedSeats;
             if (seatsLeft < request.Passengers.Count)
@@ -63,7 +62,7 @@ namespace UmbracoProject.Service
                 bookingId = bookingId,
                 firstName = p.FirstName,
                 lastName = p.LastName,
-                birthDate = p.BirthDate,
+                birthDate = p.BirthDate.ToDateTime(TimeOnly.MinValue), 
                 gender = (Gender)(p.Gender ?? 0) 
             });
 
@@ -98,7 +97,7 @@ namespace UmbracoProject.Service
                     PassengerId = p.passengerId,
                     FirstName = p.firstName,
                     LastName = p.lastName,
-                    BirthDate = p.birthDate,
+                    BirthDate = DateOnly.FromDateTime(p.birthDate),
                     Gender = (int)p.gender
                 }).ToList()
             };
@@ -123,7 +122,7 @@ namespace UmbracoProject.Service
                         PassengerId = p.passengerId,
                         FirstName = p.firstName,
                         LastName = p.lastName,
-                        BirthDate = p.birthDate,
+                        BirthDate = DateOnly.FromDateTime(p.birthDate),
                         Gender = (int)p.gender
                     }).ToList()
                 });
