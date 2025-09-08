@@ -29,7 +29,7 @@ namespace UmbracoProject.DTO
         public Guid BookingId { get; set; }
         public Guid TripId { get; set; }
         public int PassengerCount { get; set; }
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
         public DateTime BookedAtUtc { get; set; }
     }
 
@@ -37,7 +37,7 @@ namespace UmbracoProject.DTO
     {
         public Guid BookingId { get; set; }
         public Guid TripId { get; set; }
-        public double Price { get; set; }
+        public decimal Price { get; set; }
         public DateTime Date { get; set; }
 
         public List<PassengerItem> Passengers { get; set; } = new();

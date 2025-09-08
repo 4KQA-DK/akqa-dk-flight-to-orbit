@@ -12,7 +12,7 @@ namespace UmbracoProject.Models
 
         public Guid tripId { get; set; }
 
-        public double price { get; set; }
+        public decimal price { get; set; }
 
         public DateTime date { get; set; }
 

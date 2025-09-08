@@ -10,12 +10,14 @@ namespace UmbracoProject.Service
         private readonly ITripRepository _tripRepository;
         private readonly IRocketStatusService _rocketStatusService;
         private readonly IContentService _contentService;
+        private readonly IPriceCalculatorService _priceCalculatorService;
         
-        public AdminTripService(ITripRepository tripRepository, IRocketStatusService rocketStatusService, IContentService contentService)
+        public AdminTripService(ITripRepository tripRepository, IRocketStatusService rocketStatusService, IContentService contentService, IPriceCalculatorService priceCalculatorService)
         {
             _tripRepository = tripRepository;
             _rocketStatusService = rocketStatusService;
             _contentService = contentService;
+            _priceCalculatorService = priceCalculatorService;
         }
         public async Task<Guid> CreateTripAsync(CreateTripRequest request)
         {
@@ -28,12 +30,13 @@ namespace UmbracoProject.Service
 
             var status = await _rocketStatusService.TryGetAsync(request.RocketKey)!;
 
-            if (status.rocketStatus is RocketStatusCode.Maintenance )
+            if (status.rocketStatus is RocketStatusCode.Maintenance)
             {
                 throw new InvalidOperationException("Rocket is not available for scheduling.");
             }
 
             await CheckForOverlapsAsync(request.RocketKey, request.DepartureUtc, request.ArrivalUtc, 1);
+            var price = _priceCalculatorService.CalculatePrice(request.RocketKey, request.DestinationKey, request.DiscountPercent);
 
             var trip = new Trip
             {
@@ -43,7 +46,7 @@ namespace UmbracoProject.Service
                 departureUtc = request.DepartureUtc,
                 arrivalUtc = request.ArrivalUtc,
                 passengerCount = request.AvalivableSeats,
-                price = request.price,
+                price = price,
                 tripStatus = TripStatus.Schedueled
             };
 

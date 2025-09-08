@@ -27,7 +27,7 @@ namespace UmbracoProject.Models
         public int passengerCount { get; set; }
 
         [Column("price")]
-        public double price { get; set; }
+        public decimal price { get; set; }
 
         [Column("tripStatus")]
         public TripStatus tripStatus { get; set; }

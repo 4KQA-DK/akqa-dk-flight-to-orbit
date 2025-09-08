@@ -33,6 +33,7 @@ public class Program
         builder.Services.AddScoped<IRocketStatusRepository, RocketStatusRepository>();
         builder.Services.AddScoped<IBookingService, BookingService>();
         builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+        builder.Services.AddScoped<IPriceCalculatorService, PriceCalculatorService>();
 
 
         builder.CreateUmbracoBuilder()

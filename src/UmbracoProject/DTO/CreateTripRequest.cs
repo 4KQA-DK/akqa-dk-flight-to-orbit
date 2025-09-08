@@ -19,7 +19,9 @@ namespace UmbracoProject.DTO
         [Range(1, int.MaxValue, ErrorMessage = "PassengerCount must be at least 1")]
         public int AvalivableSeats { get; set; }
 
-        [Required]
-        public double price { get; set; }
+        [Range(0, 100, ErrorMessage = "DiscountPercent must be between 0 and 100")]
+        public decimal? DiscountPercent { get; set; } = 0;
     }
+
+
 }

@@ -18,7 +18,17 @@ namespace UmbracoProject.Service
         public async Task<RocketStatus> TryGetAsync(Guid rocketKey)
         {
             ValidateRocketExists(rocketKey);
-            return await _repository.GetAsync(rocketKey); 
+
+            try
+            {
+                return await _repository.GetAsync(rocketKey);
+            }
+            catch (ArgumentException)
+            {
+
+                throw new ArgumentException("RocketStatus not found in db");
+            }
+             
         }
 
         public async Task<RocketStatus> CreateStatusOnPublishAsync(Guid rocketKey)
