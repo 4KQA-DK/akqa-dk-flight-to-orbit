@@ -23,7 +23,6 @@ public class Program
             });
         });
 
-        // API + DI
         builder.Services.AddControllers().AddJsonOptions(o =>
             o.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter()));
 
@@ -32,6 +31,8 @@ public class Program
         builder.Services.AddScoped<ITripRepository, TripRepository>();
         builder.Services.AddScoped<IRocketStatusService, RocketStatusService>();
         builder.Services.AddScoped<IRocketStatusRepository, RocketStatusRepository>();
+        builder.Services.AddScoped<IBookingService, BookingService>();
+        builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 
 
         builder.CreateUmbracoBuilder()

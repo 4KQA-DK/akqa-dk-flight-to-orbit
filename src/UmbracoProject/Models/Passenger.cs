@@ -20,8 +20,10 @@ namespace UmbracoProject.Models
         [Column("lastName")]
         public required string lastName { get; set; }
 
+        public required string Email {  get; set; }
+
         [Column("birthDate")]
-        public DateOnly? birthDate { get; set; }
+        public DateTime birthDate { get; set; }
 
         [Column("gender")]
         public Gender gender { get; set; }
