@@ -1,6 +1,6 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
-namespace UmbracoProject.CustomDatabase.Models
+namespace UmbracoProject.Models
 {
     [TableName("Booking")]
     [PrimaryKey("bookingId", AutoIncrement = false)]
@@ -12,13 +12,9 @@ namespace UmbracoProject.CustomDatabase.Models
 
         public Guid tripId { get; set; }
 
-        public double price { get; set; }
+        public decimal price { get; set; }
 
         public DateTime date { get; set; }
-
-
-
-        //public Guid userId { get; set; }
 
     }
 }

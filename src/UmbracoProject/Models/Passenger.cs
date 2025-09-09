@@ -1,7 +1,7 @@
 ﻿using NPoco;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace UmbracoProject.CustomDatabase.Models
+namespace UmbracoProject.Models
 {
     [TableName("Passenger")]
     [PrimaryKey("passengerId", AutoIncrement = false)]
@@ -20,15 +20,13 @@ namespace UmbracoProject.CustomDatabase.Models
         [Column("lastName")]
         public required string lastName { get; set; }
 
+        public required string Email {  get; set; }
+
         [Column("birthDate")]
-        public DateOnly? birthDate { get; set; }
+        public DateTime birthDate { get; set; }
 
         [Column("gender")]
         public Gender gender { get; set; }
-
-        // SeatNumber?
-        // PassportNumber?
-        // Nationality?
 
     }
 

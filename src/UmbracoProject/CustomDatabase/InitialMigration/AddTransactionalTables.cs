@@ -9,10 +9,11 @@ using Umbraco.Cms.Infrastructure.Migrations;
 using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 using Umbraco.Cms.Infrastructure.Persistence.DatabaseAnnotations;
 
-namespace UmbracoProject.CustomDatabase.InitialMigration
+namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
 {
     public class TransactionalTablesComposer : ComponentComposer<TransactionalTablesComponent>
     {
+
     }
 
     public class TransactionalTablesComponent : IAsyncComponent
@@ -36,14 +37,18 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
 
         public async Task InitializeAsync(bool isRestarting, CancellationToken cancellationToken)
         {
+            Console.WriteLine("TransactionalTablesComponent initializing..."); // Add this
+            
+
             if (_runtimeState.Level < RuntimeLevel.Run)
             {
                 return;
             }
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
-            migrationPlan.From(string.Empty)
-                .To<AddTransactionalTables>("transactional-tables-db");
+            migrationPlan.From(string.Empty).To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2").To<AddNewSchema>("updated-schema").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatype").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatypeV2").To<AddEmailToPassenger>("AddEmailToPassenger").To<AddForeignKeyConstraint>("foreignkey-constraint");
+
+
 
             var upgrader = new Upgrader(migrationPlan);
             await upgrader.ExecuteAsync(_migrationPlanExecutor, _coreScopeProvider, _keyValueService);
@@ -89,13 +94,13 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             }
             else
             {
-                Logger.LogDebug("The database table {DbTable} already exists, skipping", "Trip");
+                Logger.LogDebug("The database table {DbTable} already exists, skipping", "Passenger");
+
             }
 
             await Task.CompletedTask;
         }
 
-        // Immutable schema snapshot classes for migration only
         [TableName("Booking")]
         [PrimaryKey("bookingId", AutoIncrement = false)]
         [ExplicitColumns]
@@ -112,7 +117,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             public double price { get; set; }
 
             [Column("date")]
-            public DateTime date { get; set; }
+            public DateTime? date { get; set; }
         }
 
         [TableName("Passenger")]
@@ -128,13 +133,13 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             public Guid bookingId { get; set; }
 
             [Column("firstName")]
-            public string firstName { get; set; }
+            public string firstName { get; set; } = null!;
 
             [Column("lastName")]
-            public string lastName { get; set; }
+            public string lastName { get; set; } = null!;
 
             [Column("birthDate")]
-            public DateOnly? birthDate { get; set; }
+            public DateTime birthDate { get; set; }
 
             [Column("gender")]
             public int gender { get; set; }
@@ -156,10 +161,10 @@ namespace UmbracoProject.CustomDatabase.InitialMigration
             public Guid rocketKey { get; set; }
 
             [Column("departureUtc")]
-            public DateTime departureUtc { get; set; }
+            public DateTime? departureUtc { get; set; }
 
             [Column("arrivalUtc")]
-            public DateTime arrivalUtc { get; set; }
+            public DateTime? arrivalUtc { get; set; }
 
             [Column("passengerCount")]
             public int passengerCount { get; set; }
