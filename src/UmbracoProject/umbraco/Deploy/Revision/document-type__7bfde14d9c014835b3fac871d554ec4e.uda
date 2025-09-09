@@ -7,7 +7,9 @@
   "Thumbnail": "folder.png",
   "Permissions": {
     "AllowedAtRoot": true,
-    "AllowedChildContentTypes": []
+    "AllowedChildContentTypes": [
+      "umb://document-type/7bfde14d9c014835b3fac871d554ec4e"
+    ]
   },
   "Parent": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
   "CompositionContentTypes": [],
@@ -36,6 +38,10 @@
     {
       "Udi": "umb://document-type-container/d76d686926ac4e69b1cad0d2f8e1f43c",
       "Ordering": true
+    },
+    {
+      "Udi": "umb://document-type/7bfde14d9c014835b3fac871d554ec4e",
+      "Mode": "Exist"
     }
   ],
   "__type": "Umbraco.Deploy.Infrastructure,Umbraco.Deploy.Infrastructure.Artifacts.ContentType.DocumentTypeArtifact",
