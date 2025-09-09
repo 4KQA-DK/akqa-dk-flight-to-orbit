@@ -35,6 +35,14 @@ namespace UmbracoProject.Controller
             }
         }
 
+        [HttpGet]
+        [Route("getallrocketstatus")]
+        public async Task<IActionResult> GetAllRocketStatus()
+        {
+            var result = await _rocketStatusService.GetAllAsync();
+            return Ok(result);
+        }
+
         [HttpPut]
         [Route("update/{rocketkey}/{newstatus}")]
         public async Task<IActionResult> UpdateRocketStatus(Guid rocketkey, RocketStatusCode newstatus)

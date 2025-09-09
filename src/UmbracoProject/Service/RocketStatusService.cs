@@ -31,6 +31,8 @@ namespace UmbracoProject.Service
              
         }
 
+        public Task<List<RocketStatus>> GetAllAsync() => _repository.GetAllAsync();
+
         public async Task<RocketStatus> CreateStatusOnPublishAsync(Guid rocketKey)
         {
             ValidateRocketExists(rocketKey);

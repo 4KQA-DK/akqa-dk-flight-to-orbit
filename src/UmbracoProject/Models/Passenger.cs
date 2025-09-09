@@ -28,10 +28,6 @@ namespace UmbracoProject.Models
         [Column("gender")]
         public Gender gender { get; set; }
 
-        // SeatNumber?
-        // PassportNumber?
-        // Nationality?
-
     }
 
     public enum Gender

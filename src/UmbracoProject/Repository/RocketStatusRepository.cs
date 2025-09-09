@@ -23,6 +23,15 @@ namespace UmbracoProject.Repository
             return row;
         }
 
+        public async Task<List<RocketStatus>> GetAllAsync()
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+            var sql = new NPoco.Sql("SELECT * FROM [RocketStatus]");
+            var rows = await db.FetchAsync<RocketStatus>(sql);
+            scope.Complete();
+            return rows;
+        }
         public async Task<RocketStatus> CreateAsync(RocketStatus row)
         {
             using var scope = _scopeProvider.CreateScope(autoComplete: true);

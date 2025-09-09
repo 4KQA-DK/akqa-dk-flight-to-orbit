@@ -13,6 +13,9 @@ namespace UmbracoProject.DTO
 
         public DateTime ArrivalUtc { get; set; }
 
+        public int EstimatedTravelDays { get; set; }
+
+
         public int PassengerCount { get; set; }
 
         public decimal Price { get; set; }

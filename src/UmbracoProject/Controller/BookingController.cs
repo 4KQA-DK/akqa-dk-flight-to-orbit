@@ -33,7 +33,7 @@ namespace UmbracoProject.Controller
             try
             {
                 var result = await _bookingService.CreateAsync(request);
-                // Keep it similar to TripController (returning an object), but include some useful fields
+                
                 return Ok(new
                 {
                     bookingId = result.BookingId,

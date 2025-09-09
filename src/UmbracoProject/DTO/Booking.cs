@@ -9,7 +9,9 @@ namespace UmbracoProject.DTO
         [Required] public string FirstName { get; set; } = null!;
         [Required] public string LastName { get; set; } = null!;
 
-        [Required] public string Email { get; set; } = null!;
+        [Required]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string Email { get; set; } = null!;
         
         [Required] public DateOnly BirthDate { get; set; }
         public Gender Gender { get; set; } 
