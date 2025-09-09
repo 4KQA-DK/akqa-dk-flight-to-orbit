@@ -30,7 +30,7 @@ namespace UmbracoProject.Service
                     {
                         return new TripFilterResponse
                         {
-                            ExactMatches = EnrichTripsAsync(exactTrips),
+                            ExactMatches = EnrichTrips(exactTrips),
                             NearbyTrips = new(),
                             SearchedDate = filter.DepartureDate,
                             HasExactMatches = true
@@ -44,7 +44,7 @@ namespace UmbracoProject.Service
                         return new TripFilterResponse
                         {
                             ExactMatches = new(),
-                            NearbyTrips = EnrichTripsAsync(nextTrips),
+                            NearbyTrips = EnrichTrips(nextTrips),
                             SearchedDate = filter.DepartureDate,
                             HasExactMatches = false,
                             Message = "No trips are available on the selected date. Showing the nearest available departures that match your current filters."
@@ -63,7 +63,7 @@ namespace UmbracoProject.Service
 
                 return new TripFilterResponse
                 {
-                    ExactMatches = EnrichTripsAsync(exactTrips),
+                    ExactMatches = EnrichTrips(exactTrips),
                     NearbyTrips = new(),
                     SearchedDate = null,
                     HasExactMatches = exactTrips.Count > 0,
@@ -77,7 +77,7 @@ namespace UmbracoProject.Service
         }
 
 
-        private List<GetTripResponse> EnrichTripsAsync(List<Trip> trips)
+        private List<GetTripResponse> EnrichTrips(List<Trip> trips)
         {
             var result = new List<GetTripResponse>(trips.Count);
 
@@ -85,6 +85,8 @@ namespace UmbracoProject.Service
             {
                 var rocket = _contentService.GetById(trip.rocketKey);
                 var destination = _contentService.GetById(trip.destinationKey);
+                var duration = trip.arrivalUtc - trip.departureUtc;
+                var estDays = (int)Math.Round(duration.TotalDays, MidpointRounding.AwayFromZero);
 
                 result.Add(new GetTripResponse
                 {
@@ -93,6 +95,7 @@ namespace UmbracoProject.Service
                     DestinationName = destination?.Name ?? "(destination not found)",
                     DepartureUtc = trip.departureUtc,
                     ArrivalUtc = trip.arrivalUtc,
+                    EstimatedTravelDays = estDays,
                     PassengerCount = trip.passengerCount,
                     Price = trip.price,
                     TripStatus = trip.tripStatus

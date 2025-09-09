@@ -46,7 +46,7 @@ namespace UmbracoProject.CustomDatabase.InitialMigration.AddTransactionalTables
             }
 
             var migrationPlan = new MigrationPlan("TransactionalTables");
-            migrationPlan.From(string.Empty).To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2").To<AddNewSchema>("updated-schema").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatype").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatypeV2").To< AddEmailToPassenger>("AddEmailToPassenger");
+            migrationPlan.From(string.Empty).To<AddTransactionalTables>("transactional-tables-db").To<AddTransactionalTables>("rocket-status-db").To<AddRocketStatusTable>("rocket-status-db-v2").To<AddNewSchema>("updated-schema").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatype").To<UpdatePassengerBirthDateToDateOnlySimple>("update-datatypeV2").To<AddEmailToPassenger>("AddEmailToPassenger").To<AddForeignKeyConstraint>("foreignkey-constraint");
 
 
 
