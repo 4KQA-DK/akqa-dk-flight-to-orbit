@@ -10,7 +10,7 @@ namespace UmbracoProject.DTO
         [Required(ErrorMessage = "DestinationKey is required")]
         public Guid DestinationKey { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Departure date is required")]
         public DateTime DepartureUtc { get; set; }
 
         [Range(1, int.MaxValue, ErrorMessage = "PassengerCount must be at least 1")]
