@@ -7,7 +7,11 @@ namespace UmbracoProject.DTO
         public Guid TripId { get; set; }
         public string RocketName { get; set; } = string.Empty;
 
+        public Guid RocketKey { get; set; }
+
         public string DestinationName { get; set; } = string.Empty;
+
+        public Guid DestinationKey { get; set; }
 
         public DateTime DepartureUtc { get; set; }
 

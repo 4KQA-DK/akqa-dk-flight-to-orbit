@@ -43,6 +43,21 @@ namespace UmbracoProject.Controller
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("getrocketmetadata/{rocketkey}")]
+        public async Task<IActionResult> GetRocketMetadata(Guid rocketkey)
+        {
+            try
+            {
+                var result = await _rocketStatusService.GetRocketMetadataAsync(rocketkey);
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message }); ;
+            }
+        }
+
         [HttpPut]
         [Route("update/{rocketkey}/{newstatus}")]
         public async Task<IActionResult> UpdateRocketStatus(Guid rocketkey, RocketStatusCode newstatus)

@@ -1,4 +1,5 @@
 ﻿using Umbraco.Cms.Core.Services;
+using UmbracoProject.DTO;
 using UmbracoProject.Models;
 using UmbracoProject.Repository;
 
@@ -88,6 +89,57 @@ namespace UmbracoProject.Service
             row.rocketStatus = newStatus;
             row.lastUpdatedUtc = DateTime.UtcNow;
             await _repository.UpdateAsync(row);
+        }
+
+        public async Task<GetRocketResponse> GetRocketMetadataAsync(Guid rocketKey)
+        {
+            ValidateRocketExists(rocketKey);
+
+            var content = _contentService.GetById(rocketKey)
+                          ?? throw new ArgumentException("Rocket not found.");
+
+            var rocketStatusRow = await _repository.GetAsync(rocketKey);
+            var status = rocketStatusRow?.rocketStatus.ToString() ?? RocketStatusCode.Idle.ToString();
+
+            var modelValue = content.GetValue("model")?.ToString();
+            string modelName = "(unknown model)";
+            int capacity = 0;
+
+            if (!string.IsNullOrEmpty(modelValue))
+            {
+                Guid modelKey;
+                if (modelValue.StartsWith("umb://document/") && Guid.TryParse(modelValue.Replace("umb://document/", ""), out var udiGuid))
+                {
+                    modelKey = udiGuid;
+                }
+                else if (Guid.TryParse(modelValue, out var directGuid))
+                {
+                    modelKey = directGuid;
+                }
+                else
+                {
+                    modelKey = Guid.Empty;
+                }
+
+                if (modelKey != Guid.Empty)
+                {
+                    var modelContent = _contentService.GetById(modelKey);
+                    if (modelContent != null)
+                    {
+                        modelName = modelContent.Name;
+                        capacity = modelContent.GetValue<int>("capacity");
+                    }
+                }
+            }
+
+            return new GetRocketResponse
+            {
+                RocketKey = rocketKey,
+                RocketName = content.Name,
+                Model = modelName,
+                Capacity = capacity,
+                Status = status
+            };
         }
 
 

@@ -92,7 +92,9 @@ namespace UmbracoProject.Service
                 {
                     TripId = trip.tripId,
                     RocketName = rocket?.Name ?? "(rocket not found)",
+                    RocketKey = trip.rocketKey,
                     DestinationName = destination?.Name ?? "(destination not found)",
+                    DestinationKey = trip.destinationKey,
                     DepartureUtc = trip.departureUtc,
                     ArrivalUtc = trip.arrivalUtc,
                     EstimatedTravelDays = estDays,
