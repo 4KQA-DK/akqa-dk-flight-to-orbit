@@ -1,5 +1,5 @@
 {
-  "Name": "Content",
+  "Name": "VideoContent",
   "Alias": "content",
   "AllowedTemplates": [],
   "HistoryCleanup": {},
@@ -12,30 +12,16 @@
   "CompositionContentTypes": [],
   "PropertyGroups": [
     {
-      "Key": "942e120a-169d-48e1-9d9e-c9721a303e22",
-      "Name": "Content Settings",
+      "Key": "163143f2-edd4-44c7-93e1-921894562603",
+      "Name": "Content Text",
       "SortOrder": 1,
-      "Alias": "contentSettings",
+      "Alias": "contentText",
       "PropertyTypes": [
         {
-          "Key": "087df6a5-200e-4ab6-825a-ab0939b3463e",
-          "Alias": "videoMuted",
-          "DataType": "umb://data-type/d81fc6a8c6e8417e9f6da54c321f29c2",
-          "Name": "Video Muted",
-          "SortOrder": 1
-        },
-        {
-          "Key": "7945dcf0-a633-4cfc-b507-8cd5cada624d",
-          "Alias": "videoAutoplay",
-          "DataType": "umb://data-type/3244e243237248cb869aa3df7f913a08",
-          "Name": "Video Autoplay "
-        },
-        {
-          "Key": "e58f569f-3fbe-44e8-b2f0-000e66400658",
-          "Alias": "videoLoop",
-          "DataType": "umb://data-type/2b669e77a84d4f0c92c6388aec074c36",
-          "Name": "Video Loop",
-          "SortOrder": 2
+          "Key": "2b537827-1993-4473-8583-cedb11e31f78",
+          "Alias": "contentText",
+          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
+          "Name": "Content Text"
         }
       ]
     },
@@ -45,24 +31,31 @@
       "Alias": "contentMedia",
       "PropertyTypes": [
         {
+          "Key": "3c77c3fd-f9b7-4237-a9e3-4bffcceb81d3",
+          "Alias": "videoLoop",
+          "DataType": "umb://data-type/8f52aaa85a3d419fad164655a15747b7",
+          "Name": "Video Loop",
+          "SortOrder": 3
+        },
+        {
           "Key": "6802ae75-f6ee-4761-a97a-8948518ff05d",
           "Alias": "contentMedia",
           "DataType": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
           "Name": "Content Media"
-        }
-      ]
-    },
-    {
-      "Key": "ce5066d8-816b-4f0f-8234-c24bb172563d",
-      "Name": "Content Text",
-      "SortOrder": 2,
-      "Alias": "contentText",
-      "PropertyTypes": [
+        },
         {
-          "Key": "3631e2d9-c99b-4cde-b11a-edf7d5543703",
-          "Alias": "contentText",
-          "DataType": "umb://data-type/0cc0eba1996042c9bf9b60e150b429ae",
-          "Name": "Content Text"
+          "Key": "7fd13ff3-0351-4d9c-859d-a04ddcd2fad1",
+          "Alias": "videoAutoplay",
+          "DataType": "umb://data-type/0e0fe66c3d0e4c849d125f62bca60670",
+          "Name": "Video Autoplay",
+          "SortOrder": 1
+        },
+        {
+          "Key": "eae84284-aefc-45a4-815d-2bee6c99c92e",
+          "Alias": "videoMuted",
+          "DataType": "umb://data-type/a45e9b14620f4ccdaa02811730c90df9",
+          "Name": "Video Muted",
+          "SortOrder": 2
         }
       ]
     }
@@ -75,19 +68,19 @@
       "Ordering": true
     },
     {
+      "Udi": "umb://data-type/0e0fe66c3d0e4c849d125f62bca60670",
+      "Ordering": true
+    },
+    {
       "Udi": "umb://data-type/1b661f4022424b44b9cb3990ee2b13c0",
       "Ordering": true
     },
     {
-      "Udi": "umb://data-type/2b669e77a84d4f0c92c6388aec074c36",
+      "Udi": "umb://data-type/8f52aaa85a3d419fad164655a15747b7",
       "Ordering": true
     },
     {
-      "Udi": "umb://data-type/3244e243237248cb869aa3df7f913a08",
-      "Ordering": true
-    },
-    {
-      "Udi": "umb://data-type/d81fc6a8c6e8417e9f6da54c321f29c2",
+      "Udi": "umb://data-type/a45e9b14620f4ccdaa02811730c90df9",
       "Ordering": true
     }
   ],

@@ -152,12 +152,30 @@ namespace UmbracoProject.Repository
             var next = await db.FetchAsync<Trip>(nextSql);
             scope.Complete();
 
-            var result = prev.Concat(next)
-            .OrderBy(t => Math.Abs((t.departureUtc.Date - day.Date).TotalDays))
-            .ThenBy(t => t.departureUtc)
-            .ToList();
+            var merged = prev.Concat(next);
 
-            return result;
+            IOrderedEnumerable<Trip> ordered;
+
+            if (filter.SortBy == TripSortBy.Price)
+            {
+                ordered = merged
+                    .OrderBy(t => t.price)
+                    .ThenBy(t => Math.Abs((t.departureUtc.Date - day.Date).TotalDays));
+            }
+            else if (filter.SortBy == TripSortBy.Duration)
+            {
+                ordered = merged
+                    .OrderBy(t => (t.arrivalUtc - t.departureUtc).TotalSeconds)
+                    .ThenBy(t => Math.Abs((t.departureUtc.Date - day.Date).TotalDays));
+            }
+            else 
+            {
+                ordered = merged
+                    .OrderBy(t => Math.Abs((t.departureUtc.Date - day.Date).TotalDays));
+            }
+
+            return ordered.ToList();
+
         }
 
         public async Task<bool> HasOverlappingTripByDateAsync(Guid rocketKey, DateOnly startDate, DateOnly endDate,int turnaroundDays)
