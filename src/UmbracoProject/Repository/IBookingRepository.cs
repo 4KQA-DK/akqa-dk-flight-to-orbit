@@ -10,6 +10,8 @@ namespace UmbracoProject.Repository
 
         Task<Booking?> GetBookingAsync(Guid bookingId);
 
+        Task<List<Booking>> GetAllBookingsAsync();
+
         Task<List<Passenger>> GetPassengersForBookingAsync(Guid bookingId);
 
         Task<List<Booking>> GetBookingsForTripAsync(Guid tripId);

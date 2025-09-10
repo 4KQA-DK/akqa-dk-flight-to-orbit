@@ -74,7 +74,7 @@ namespace UmbracoProject.Service
             };
         }
 
-        public async Task<GetBookingResponse> GetAsync(Guid bookingId)
+        public async Task<GetBookingResponse> GetBookingByIdAsync(Guid bookingId)
         {
             var booking = await _bookingRepo.GetBookingAsync(bookingId)
                           ?? throw new KeyNotFoundException("Booking not found.");
@@ -97,6 +97,32 @@ namespace UmbracoProject.Service
                     Gender = p.gender
                 }).ToList()
             };
+        }
+
+        public async Task<List<GetBookingResponse>> GetAllBookingsAsync()
+        {
+            var bookings = await _bookingRepo.GetAllBookingsAsync();
+            var results = new List<GetBookingResponse>(bookings.Count);
+            foreach (var b in bookings)
+            {
+                var pax = await _bookingRepo.GetPassengersForBookingAsync(b.bookingId);
+                results.Add(new GetBookingResponse
+                {
+                    BookingId = b.bookingId,
+                    TripId = b.tripId,
+                    Price = b.price,
+                    Date = b.date,
+                    Passengers = pax.Select(p => new GetBookingResponse.PassengerItem
+                    {
+                        PassengerId = p.passengerId,
+                        FirstName = p.firstName,
+                        LastName = p.lastName,
+                        Email = p.Email,
+                        BirthDate = DateOnly.FromDateTime(p.birthDate)
+                    }).ToList()
+                });
+            }
+            return results;
         }
 
         public async Task<List<GetBookingResponse>> GetByTripAsync(Guid tripId)

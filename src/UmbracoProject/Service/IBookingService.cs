@@ -6,7 +6,9 @@ namespace UmbracoProject.Service
     {
         Task<CreateBookingResponse> CreateAsync(CreateBookingRequest request);
 
-        Task<GetBookingResponse> GetAsync(Guid bookingId);
+        Task<GetBookingResponse> GetBookingByIdAsync(Guid bookingId);
+
+        Task<List<GetBookingResponse>> GetAllBookingsAsync();
 
         Task<List<GetBookingResponse>> GetByTripAsync(Guid tripId);
 

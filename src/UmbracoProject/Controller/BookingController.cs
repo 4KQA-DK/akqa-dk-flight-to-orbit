@@ -68,13 +68,21 @@ namespace UmbracoProject.Controller
         {
             try
             {
-                var booking = await _bookingService.GetAsync(bookingId);
+                var booking = await _bookingService.GetBookingByIdAsync(bookingId);
                 return Ok(booking);
             }
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new { error = ex.Message });
             }
+        }
+
+        [HttpGet]
+        [Route("get/all/bookings")]
+        public async Task<IActionResult> GetAll()
+        {
+            var bookings = await _bookingService.GetAllBookingsAsync();
+            return Ok(bookings);
         }
 
         [HttpGet]

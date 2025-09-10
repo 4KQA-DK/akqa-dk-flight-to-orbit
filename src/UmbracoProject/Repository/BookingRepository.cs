@@ -52,6 +52,16 @@ namespace UmbracoProject.Repository
             return row;
         }
 
+        public async Task<List<Booking>> GetAllBookingsAsync()
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+            var sql = new NPoco.Sql("SELECT * FROM [Booking] ORDER BY [date] DESC");
+            var rows = await db.FetchAsync<Booking>(sql);
+            scope.Complete();
+            return rows;
+        }
+
         public async Task<List<Passenger>> GetPassengersForBookingAsync(Guid bookingId)
         {
             using var scope = _scopeProvider.CreateScope();
