@@ -112,7 +112,7 @@ namespace UmbracoProject.Repository
 
 
         public async Task<List<Trip>> FindNearbyTripsAsync(TripFilterRequest filter)
-        {
+        { 
             if (!filter.DepartureDate.HasValue) return new();
 
             using var scope = _scopeProvider.CreateScope();
@@ -198,6 +198,30 @@ namespace UmbracoProject.Repository
             scope.Complete();
             return row.HasValue;
         }
+
+
+        public async Task<int> UpdateTripStatusBackgroundServiceAsync()
+        {
+            using var scope = _scopeProvider.CreateScope(autoComplete: true);
+            var db = scope.Database;
+
+           
+            var toOngoing = await db.ExecuteAsync(@"
+            UPDATE Trip
+            SET tripStatus = 1
+            WHERE tripStatus = 0
+            AND departureUtc <= DATEADD(hour, 2, SYSUTCDATETIME())
+            AND arrivalUtc  >  DATEADD(hour, 2, SYSUTCDATETIME());");
+
+            var toCompleted = await db.ExecuteAsync(@"
+            UPDATE Trip
+            SET tripStatus = 2
+            WHERE tripStatus = 1
+            AND arrivalUtc  <= DATEADD(hour, 2, SYSUTCDATETIME());");
+
+            return toOngoing + toCompleted;
+        }
+
     }
 
 }

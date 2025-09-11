@@ -35,7 +35,7 @@ public class Program
         builder.Services.AddScoped<IBookingRepository, BookingRepository>();
         builder.Services.AddScoped<IPriceCalculatorService, PriceCalculatorService>();
         builder.Services.AddScoped<ITravelTimeEstimator, TravelTimeEstimator>();
-
+        builder.Services.AddHostedService<TripBackgroundService>();
 
         builder.CreateUmbracoBuilder()
             .AddBackOffice()

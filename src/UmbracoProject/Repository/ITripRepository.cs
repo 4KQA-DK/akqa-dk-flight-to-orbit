@@ -20,6 +20,7 @@ namespace UmbracoProject.Repository
 
         Task<bool> HasOverlappingTripByDateAsync(Guid rocketKey, DateOnly startDate, DateOnly endDate, int turnaroundDays);
 
+        Task<int> UpdateTripStatusBackgroundServiceAsync();
 
     }
 }

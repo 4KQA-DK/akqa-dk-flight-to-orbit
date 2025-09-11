@@ -89,15 +89,21 @@ namespace UmbracoProject.Repository
             using var scope = _scopeProvider.CreateScope(autoComplete: true);
             var db = scope.Database;
 
+            
             var rows = await db.ExecuteAsync(new NPoco.Sql(@"
             UPDATE [Trip]
-            SET [passengerCount] = [passengerCount] - @0
+            SET [passengerCount] = [passengerCount] - @0,
+            [tripStatus] = CASE 
+            WHEN [passengerCount] - @0 = 0 THEN @3 
+            ELSE [tripStatus] 
+            END
             WHERE [tripId] = @1
             AND [passengerCount] >= @0
-            AND [tripStatus] = @2", seatCount, id, (int)TripStatus.Schedueled)); 
+            AND [tripStatus] = @2;", seatCount, id, (int)TripStatus.Schedueled, (int)TripStatus.SoldOut));
 
             return rows > 0;
         }
+
 
     }
 }

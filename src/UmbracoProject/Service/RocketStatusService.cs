@@ -41,7 +41,8 @@ namespace UmbracoProject.Service
             var current = await _repository.GetAsync(rocketKey);
             if (current != null) return current;
 
-            var now = DateTime.UtcNow;
+            var now = DateTime.
+                Now;
             var created = new RocketStatus
             {
                 rocketKey = rocketKey,
