@@ -171,7 +171,7 @@ namespace UmbracoProject.Service
             }
 
             if ((trip.tripStatus == TripStatus.Ongoing || trip.tripStatus == TripStatus.Completed)
-                && (newTripStatus == TripStatus.Cancelled || newTripStatus == TripStatus.Schedueled))
+                && (newTripStatus == TripStatus.Cancelled || newTripStatus == TripStatus.Schedueled || newTripStatus == TripStatus.SoldOut))
             {
                 throw new InvalidOperationException("Cannot change status from Ongoing or Completed to Cancelled or Scheduled.");
             }

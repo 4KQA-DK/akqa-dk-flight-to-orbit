@@ -6,7 +6,11 @@ namespace UmbracoProject.Repository
     {
         Task<int> GetBookedSeatsAsync(Guid tripId);
 
-        Task CreateBookingAsync(Booking booking, IEnumerable<Passenger> passengers);
+        Task <bool> CreateBookingAsync(Booking booking, IEnumerable<Passenger> passengers);
+
+        Task<bool> CancelBookingAsync(Guid bookingId);
+
+        Task<bool> ReleaseSeatsAsync(Guid tripId, int seatCount);
 
         Task<Booking?> GetBookingAsync(Guid bookingId);
 

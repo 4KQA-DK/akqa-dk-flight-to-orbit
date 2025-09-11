@@ -26,7 +26,7 @@ namespace UmbracoProject.Repository
             return booked;
         }
 
-        public async Task CreateBookingAsync(Booking booking, IEnumerable<Passenger> passengers)
+        public async Task<bool> CreateBookingAsync(Booking booking, IEnumerable<Passenger> passengers)
         {
             using var scope = _scopeProvider.CreateScope();
             var db = scope.Database;
@@ -39,6 +39,35 @@ namespace UmbracoProject.Repository
             }
 
             scope.Complete();
+
+            return true;
+        }
+
+        public async Task<bool> CancelBookingAsync(Guid bookingId)
+        {
+            using var scope = _scopeProvider.CreateScope();
+            var db = scope.Database;
+            var sqlDeletePassengers = new NPoco.Sql("DELETE FROM [Passenger] WHERE [BookingId] = @0", bookingId);
+            await db.ExecuteAsync(sqlDeletePassengers);
+            var sqlDeleteBooking = new NPoco.Sql("DELETE FROM [Booking] WHERE [bookingId] = @0", bookingId);
+            await db.ExecuteAsync(sqlDeleteBooking);
+            scope.Complete();
+            return true;
+        }
+
+        public async Task<bool> ReleaseSeatsAsync(Guid tripId, int seatCount)
+        {
+            using var scope = _scopeProvider.CreateScope(autoComplete: true);
+            var db = scope.Database;
+            await db.ExecuteAsync(new NPoco.Sql(@"
+            UPDATE [Trip]
+            SET [passengerCount] = [passengerCount] + @0,
+            [tripStatus] = CASE 
+            WHEN [passengerCount] + @0 > 0 THEN @2 
+            ELSE [tripStatus] 
+            END
+            WHERE [tripId] = @1;", seatCount, tripId, (int)TripStatus.Schedueled));
+            return true;
         }
 
         public async Task<Booking?> GetBookingAsync(Guid bookingId)

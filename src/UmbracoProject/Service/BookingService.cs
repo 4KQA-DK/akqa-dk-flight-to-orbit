@@ -81,6 +81,31 @@ namespace UmbracoProject.Service
             };
         }
 
+        public async Task<bool> CancelBookingAsync(Guid bookingId)
+        {
+            var booking = await _bookingRepo.GetBookingAsync(bookingId) ?? throw new KeyNotFoundException("Booking not found.");
+            
+            var trip = await _adminTripService.GetTripAsync(booking.tripId) ?? throw new KeyNotFoundException("Trip not found.");
+            
+            if (trip.TripStatus != TripStatus.Schedueled && trip.TripStatus != TripStatus.SoldOut)
+            {
+                throw new InvalidOperationException("Cannot cancel a booking for a trip that is not scheduled.");
+            }
+            var passengers = await _bookingRepo.GetPassengersForBookingAsync(bookingId);
+            var passengerCount = passengers.Count;
+            var cancelled = await _bookingRepo.CancelBookingAsync(bookingId);
+            if (!cancelled)
+            {
+                throw new InvalidOperationException("Failed to cancel booking.");
+            }
+            var released = await _bookingRepo.ReleaseSeatsAsync(trip.TripId, passengerCount);
+            if (!released)
+            {
+                throw new InvalidOperationException("Failed to release seats.");
+            }
+            return true;
+        }
+
 
         public async Task<GetBookingResponse> GetBookingByIdAsync(Guid bookingId)
         {

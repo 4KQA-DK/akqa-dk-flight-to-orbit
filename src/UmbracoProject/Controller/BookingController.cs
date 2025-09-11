@@ -62,6 +62,29 @@ namespace UmbracoProject.Controller
             }
         }
 
+        [HttpPost]
+        [Route("cancel/booking/{bookingId}")]
+        public async Task<IActionResult> Cancel(Guid bookingId)
+        {
+            try
+            {
+                await _bookingService.CancelBookingAsync(bookingId);
+                return Ok(new { message = "Booking cancelled successfully." });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(new { error = ex.Message });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("get/booking/{bookingId}")]
         public async Task<IActionResult> GetBooking(Guid bookingId)

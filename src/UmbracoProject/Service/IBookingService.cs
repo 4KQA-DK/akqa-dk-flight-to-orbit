@@ -5,7 +5,8 @@ namespace UmbracoProject.Service
     public interface IBookingService
     {
         Task<CreateBookingResponse> CreateAsync(CreateBookingRequest request);
-
+        
+        Task<bool> CancelBookingAsync(Guid bookingId);
         Task<GetBookingResponse> GetBookingByIdAsync(Guid bookingId);
 
         Task<List<GetBookingResponse>> GetAllBookingsAsync();
