@@ -63,7 +63,7 @@ namespace UmbracoProject.Service
                 destinationKey = request.DestinationKey,
                 departureUtc = request.DepartureUtc,
                 arrivalUtc = arrival,
-                passengerCount = request.AvalivableSeats,
+                avaliableSeats = request.AvalivableSeats,
                 price = price,
                 tripStatus = TripStatus.Schedueled
             };
@@ -116,7 +116,7 @@ namespace UmbracoProject.Service
                     DepartureUtc = trip.departureUtc,
                     ArrivalUtc = trip.arrivalUtc,
                     EstimatedTravelDays = estDays,
-                    PassengerCount = trip.passengerCount,
+                    PassengerCount = trip.avaliableSeats,
                     Price = trip.price,
                     TripStatus = trip.tripStatus
                 });
@@ -149,7 +149,7 @@ namespace UmbracoProject.Service
                 DepartureUtc = trip.departureUtc,
                 ArrivalUtc = trip.arrivalUtc,
                 EstimatedTravelDays = estDays,
-                PassengerCount = trip.passengerCount,
+                PassengerCount = trip.avaliableSeats,
                 Price = trip.price,
                 TripStatus = trip.tripStatus
             };

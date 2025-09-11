@@ -24,7 +24,7 @@ namespace UmbracoProject.Models
         public DateTime arrivalUtc { get; set; }
 
         [Column("passengerCount")]
-        public int passengerCount { get; set; }
+        public int avaliableSeats { get; set; }
 
         [Column("price")]
         public decimal price { get; set; }

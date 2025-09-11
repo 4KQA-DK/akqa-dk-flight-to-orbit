@@ -98,7 +98,7 @@ namespace UmbracoProject.Service
                     DepartureUtc = trip.departureUtc,
                     ArrivalUtc = trip.arrivalUtc,
                     EstimatedTravelDays = estDays,
-                    PassengerCount = trip.passengerCount,
+                    PassengerCount = trip.avaliableSeats,
                     Price = trip.price,
                     TripStatus = trip.tripStatus
                 });
