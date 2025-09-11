@@ -9,14 +9,14 @@ namespace UmbracoProject.Service
 
         private static readonly Dictionary<Guid, TimeSpan> BaseDurationPerDestination = new()
         {
-            { Guid.Parse("057474e6-8508-4bee-861c-cdcf8ca0b9c5"), TimeSpan.FromDays(48.3) },  // Mercury
-            { Guid.Parse("ce20a134-d61e-4733-ac5f-390bb3d40109"), TimeSpan.FromDays(84.56) },  // Venus
-            { Guid.Parse("6436e764-31be-4c93-834c-67b70d3c0834"), TimeSpan.FromDays(14.25) },  // Moon
-            { Guid.Parse("84abe17d-2408-4023-b02e-4ff6410ae3fc"), TimeSpan.FromDays(112.34) },  // Mars
-            { Guid.Parse("c263992b-4812-4923-b06d-5d0355dde7a6"), TimeSpan.FromDays(130.75) },  // Jupiter
-            { Guid.Parse("c671ea8f-dbc6-46fe-91eb-d3449bd838ca"), TimeSpan.FromDays(201.40) },  // Saturn
-            { Guid.Parse("652c13ce-9adb-4868-a00e-a73d2915b27b"), TimeSpan.FromDays(252.80) },  // Uranus
-            { Guid.Parse("6052d089-3419-4baf-9232-981b7db0cc64"), TimeSpan.FromDays(395.50) }   // Neptune
+            { Guid.Parse("057474e6-8508-4bee-861c-cdcf8ca0b9c5"), TimeSpan.FromDays(14.3) },  // Mercury
+            { Guid.Parse("ce20a134-d61e-4733-ac5f-390bb3d40109"), TimeSpan.FromDays(42.56) },  // Venus
+            { Guid.Parse("6436e764-31be-4c93-834c-67b70d3c0834"), TimeSpan.FromDays(7.25) },  // Moon
+            { Guid.Parse("84abe17d-2408-4023-b02e-4ff6410ae3fc"), TimeSpan.FromDays(60.34) },  // Mars
+            { Guid.Parse("c263992b-4812-4923-b06d-5d0355dde7a6"), TimeSpan.FromDays(70.75) },  // Jupiter
+            { Guid.Parse("c671ea8f-dbc6-46fe-91eb-d3449bd838ca"), TimeSpan.FromDays(86.40) },  // Saturn
+            { Guid.Parse("652c13ce-9adb-4868-a00e-a73d2915b27b"), TimeSpan.FromDays(101.80) },  // Uranus
+            { Guid.Parse("6052d089-3419-4baf-9232-981b7db0cc64"), TimeSpan.FromDays(121.50) }   // Neptune
         };
 
         private static readonly Dictionary<Guid, double> ModelSpeedMultipliers = new()

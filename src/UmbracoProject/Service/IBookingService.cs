@@ -14,5 +14,6 @@ namespace UmbracoProject.Service
         Task<List<GetBookingResponse>> GetByTripAsync(Guid tripId);
 
         Task<bool> TryReserveSeatsAsync(Guid id, int seats);
+
     }
 }
