@@ -9,7 +9,7 @@ namespace UmbracoProject.Pagination
         public int PageSize { get; } = pageSize;
         public int TotalCount { get; } = totalCount;
         public bool HasNextPage => Page * PageSize < TotalCount;
-        public bool HasPreviousPage => Page > 1;
+        public bool HasPreviousPage => PageSize > 1;
 
         public static async Task<PagedList<T>> CreateAsync(IQueryable<T> query, int page, int pageSize)
         {
