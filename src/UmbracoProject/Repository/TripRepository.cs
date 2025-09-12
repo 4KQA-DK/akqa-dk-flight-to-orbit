@@ -75,22 +75,21 @@ namespace UmbracoProject.Repository
             using var scope = _scopeProvider.CreateScope();
             var db = scope.Database;
 
-            // Build the base WHERE clause
-            var whereClause = new NPoco.Sql($"WHERE [tripStatus] = {(int)TripStatus.Schedueled}");
+            var where = new NPoco.Sql("WHERE [tripStatus] = @0", (int)TripStatus.Schedueled);
 
             if (filter.DestinationKey.HasValue)
-                whereClause.Append($"WHERE [tripStatus] = {filter.DestinationKey.Value}");
+                where.Append(" AND [destinationKey] = @0", filter.DestinationKey.Value);
 
             if (filter.DepartureDate.HasValue)
             {
-                var d = filter.DepartureDate.Value.ToDateTime(TimeOnly.MinValue);
-                whereClause.Append($"AND CAST([departureUtc] AS DATE) = {d}");
+                var d = filter.DepartureDate.Value.ToDateTime(TimeOnly.MinValue).Date;
+                where.Append(" AND CAST([departureUtc] AS DATE) = @0", d);
             }
 
             if (filter.PassengerCount.HasValue)
-                whereClause.Append($"WHERE [tripStatus] = {filter.PassengerCount.Value}");
+                where.Append(" AND [passengerCount] >= @0", filter.PassengerCount.Value);
 
-            var countSql = new NPoco.Sql("SELECT COUNT(*) FROM [Trip] ").Append(whereClause);
+            var countSql = new NPoco.Sql("SELECT COUNT(*) FROM [Trip] ").Append(where);
             var totalCount = await db.ExecuteScalarAsync<int>(countSql);
 
             var orderBy = BuildOrderBy(filter.SortBy);
@@ -102,7 +101,7 @@ namespace UmbracoProject.Repository
             var offset = (pageNumber - 1) * pageSize;
 
             var sql = new NPoco.Sql("SELECT * FROM [Trip] ")
-                .Append(whereClause)
+                .Append(where)
                 .Append(orderBy)
                 .Append($"OFFSET {offset} ROWS FETCH NEXT {pageSize} ROWS ONLY");
 
