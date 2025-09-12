@@ -1,7 +1,8 @@
 ﻿using UmbracoProject.Models;
 using UmbracoProject.Repository;
 using UmbracoProject.DTO;
-using Umbraco.Cms.Core.Services;   
+using Umbraco.Cms.Core.Services;
+using UmbracoProject.Pagination; 
 
 namespace UmbracoProject.Service
 {
@@ -18,56 +19,66 @@ namespace UmbracoProject.Service
             _rocketStatusService = rocketStatusService;
         }
 
-        public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter)
+        public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter, PageParameters page)
         {
+
             try
             {
-                var exactTrips = await _tripRepository.GetFilteredTripsAsync(filter);
+                var pages = await _tripRepository.GetFilteredTripsAsync(filter, page);
 
                 if (filter.DepartureDate.HasValue)
                 {
-                    if (exactTrips.Count > 0)
+                    if (pages.Items.Count > 0)
                     {
                         return new TripFilterResponse
                         {
-                            ExactMatches = EnrichTrips(exactTrips),
+                            ExactMatches = EnrichTrips(pages.Items),
                             NearbyTrips = new(),
                             SearchedDate = filter.DepartureDate,
-                            HasExactMatches = true
+                            HasExactMatches = true,
+
+                            TotalTrips = pages.TotalCount,
+                            PageNumber = pages.Page,
+                            PageSize = pages.PageSize,
+                            HasNextPage = pages.HasNextPage,
+                            HasPreviousPage = pages.HasPreviousPage
                         };
                     }
 
                     var nextTrips = await _tripRepository.FindNearbyTripsAsync(filter);
 
-                    if (nextTrips.Count > 0)
-                    {
-                        return new TripFilterResponse
-                        {
-                            ExactMatches = new(),
-                            NearbyTrips = EnrichTrips(nextTrips),
-                            SearchedDate = filter.DepartureDate,
-                            HasExactMatches = false,
-                            Message = "No trips are available on the selected date. Showing the nearest available departures that match your current filters."
-                        };
-                    }
-
                     return new TripFilterResponse
                     {
                         ExactMatches = new(),
-                        NearbyTrips = new(),
+                        NearbyTrips = EnrichTrips(nextTrips),
                         SearchedDate = filter.DepartureDate,
                         HasExactMatches = false,
-                        Message = "No trips match your current filters. Try another date or destination."
+                        Message = nextTrips.Count > 0
+                            ? "No trips are available on the selected date. Showing the nearest available departures that match your current filters."
+                            : "No trips match your current filters. Try another date or destination.",
+
+                        TotalTrips = pages.TotalCount,
+                        PageNumber = pages.Page,
+                        PageSize = pages.PageSize,
+                        HasNextPage = false,
+                        HasPreviousPage = pages.HasPreviousPage && pages.TotalCount > 0
                     };
                 }
 
                 return new TripFilterResponse
                 {
-                    ExactMatches = EnrichTrips(exactTrips),
+                    ExactMatches = EnrichTrips(pages.Items),
                     NearbyTrips = new(),
                     SearchedDate = null,
-                    HasExactMatches = exactTrips.Count > 0,
-                    Message = exactTrips.Count == 0 ? ("No trips match your current filters.") : null
+                    HasExactMatches = pages.Items.Count > 0,
+                    Message = pages.Items.Count == 0 ? "No trips match your current filters." : null,
+
+                    // paging
+                    TotalTrips = pages.TotalCount,
+                    PageNumber = pages.Page,
+                    PageSize = page.PageSize,
+                    HasNextPage = pages.HasNextPage,
+                    HasPreviousPage = pages.HasPreviousPage
                 };
             }
             catch (Exception ex)
@@ -75,6 +86,7 @@ namespace UmbracoProject.Service
                 throw new InvalidOperationException("Error occurred while filtering trips.", ex);
             }
         }
+
 
 
         private List<GetTripResponse> EnrichTrips(List<Trip> trips)

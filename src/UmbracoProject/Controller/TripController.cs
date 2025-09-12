@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UmbracoProject.DTO;
 using UmbracoProject.Models;
+using UmbracoProject.Pagination;
 using UmbracoProject.Service;
 
 namespace UmbracoProject.Controller
@@ -128,13 +129,12 @@ namespace UmbracoProject.Controller
         }
 
 
-        [HttpGet]
-        [Route("get/trips/filtered")]
-        public async Task<IActionResult> GetFilteredTrips([FromQuery] TripFilterRequest filter)
+        [HttpGet("get/trips/filtered")]
+        public async Task<IActionResult> GetFilteredTrips([FromQuery] TripFilterRequest filter, [FromQuery] PageParameters page)     
         {
             try
             {
-                var result = await _tripService.GetFilteredTripsAsync(filter);
+                var result = await _tripService.GetFilteredTripsAsync(filter,page);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -143,7 +143,7 @@ namespace UmbracoProject.Controller
             }
         }
 
-        
+
 
     }
 }

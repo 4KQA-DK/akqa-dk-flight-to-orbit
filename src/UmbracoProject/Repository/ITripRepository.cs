@@ -1,5 +1,6 @@
-﻿using UmbracoProject.Models;
-using UmbracoProject.DTO;
+﻿using UmbracoProject.DTO;
+using UmbracoProject.Models;
+using UmbracoProject.Pagination;
 
 namespace UmbracoProject.Repository
 {
@@ -14,7 +15,7 @@ namespace UmbracoProject.Repository
 
         Task UpdateAvaliableSeatsCountAsync(Guid id, int avalialbeseats);
 
-        Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter);
+        Task<PagedList<Trip>> GetFilteredTripsAsync(TripFilterRequest filter, PageParameters page);
 
         Task<List<Trip>> FindNearbyTripsAsync(TripFilterRequest filter);
 

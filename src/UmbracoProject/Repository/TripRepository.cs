@@ -1,6 +1,7 @@
 ﻿using UmbracoProject.Models;
 using Umbraco.Cms.Infrastructure.Scoping;
 using UmbracoProject.DTO;
+using UmbracoProject.Pagination;
 
 namespace UmbracoProject.Repository
 {
@@ -69,30 +70,46 @@ namespace UmbracoProject.Repository
         }
 
 
-        public async Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter)
+        public async Task<PagedList<Trip>> GetFilteredTripsAsync(TripFilterRequest filter, PageParameters page)
         {
             using var scope = _scopeProvider.CreateScope();
             var db = scope.Database;
 
-            var sql = new NPoco.Sql("SELECT * FROM [Trip] WHERE [tripStatus] = @0 ", (int)TripStatus.Schedueled);
+            // Build the base WHERE clause
+            var whereClause = new NPoco.Sql($"WHERE [tripStatus] = {(int)TripStatus.Schedueled}");
 
             if (filter.DestinationKey.HasValue)
-                sql.Append(" AND [destinationKey] = @0 ", filter.DestinationKey.Value);
+                whereClause.Append($"WHERE [tripStatus] = {filter.DestinationKey.Value}");
 
             if (filter.DepartureDate.HasValue)
             {
                 var d = filter.DepartureDate.Value.ToDateTime(TimeOnly.MinValue);
-                sql.Append(" AND CAST([departureUtc] AS DATE) = @0 ", d);
+                whereClause.Append($"AND CAST([departureUtc] AS DATE) = {d}");
             }
 
             if (filter.PassengerCount.HasValue)
-                sql.Append(" AND [passengerCount] >= @0 ", filter.PassengerCount.Value);
+                whereClause.Append($"WHERE [tripStatus] = {filter.PassengerCount.Value}");
 
-            sql.Append(BuildOrderBy(filter.SortBy));
+            var countSql = new NPoco.Sql("SELECT COUNT(*) FROM [Trip] ").Append(whereClause);
+            var totalCount = await db.ExecuteScalarAsync<int>(countSql);
 
-            var trips = await db.FetchAsync<Trip>(sql);
+            var orderBy = BuildOrderBy(filter.SortBy);
+            if (string.IsNullOrWhiteSpace(orderBy))
+                orderBy = "ORDER BY [departureUtc] ASC";
+
+            var pageNumber = Math.Max(1, page?.PageNumber ?? 1);
+            var pageSize = Math.Max(1, page?.PageSize ?? 20);
+            var offset = (pageNumber - 1) * pageSize;
+
+            var sql = new NPoco.Sql("SELECT * FROM [Trip] ")
+                .Append(whereClause)
+                .Append(orderBy)
+                .Append($"OFFSET {offset} ROWS FETCH NEXT {pageSize} ROWS ONLY");
+
+            var items = await db.FetchAsync<Trip>(sql);
+
             scope.Complete();
-            return trips;
+            return new PagedList<Trip>(items, pageNumber, pageSize, totalCount);
         }
 
         private static string BuildOrderBy(TripSortBy by)
