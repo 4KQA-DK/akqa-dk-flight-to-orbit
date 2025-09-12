@@ -18,11 +18,11 @@ namespace UmbracoProject.Service
             _rocketStatusService = rocketStatusService;
         }
 
-        public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter)
+        public async Task<TripFilterResponse> GetFilteredTripsAsync(TripFilterRequest filter, int pageNumber)
         {
             try
             {
-                var exactTrips = await _tripRepository.GetFilteredTripsAsync(filter);
+                var exactTrips = await _tripRepository.GetFilteredTripsAsync(filter, pageNumber);
 
                 if (filter.DepartureDate.HasValue)
                 {

@@ -14,7 +14,7 @@ namespace UmbracoProject.Repository
 
         Task UpdateAvaliableSeatsCountAsync(Guid id, int avalialbeseats);
 
-        Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter);
+        Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter, int pageNumber);
 
         Task<List<Trip>> FindNearbyTripsAsync(TripFilterRequest filter);
 
