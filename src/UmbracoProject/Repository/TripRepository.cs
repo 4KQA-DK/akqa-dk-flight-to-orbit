@@ -1,6 +1,7 @@
 ﻿using UmbracoProject.Models;
 using Umbraco.Cms.Infrastructure.Scoping;
 using UmbracoProject.DTO;
+using UmbracoProject.Pagination;
 
 namespace UmbracoProject.Repository
 {
@@ -69,7 +70,7 @@ namespace UmbracoProject.Repository
         }
 
 
-        public async Task<List<Trip>> GetFilteredTripsAsync(TripFilterRequest filter, int pageNumber)
+        public async Task<PagedList<Trip>> GetFilteredTripsAsync(TripFilterRequest filter, PageParameters page)
         {
             using var scope = _scopeProvider.CreateScope();
             var db = scope.Database;
@@ -89,17 +90,15 @@ namespace UmbracoProject.Repository
             if (filter.PassengerCount.HasValue)
                 whereClause.Append($"WHERE [tripStatus] = {filter.PassengerCount.Value}");
 
-            // Get total count first
             var countSql = new NPoco.Sql("SELECT COUNT(*) FROM [Trip] ").Append(whereClause);
             var totalCount = await db.ExecuteScalarAsync<int>(countSql);
 
-            // Build the main query with pagination
             var orderBy = BuildOrderBy(filter.SortBy);
             if (string.IsNullOrWhiteSpace(orderBy))
                 orderBy = "ORDER BY [departureUtc] ASC";
 
-            // Calculate offset
-            var pageSize = 10;
+            var pageNumber = Math.Max(1, page?.PageNumber ?? 1);
+            var pageSize = Math.Max(1, page?.PageSize ?? 20);
             var offset = (pageNumber - 1) * pageSize;
 
             var sql = new NPoco.Sql("SELECT * FROM [Trip] ")
@@ -107,10 +106,10 @@ namespace UmbracoProject.Repository
                 .Append(orderBy)
                 .Append($"OFFSET {offset} ROWS FETCH NEXT {pageSize} ROWS ONLY");
 
-            var trips = await db.FetchAsync<Trip>(sql);
+            var items = await db.FetchAsync<Trip>(sql);
 
             scope.Complete();
-            return trips;
+            return new PagedList<Trip>(items, pageNumber, pageSize, totalCount);
         }
 
         private static string BuildOrderBy(TripSortBy by)
